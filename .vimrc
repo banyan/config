@@ -110,16 +110,20 @@ nmap k gk
 vmap j gj
 vmap k gk
 
-" ポップアップメニューの色
+"ポップアップメニューの色
 hi Pmenu ctermbg=8
 hi PmenuSel ctermbg=12
 hi PmenuSbar ctermbg=0
 
+"hi WildMenu term=bold ctermfg=12 ctermbg=darkcyan
+
 " http://d.hatena.ne.jp/kasahi/20070902/1188744907 
 " 行末のスペースを別色表示に
-highlight WhitespaceEOL ctermbg=red guibg=red
+highlight WhitespaceEOL ctermbg=8 guibg=DarkBlue
 match WhitespaceEOL /\s\+$/
 autocmd WinEnter * match WhitespaceEOL /\s\+$/
+
+
 
 " ステイタス行に文字コードと改行コードを表示。
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P

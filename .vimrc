@@ -18,32 +18,35 @@ nnoremap <Leader>n :e ++fileformat=unix<CR>
 nnoremap <Leader>r :e ++fileformat=mac<CR>
 nnoremap <Leader>rn :e ++fileformat=dos<CR>
 
-""" search
+ """ search
 set ignorecase
 set smartcase
 
-""" edit
+ """ edit
+set tabstop=4
 set expandtab
 set autoindent
 set backspace=2
 set wrapscan
 set showmatch
 set wildmenu
-set formatoptions+=mM
+"set formatoptions+=mM
+"set formatoptions-=ro
 set ambiwidth=double
 set shiftwidth=4
 set wildmode=longest,list
-let format_allow_over_tw = 1	" ぶら下り可能幅
+let format_allow_over_tw = 1  " ぶら下り可能幅
 
-" バッファが編集中でもその他のファイルを開けるように
+ " バッファが編集中でもその他のファイルを開けるように
 set hidden
+
 " " 外部のエディタで編集中のファイルが変更されたら自動で読み直す
 set autoread
+
 " 前回終了したカーソル行に移動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
-""" show
-set cul
+ """ show
 set number
 set ruler
 set nolist
@@ -54,15 +57,38 @@ set showcmd
 set title
 set scrolljump=5
 set scrolloff=3
+"set cul
 set t_Co=256
-syntax on
 
-filetype plugin on 
-filetype indent on
+" http://vimwiki.net/?faq%2F3
+" ラインカーソル
+"set updatetime=1
+"sign define Cursor text=>> linehl=Search
+"fun! PlaceCursor()
+    "sign unplace *
+    "exe "sign place 1 line=" . line(".") . " name=Cursor buffer=" . bufnr("%")
+"endfun
+"au! CursorHold * call PlaceCursor()
+
+"set updatetime=1
+"autocmd CursorHold * :match Search /^.*\%#.*$/
 
 "colorscheme deveiate
-colorscheme blacklight
+"colorscheme less
+"colorscheme black_angus
+"colorscheme xoria256
 "colorscheme rdark
+"colorscheme relaxedgreen
+"colorscheme ps_color
+"colorscheme 3dglasses
+"colorscheme inkpot
+"colorscheme zenburn
+"colorscheme colorful256
+"colorscheme desert256
+colorscheme blacklight
+
+syntax on
+filetype plugin indent on
 
 " 検索語が画面の真ん中に来るようにする
 nmap n nzz
@@ -73,67 +99,64 @@ nmap # #zz
 nmap g* g*zz
 nmap g# g#zz
 
-" 検索後のハイライトをクリアする
+ " 検索後のハイライトをクリアする
 nnoremap <silent> <C-L> :noh<C-L><CR>
 
-""" file
+ """ file
 autocmd FileType css        set sw=4 ts=4 sts=0 noet
 autocmd FileType eruby      set ts=4 sw=4 sts=0 noet
 autocmd FileType html       set sw=4 ts=4 sts=0 noet
-autocmd FileType javascript set sw=2 ts=2 sts=0 noet
+autocmd FileType javascript set sw=4 ts=4 sts=0 noet
 autocmd FileType php        set sw=4 ts=4 sts=0 et
 autocmd FileType ruby       set sw=2 ts=2 sts=0 et
 autocmd FileType sql        set ts=4 sw=4 sts=0 et
 set nobackup
 set clipboard=unnamed
 
-""" misc
+autocmd FileType * set formatoptions-=ro
+ """ misc
 
-" バッファの移動
+ " バッファの移動
 map <F2> :bp<CR>
 map <F3> :bn<CR>
 map <F4> :bw<CR>
 
-" screen にファイル名を表示
+ " screen にファイル名を表示
 if $TERM == 'screen'
   autocmd BufEnter * silent! exe '!echo -n "k%\\"'
 endif
 
-" PHP コメントアウト
-autocmd FileType php
-    \   map ,c :s/^/\/\/ /<CR>:noh<CR>
-        \ | map ,u :s/^\/\/ //<CR>:noh<CR> 
+ " PHP コメントアウト
+"autocmd FileType php
+    "\   map ,c :s/^/\/\/ /<CR>:noh<CR>
+        "\ | map ,u :s/^\/\/ //<CR>:noh<CR> 
 
-"表示行単位で行移動する
+ "表示行単位で行移動する
 nmap j gj
 nmap k gk
 vmap j gj
 vmap k gk
 
-"ポップアップメニューの色
+ " ポップアップメニューの色
 hi Pmenu ctermbg=8
 hi PmenuSel ctermbg=12
-hi PmenuSbar ctermbg=0
-
-"hi WildMenu term=bold ctermfg=12 ctermbg=darkcyan
+hi PmenuSbar ctermbg=8
 
 " http://d.hatena.ne.jp/kasahi/20070902/1188744907 
-" 行末のスペースを別色表示に
-highlight WhitespaceEOL ctermbg=8 guibg=DarkBlue
+" 半角を別色表示に
+highlight WhitespaceEOL ctermbg=8 guibg=red
 match WhitespaceEOL /\s\+$/
 autocmd WinEnter * match WhitespaceEOL /\s\+$/
 
-
-
-" ステイタス行に文字コードと改行コードを表示。
+ " ステイタス行に文字コードと改行コードを表示。
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 
-""" plugin
+ """ plugin
 
-" Ctrl+bキーを押した時にバッファの一覧を開く
+ " bufferlist.vim
 :map <silent> <C-i> :call BufferList()<CR>
 
-" fuzzyfinder.vim
+ " fuzzyfinder.vim
 let mapleader = ' f'
 nnoremap <silent> <C-s> :FuzzyFinderBuffer<CR>
 nnoremap <silent> <Leader>b :FuzzyFinderBuffer<CR>
@@ -147,7 +170,7 @@ nnoremap <silent> <Leader>g :FuzzyFinderTaggedFile<CR>
 nnoremap <silent> <Leader>a :FuzzyFinderAddFavFile<CR>
 nnoremap <silent> <C-]>     :FuzzyFinderTag! <C-r>=expand('<cword>')<CR><CR>
 
-" Taglist用
+ " taglist.vim
 let mapleader = ' t'
 nnoremap <Leader>l       :Tlist<CR>
 nnoremap <Leader><C-l>       :Tlist<CR>
@@ -155,10 +178,15 @@ nnoremap <Leader>o       :TlistClose<CR>
 nnoremap <Leader><C-o>       :TlistClose<CR>
 
 " NERD_commenter
-
 "<Leader>xでコメントをトグル(NERD_commenter.vim)
 let mapleader = ','
 map <Leader>x ,c<space>
+map <Leader>s ,cm<space>
 
+" AlignPlugin.vim  
+let mapleader = ' a'
+vnoremap <Leader>= :Align=<CR>
+vnoremap <Leader>> :Align=><CR>
+vmap     <Leader>: <Space><Space>tsp
 
 

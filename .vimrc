@@ -63,7 +63,7 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm
 "-----------------------------------------------------------------------------
 
 " 行番号はつける派
-set number
+set nu
 " ルーラー(右下に表示される行・列の番号)を表示する
 set ruler
 " タブや改行を表示しない
@@ -133,7 +133,7 @@ autocmd FileType * set formatoptions-=ro
 """ colorscheme
 "-----------------------------------------------------------------------------
 
-" blacklightがマイブーム
+" blacklight かわいいよ blacklight
 " http://www.vim.org/scripts/script.php?script_id=1596
 colorscheme blacklight
 

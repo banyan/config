@@ -31,6 +31,18 @@ set smartcase
 set wrapscan
 " けっ、検索中にインクリメンタルサーチしちゃうんだからねっ！
 set incsearch
+" 検索語が画面の真ん中に来るようにする
+nmap n nzz
+nmap n nzz
+nmap N Nzz
+nmap * *zz
+nmap # #zz
+nmap g* g*zz
+nmap g# g#zz
+" 検索結果文字列のハイライトを有効にする
+set hlsearch
+" 検索後のハイライトをクリアする
+nnoremap <silent> <C-L> :noh<C-L><CR>
 
 """ edit
 "-----------------------------------------------------------------------------
@@ -75,12 +87,12 @@ set showcmd
 set title
 set scrolljump=5
 set scrolloff=3
-"set cul
 set t_Co=256
 
+" カーソルライン表示 激重で断念
+"set cul
 " かっこいいけど重くて使えないお＞＜
 " http://vimwiki.net/?faq%2F3
-
 " ラインカーソル
 "set updatetime=1
 "sign define Cursor text=>> linehl=Search
@@ -89,31 +101,14 @@ set t_Co=256
     "exe "sign place 1 line=" . line(".") . " name=Cursor buffer=" . bufnr("%")
 "endfun
 "au! CursorHold * call PlaceCursor()
-
 " 現在行をhighlight
 "set updatetime=1
 "autocmd CursorHold * :match Search /^.*\%#.*$/
-
 
 "シンタックスハイライトを有効にする
 syntax on
 
 filetype plugin indent on
-
-" 検索語が画面の真ん中に来るようにする
-nmap n nzz
-nmap n nzz
-nmap N Nzz
-nmap * *zz
-nmap # #zz
-nmap g* g*zz
-nmap g# g#zz
-
-" 検索結果文字列のハイライトを有効にする
-set hlsearch
-
-" 検索後のハイライトをクリアする
-nnoremap <silent> <C-L> :noh<C-L><CR>
 
  """ file
 autocmd FileType css        set sw=4 ts=4 sts=0 noet

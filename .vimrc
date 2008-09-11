@@ -42,7 +42,7 @@ nmap g# g#zz
 " 検索結果文字列のハイライトを有効にする
 set hlsearch
 " 検索後のハイライトをクリアする
-nnoremap <silent> <C-L> :noh<C-L><CR>
+nnoremap <Space>l :noh<C-L><CR>
 
 """ edit
 "-----------------------------------------------------------------------------

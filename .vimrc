@@ -190,6 +190,24 @@ nmap <Space>w :w<CR>
 nmap <Space>d :diffthis<CR>
 nmap <Space>c :q<CR>
 
+" <TAB>でOmni補完
+" http://coderepos.org/share/export/19203/dotfiles/vim/ukstudio/.vimrc
+
+function! InsertTabWrapper()
+    if pumvisible()
+        return "\<c-n>"
+    endif
+    let col = col('.') - 1
+    if !col || getline('.')[col -1] !~ '\k\|<\|/'
+        return "\<tab>"
+    elseif exists('&omnifunc') && &omnifunc == ''
+        return "\<c-n>"
+    else
+        return "\<c-x>\<c-o>"
+    endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+
 """ plugin
 "-----------------------------------------------------------------------------
 

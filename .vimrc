@@ -85,6 +85,7 @@ set laststatus=2
 set cmdheight=2
 set showcmd
 set title
+set titlestring=Vim:\ %f\ %h%r%m
 set scrolljump=5
 set scrolloff=3
 set t_Co=256

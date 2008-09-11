@@ -60,6 +60,7 @@ set scrolloff=3
 "set cul
 set t_Co=256
 
+" 重い＞＜
 " http://vimwiki.net/?faq%2F3
 " ラインカーソル
 "set updatetime=1
@@ -99,7 +100,10 @@ nmap # #zz
 nmap g* g*zz
 nmap g# g#zz
 
- " 検索後のハイライトをクリアする
+" 検索結果文字列のハイライトを有効にする
+set hlsearch
+
+" 検索後のハイライトをクリアする
 nnoremap <silent> <C-L> :noh<C-L><CR>
 
  """ file
@@ -115,21 +119,10 @@ set clipboard=unnamed
 
 autocmd FileType * set formatoptions-=ro
  """ misc
-
- " バッファの移動
-map <F2> :bp<CR>
-map <F3> :bn<CR>
-map <F4> :bw<CR>
-
  " screen にファイル名を表示
 if $TERM == 'screen'
   autocmd BufEnter * silent! exe '!echo -n "k%\\"'
 endif
-
- " PHP コメントアウト
-"autocmd FileType php
-    "\   map ,c :s/^/\/\/ /<CR>:noh<CR>
-        "\ | map ,u :s/^\/\/ //<CR>:noh<CR> 
 
  "表示行単位で行移動する
 nmap j gj
@@ -150,6 +143,12 @@ autocmd WinEnter * match WhitespaceEOL /\s\+$/
 
  " ステイタス行に文字コードと改行コードを表示。
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+
+ " バッファの移動
+map <F5> <ESC>:bp<CR>
+map <F6> <ESC>:bn<CR>
+map <F7> <ESC>:bw<CR>
+map <F8> <ESC>:bd<CR>
 
  """ plugin
 
@@ -189,9 +188,7 @@ vnoremap <Leader>= :Align=<CR>
 vnoremap <Leader>> :Align=><CR>
 vmap     <Leader>: <Space><Space>tsp
 
-
-set tags=~/.vim/tags
-
+" Ctags, tablist, etc
 nmap <silent> <F4>
     \ :!ctags-ex -f %:p:h/tags
     \ --langmap="php:+.inc"

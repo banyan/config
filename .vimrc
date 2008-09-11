@@ -1,4 +1,6 @@
 """ encoding
+"-----------------------------------------------------------------------------
+
 let mapleader = ' k'
 nnoremap <Leader>u :set fileencoding=utf-8<CR>
 nnoremap <Leader>6 :set fileencoding=ucs-2le<CR>
@@ -19,6 +21,8 @@ nnoremap <Leader>r :e ++fileformat=mac<CR>
 nnoremap <Leader>rn :e ++fileformat=dos<CR>
 
 """ search
+"-----------------------------------------------------------------------------
+
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set ignorecase
 " 検索文字列に大文字が含まれている場合は区別して検索する
@@ -28,7 +32,9 @@ set wrapscan
 " 検索文字列入力時に順次対象文字列にヒットさせない
 set noincsearch
 
- """ edit
+""" edit
+"-----------------------------------------------------------------------------
+
 set tabstop=4
 set expandtab
 set autoindent
@@ -51,7 +57,9 @@ set autoread
 " 前回終了したカーソル行に移動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
- """ show
+""" show
+"-----------------------------------------------------------------------------
+
 set number
 set ruler
 set nolist
@@ -93,7 +101,9 @@ set t_Co=256
 "colorscheme desert256
 colorscheme blacklight
 
+"シンタックスハイライトを有効にする
 syntax on
+
 filetype plugin indent on
 
 " 検索語が画面の真ん中に来るようにする
@@ -123,7 +133,9 @@ set nobackup
 set clipboard=unnamed
 
 autocmd FileType * set formatoptions-=ro
- """ misc
+
+""" misc
+"-----------------------------------------------------------------------------
  " screen にファイル名を表示
 if $TERM == 'screen'
   autocmd BufEnter * silent! exe '!echo -n "k%\\"'
@@ -155,7 +167,8 @@ map <F6> <ESC>:bn<CR>
 map <F7> <ESC>:bw<CR>
 map <F8> <ESC>:bd<CR>
 
- """ plugin
+""" plugin
+"-----------------------------------------------------------------------------
 
  " bufferlist.vim
 :map <silent> <C-i> :call BufferList()<CR>
@@ -201,6 +214,4 @@ nmap <silent> <F4>
     \ --tag-relative=yes --PHP-kinds=+cf-v %:p:h<CR>
 "set tags=~/.tags,tags
 set tags=~/.tags
-
-
 

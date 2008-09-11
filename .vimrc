@@ -29,8 +29,8 @@ set ignorecase
 set smartcase
 " 検索文字列に大文字が含まれている場合は区別して検索する
 set wrapscan
-" 検索文字列入力時に順次対象文字列にヒットさせない
-set noincsearch
+" けっ、検索中にインクリメンタルサーチしちゃうんだからねっ！
+set incsearch
 
 """ edit
 "-----------------------------------------------------------------------------
@@ -38,8 +38,12 @@ set noincsearch
 set tabstop=4
 set expandtab
 set autoindent
+" バックスペースでいろいろ削除
 set backspace=2
+" 括弧入力時の対応する括弧を表示
 set showmatch
+" 勝手にインデントだぜ！
+set smartindent
 set wildmenu
 "set formatoptions+=mM
 "set formatoptions-=ro
@@ -48,20 +52,21 @@ set shiftwidth=4
 set wildmode=longest,list
 let format_allow_over_tw = 1  " ぶら下り可能幅
 
- " バッファが編集中でもその他のファイルを開けるように
+" バッファが編集中でもその他のファイルを開けるように
 set hidden
-
-" " 外部のエディタで編集中のファイルが変更されたら自動で読み直す
+" 外部のエディタで編集中のファイルが変更されたら自動で読み直す
 set autoread
-
 " 前回終了したカーソル行に移動
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 
 """ show
 "-----------------------------------------------------------------------------
 
+" 行番号はつける派
 set number
+" ルーラー(右下に表示される行・列の番号)を表示する
 set ruler
+" タブや改行を表示しない
 set nolist
 set wrap
 set laststatus=2
@@ -73,8 +78,9 @@ set scrolloff=3
 "set cul
 set t_Co=256
 
-" 重い＞＜
+" かっこいいけど重くて使えないお＞＜
 " http://vimwiki.net/?faq%2F3
+
 " ラインカーソル
 "set updatetime=1
 "sign define Cursor text=>> linehl=Search
@@ -84,22 +90,10 @@ set t_Co=256
 "endfun
 "au! CursorHold * call PlaceCursor()
 
+" 現在行をhighlight
 "set updatetime=1
 "autocmd CursorHold * :match Search /^.*\%#.*$/
 
-"colorscheme deveiate
-"colorscheme less
-"colorscheme black_angus
-"colorscheme xoria256
-"colorscheme rdark
-"colorscheme relaxedgreen
-"colorscheme ps_color
-"colorscheme 3dglasses
-"colorscheme inkpot
-"colorscheme zenburn
-"colorscheme colorful256
-"colorscheme desert256
-colorscheme blacklight
 
 "シンタックスハイライトを有効にする
 syntax on
@@ -132,7 +126,29 @@ autocmd FileType sql        set ts=4 sw=4 sts=0 et
 set nobackup
 set clipboard=unnamed
 
+" 改行後に自動的にコメントを挿入するのをやめさせる
+" http://vimwiki.net/?faq/9
 autocmd FileType * set formatoptions-=ro
+
+""" colorscheme
+"-----------------------------------------------------------------------------
+
+" blacklightがマイブーム
+" http://www.vim.org/scripts/script.php?script_id=1596
+colorscheme blacklight
+
+"colorscheme deveiate
+"colorscheme less
+"colorscheme black_angus
+"colorscheme xoria256
+"colorscheme rdark
+"colorscheme relaxedgreen
+"colorscheme ps_color
+"colorscheme 3dglasses
+"colorscheme inkpot
+"colorscheme zenburn
+"colorscheme colorful256
+"colorscheme desert256
 
 """ misc
 "-----------------------------------------------------------------------------
@@ -166,6 +182,13 @@ map <F5> <ESC>:bp<CR>
 map <F6> <ESC>:bn<CR>
 map <F7> <ESC>:bw<CR>
 map <F8> <ESC>:bd<CR>
+
+"insert mode時にc-jで抜ける
+imap <C-j> <esc>
+
+nmap <Space>w :w<CR>
+nmap <Space>d :diffthis<CR>
+nmap <Space>c :q<CR>
 
 """ plugin
 "-----------------------------------------------------------------------------
@@ -214,4 +237,14 @@ nmap <silent> <F4>
     \ --tag-relative=yes --PHP-kinds=+cf-v %:p:h<CR>
 "set tags=~/.tags,tags
 set tags=~/.tags
+
+" タグファイルを指定するよー
+" set tags
+" from id:secondlife
+if has("autochdir")
+    set autochdir
+    set tags=tags;
+else
+    set tags=./tags,./../tags,./*/tags,./../../tags,./../../../tags,./../../../../tags,./../../../../../tags
+endif
 

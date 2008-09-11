@@ -139,7 +139,7 @@ vmap k gk
 
  " ポップアップメニューの色
 hi Pmenu ctermbg=8
-hi PmenuSel ctermbg=12
+hi PmenuSel ctermbg=4
 hi PmenuSbar ctermbg=8
 
 " http://d.hatena.ne.jp/kasahi/20070902/1188744907 
@@ -168,7 +168,7 @@ nnoremap <silent> <Leader>d :FuzzyFinderDir <C-r>=expand('%:~:.')[:-1-len(expand
 nnoremap <silent> <Leader>t :FuzzyFinderTag!<CR>
 nnoremap <silent> <Leader>g :FuzzyFinderTaggedFile<CR>
 nnoremap <silent> <Leader>a :FuzzyFinderAddFavFile<CR>
-nnoremap <silent> <C-]>     :FuzzyFinderTag! <C-r>=expand('<cword>')<CR><CR>
+"nnoremap <silent> <C-]>     :FuzzyFinderTag! <C-r>=expand('<cword>')<CR><CR>
 
  " taglist.vim
 let mapleader = ' t'
@@ -188,5 +188,17 @@ let mapleader = ' a'
 vnoremap <Leader>= :Align=<CR>
 vnoremap <Leader>> :Align=><CR>
 vmap     <Leader>: <Space><Space>tsp
+
+
+set tags=~/.vim/tags
+
+nmap <silent> <F4>
+    \ :!ctags-ex -f %:p:h/tags
+    \ --langmap="php:+.inc"
+    \ -h ".php.inc" -R --totals=yes
+    \ --tag-relative=yes --PHP-kinds=+cf-v %:p:h<CR>
+"set tags=~/.tags,tags
+set tags=~/.tags
+
 
 

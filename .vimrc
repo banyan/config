@@ -18,16 +18,21 @@ nnoremap <Leader>n :e ++fileformat=unix<CR>
 nnoremap <Leader>r :e ++fileformat=mac<CR>
 nnoremap <Leader>rn :e ++fileformat=dos<CR>
 
- """ search
+""" search
+" 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set ignorecase
+" 検索文字列に大文字が含まれている場合は区別して検索する
 set smartcase
+" 検索文字列に大文字が含まれている場合は区別して検索する
+set wrapscan
+" 検索文字列入力時に順次対象文字列にヒットさせない
+set noincsearch
 
  """ edit
 set tabstop=4
 set expandtab
 set autoindent
 set backspace=2
-set wrapscan
 set showmatch
 set wildmenu
 "set formatoptions+=mM

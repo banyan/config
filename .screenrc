@@ -1,0 +1,60 @@
+autodetach      on
+bell_msg        "Bell in window %^G"
+defscrollback   10000
+escape          ^tt
+hardstatus      alwayslastline "%-w%{.C}%n %t%{-}%+w "
+shell           zsh
+startup_message off
+vbell           off
+
+## http://frexx.de/xterm-256-notes/
+# erase background with current bg color
+#defbce "on"
+# do not use 'screen-bce'
+#term xterm-256color
+
+# key bindings
+#
+# bind -c SELECT 0 select 10
+# bind -c SELECT 1 select 11
+# bind -c SELECT 2 select 12
+# bind -c SELECT 3 select 13
+# bind -c SELECT 4 select 14
+# bind -c SELECT 5 select 15
+# bind -c SELECT 6 select 16
+# bind -c SELECT 7 select 17
+# bind -c SELECT 8 select 18
+# bind -c SELECT 9 select 19
+# bind - command -c SELECT
+#
+# bind -c ENCODING e encoding eucJP
+# bind -c ENCODING j encoding jis
+# bind -c ENCODING s encoding SJIS
+# bind -c ENCODING u encoding UTF-8
+# bind e command -c ENCODING
+
+
+# http://www.negeta.com/~maya/tdiary/?date=20080229#p02
+# # 256 colors
+defbce             on
+term               xterm-256color
+termcapinfo xterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+termcapinfo kterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
+#
+# # http://paranoid.dip.jp/kaworu/2008-03-06-1.html
+# # Resize Window
+termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcapinfo kterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+#aterm bindings
+bindkey "^[[c" next
+bindkey "^[[d" prev
+bindkey "^[Oc" next
+bindkey "^[Od" prev
+#putty bindings
+bindkey "^[OC" next
+bindkey "^[OD" prev
+#some other term, don't remember which
+bindkey "^[[5C" next
+bindkey "^[[5D" prev
+termcapinfo xterm "ks=\E[?1l\E:ku=\E[A:kd=\E[B:kl=\E[D:kr=\E[C:kh=\E[5~:kH=\E[F"

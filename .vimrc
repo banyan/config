@@ -180,8 +180,9 @@ map <F7> <ESC>:bw<CR>
 map <F8> <ESC>:bd<CR>
 
 "insert mode時にc-jで抜けてかつ IME off
-"imap <C-j> <esc>
-imap <C-j> <ESC>:set iminsert=0<CR>
+imap <C-j> <esc>
+"imap <C-j> <ESC>:set iminsert=0<CR>
+"inoremap <C-j> <Esc>:set iminsert=0<CR> 
 
 nmap <Space>w :w<CR>
 nmap <Space>d :diffthis<CR>
@@ -229,6 +230,10 @@ autocmd FileType ruby imap <buffer> ensure ensure<Enter>
 autocmd FileType ruby imap <buffer> else else<Enter>
 autocmd FileType ruby inoremap <buffer> ; <Esc>:call SmartSemicolon()<CR>a
 "autocmd FileType ruby imap <buffer> eacho each do \|\|<Enter>end<ESC>k$h
+
+"挿入モード時のC-uはundoできないので間違えたときに怖い。
+"http://ujihisa.nowa.jp/entry/26372573d5
+inoremap <C-u> <C-g>u<C-u>
 
 """ plugin
 "-----------------------------------------------------------------------------
@@ -297,5 +302,4 @@ au Filetype haskell    nnoremap <buffer><leader>r :!runghc %<Space>
 au Filetype scheme     nnoremap <buffer><leader>r :!gosh %<Space>
 au Filetype javascript nnoremap <buffer><leader>r :!js %<Space>
 au Filetype vim        nnoremap <silent><leader>r :source %<Return
-
 

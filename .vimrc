@@ -10,15 +10,15 @@ nnoremap <Leader>j :set fileencoding=iso-2022-jp<CR>
 nnoremap <Leader>n :set fileformat=unix<CR>
 nnoremap <Leader>r :set fileformat=mac<CR>
 nnoremap <Leader>rn :set fileformat=dos<CR>
-let mapleader = ' r'
-nnoremap <Leader>u :e ++enc=utf-8<CR>
-nnoremap <Leader>6 :e ++enc=ucs-2le<CR>
-nnoremap <Leader>e :e ++enc=euc-jp<CR>
-nnoremap <Leader>s :e ++enc=cp932<CR>
-nnoremap <Leader>j :e ++enc=iso-2022-jp<CR>
-nnoremap <Leader>n :e ++fileformat=unix<CR>
-nnoremap <Leader>r :e ++fileformat=mac<CR>
-nnoremap <Leader>rn :e ++fileformat=dos<CR>
+"let mapleader = ' r'
+"nnoremap <Leader>u :e ++enc=utf-8<CR>
+"nnoremap <Leader>6 :e ++enc=ucs-2le<CR>
+"nnoremap <Leader>e :e ++enc=euc-jp<CR>
+"nnoremap <Leader>s :e ++enc=cp932<CR>
+"nnoremap <Leader>j :e ++enc=iso-2022-jp<CR>
+"nnoremap <Leader>n :e ++fileformat=unix<CR>
+"nnoremap <Leader>r :e ++fileformat=mac<CR>
+"nnoremap <Leader>rn :e ++fileformat=dos<CR>
 
 """ search
 "-----------------------------------------------------------------------------
@@ -148,18 +148,18 @@ colorscheme blacklight
 
 """ misc
 "-----------------------------------------------------------------------------
- " screen にファイル名を表示
+" screen にファイル名を表示
 if $TERM == 'screen'
   autocmd BufEnter * silent! exe '!echo -n "k%\\"'
 endif
 
- "表示行単位で行移動する
+"表示行単位で行移動する
 nmap j gj
 nmap k gk
 vmap j gj
 vmap k gk
 
- " ポップアップメニューの色
+" ポップアップメニューの色
 hi Pmenu ctermbg=8
 hi PmenuSel ctermbg=4
 hi PmenuSbar ctermbg=8
@@ -170,17 +170,18 @@ highlight WhitespaceEOL ctermbg=8 guibg=red
 match WhitespaceEOL /\s\+$/
 autocmd WinEnter * match WhitespaceEOL /\s\+$/
 
- " ステイタス行に文字コードと改行コードを表示。
+" ステイタス行に文字コードと改行コードを表示。
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 
- " バッファの移動
+" バッファの移動
 map <F5> <ESC>:bp<CR>
 map <F6> <ESC>:bn<CR>
 map <F7> <ESC>:bw<CR>
 map <F8> <ESC>:bd<CR>
 
-"insert mode時にc-jで抜ける
-imap <C-j> <esc>
+"insert mode時にc-jで抜けてかつ IME off
+"imap <C-j> <esc>
+imap <C-j> <ESC>:set iminsert=0<CR>
 
 nmap <Space>w :w<CR>
 nmap <Space>d :diffthis<CR>
@@ -204,6 +205,31 @@ function! InsertTabWrapper()
 endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
+" %マッチでrubyのクラスやメソッドが対応するようにする
+"autocmd FileType ruby :source ~/.vim/ftplugin/ruby-matchit.vim
+
+"カーソルがある行をハイライトする
+"http://peace-pipe.blogspot.com/2006/05/vimrc-vim.html
+nnoremap <silent> ,ha :HighlightCurrentLine Search<cr>
+nnoremap <silent> ,hb :HighlightCurrentLine DiffAdd<cr>
+nnoremap <silent> ,hc :HighlightCurrentLine Error<cr>
+command! -nargs=1 HighlightCurrentLine execute 'match <args> /<bslash>%'.line('.').'l/'
+
+nnoremap <silent> ,H :UnHighlightCurrentLine<cr>
+command! -nargs=0 UnHighlightCurrentLine match
+
+"CTRL-kでクリップボードから貼り付け
+imap <C-k> <ESC>"+gPa
+
+"Ruby用入力最適化。ブロック関連のワードの後にEnterを自動挿入
+autocmd FileType ruby imap <buffer> begin begin<Enter>
+autocmd FileType ruby imap <buffer> end  <Esc>:call SmartEnd()<CR>a
+autocmd FileType ruby imap <buffer> then then<Enter>
+autocmd FileType ruby imap <buffer> ensure ensure<Enter>
+autocmd FileType ruby imap <buffer> else else<Enter>
+autocmd FileType ruby inoremap <buffer> ; <Esc>:call SmartSemicolon()<CR>a
+"autocmd FileType ruby imap <buffer> eacho each do \|\|<Enter>end<ESC>k$h
+
 """ plugin
 "-----------------------------------------------------------------------------
 
@@ -226,10 +252,10 @@ nnoremap <silent> <Leader>a :FuzzyFinderAddFavFile<CR>
 
  " taglist.vim
 let mapleader = ' t'
-nnoremap <Leader>l       :Tlist<CR>
-nnoremap <Leader><C-l>       :Tlist<CR>
-nnoremap <Leader>o       :TlistClose<CR>
-nnoremap <Leader><C-o>       :TlistClose<CR>
+nnoremap <Leader>l     : Tlist<CR>
+nnoremap <Leader><C-l> : Tlist<CR>
+nnoremap <Leader>o     : TlistClose<CR>
+nnoremap <Leader><C-o> : TlistClose<CR>
 
 " NERD_commenter
 "<Leader>xでコメントをトグル(NERD_commenter.vim)
@@ -261,4 +287,15 @@ if has("autochdir")
 else
     set tags=./tags,./../tags,./*/tags,./../../tags,./../../../tags,./../../../../tags,./../../../../../tags
 endif
+
+" quickrun.vim  
+let mapleader = ' '
+au Filetype ruby       nnoremap <buffer><leader>r :!ruby %<Space> 
+au Filetype php        nnoremap <buffer><leader>r :!ruby %<Space> 
+au Filetype perl       nnoremap <buffer><leader>r :!perl %<Space> 
+au Filetype haskell    nnoremap <buffer><leader>r :!runghc %<Space> 
+au Filetype scheme     nnoremap <buffer><leader>r :!gosh %<Space>
+au Filetype javascript nnoremap <buffer><leader>r :!js %<Space>
+au Filetype vim        nnoremap <silent><leader>r :source %<Return
+
 

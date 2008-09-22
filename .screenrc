@@ -65,9 +65,10 @@ termcapinfo xterm "ks=\E[?1l\E:ku=\E[A:kd=\E[B:kl=\E[D:kr=\E[C:kh=\E[5~:kH=\E[F"
 #screen -t 'mysql' 6
 #screen -t 'zsh' 7 
 
-#hardstatus      alwayslastline "%{= yB}%-w%{.B}%{= WK}%n %t%{-}%+w "
-hardstatus      alwayslastline "%{= mW}%-w%{.W}%{= WK}%n %t%{-}%+w "
-#hardstatus      alwayslastline "%{= mW}%-w%{.C}%{= WM}%n %t%{-}%+w "
+# ↓黄色のステータスバーにするが、どうにも字のコントラストがよくない
+hardstatus      alwayslastline "%{= yB}%-w%{.B}%{= WK}%n %t%{-}%+w "
+# ↓マゼンダ contrastはいいが・・・
+#hardstatus      alwayslastline "%{= mW}%-w%{.W}%{= WK}%n %t%{-}%+w "
 
 #hardstatus の例
 # http://yoka.at.webry.info/200802/article_1.html

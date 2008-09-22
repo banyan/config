@@ -320,3 +320,7 @@ au Filetype scheme     nnoremap <buffer><leader>r :!gosh %<Space>
 au Filetype javascript nnoremap <buffer><leader>r :!js %<Space>
 au Filetype vim        nnoremap <silent><leader>r :source %<Return
 
+"mru.vim
+"http://www.vim.org/scripts/script.php?script_id=521
+let MRU_Max_Entries=25
+

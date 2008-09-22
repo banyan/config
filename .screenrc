@@ -2,7 +2,6 @@ autodetach      on
 bell_msg        "Bell in window %^G"
 defscrollback   10000
 escape          ^tt
-hardstatus      alwayslastline "%-w%{.C}%n %t%{-}%+w "
 shell           zsh
 startup_message off
 vbell           off
@@ -65,4 +64,62 @@ termcapinfo xterm "ks=\E[?1l\E:ku=\E[A:kd=\E[B:kl=\E[D:kr=\E[C:kh=\E[5~:kH=\E[F"
 #screen -t 'log' 5
 #screen -t 'mysql' 6
 #screen -t 'zsh' 7 
+
+hardstatus      alwayslastline "%{= yK}%-w%{.K}%{= WK}%n %t%{-}%+w "
+#hardstatus      alwayslastline "%{= mW}%-w%{.C}%{= WM}%n %t%{-}%+w "
+
+#hardstatus の例
+# http://yoka.at.webry.info/200802/article_1.html
+#hardstatus alwayslastline "%{= Wb}[%m/%d %02c:%s]%016=%{= WK}%-w%50>%{= bW}%n %t%{-}%+w%-0< %="
+
+# hardstatus description:
+# 
+# %{= Wb} - blue on bright white
+# %m - Two-letter month number
+# %d - Two-letter day number
+# %02c - time (hh:mm) in 24 hour format
+# %s - seconds
+# %016= - left 16 padding for datetime
+# %{= WK} - white on bright white
+# %-w - window list up to but not including the current window (-)
+# %50> - truncation/padding marker; place this point about 50% of the
+# way into the display area (50)
+# %{=u bW} - underline, blue on bright white
+# %n - number of the current window
+# %t - title of current window
+# %{-} - undo last color change(so now we're back to white on bright white)
+# %+w - window list from the next window on (-)
+# %-0< - truncation/padding point. place this point zero spaces (0) 
+# from the right margin (-).
+# %= - truncation/paddion point. 
+
+# APPENDIX: STRING ESCAPES (make extracts from screen (1))
+#
+# The attribute set can either be specified as hexadecimal number 
+# or a combination of the following letters:
+#
+# d dim
+# u underline
+# b bold
+# r reverse
+# s standout
+# B blinking
+#
+# Colors are coded either as a hexadecimal number or two letters specifying 
+# the desired background and foreground color (in that order). 
+# The following colors are known: 
+#
+# k black
+# r red
+# g green
+# y yellow
+# b blue
+# m magenta
+# c cyan
+# w white
+# d default color
+# . leave color unchanged
+#
+# The capitalized versions of the letter specify bright colors.
+# You can also use the pseudo-color `i' to set just the brightness and leave the color unchanged.
 

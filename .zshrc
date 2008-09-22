@@ -191,3 +191,25 @@ bindkey '^U' backward-kill-line
 # この設定 : ls /usr/local → ls /usr/ → ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+#zshでgit statusをラクにするfunction
+#http://ujihisa.nowa.jp/entry/980da8c89b
+function s() {
+    local -A result
+    result=`git status 2> /dev/null`
+    if [ "$result" ] ; then
+        echo $result
+        return
+    fi
+    svn status
+}
+
+function d() {
+    local -A result
+    result=`git status 2> /dev/null`  
+    if [ "$result" ] ; then
+        git diff | diffcolor.rb | /usr/bin/less -RE
+        return  
+    fi  
+    svn di | diffcolor.rb | /usr/bin/less -RE
+}  
+

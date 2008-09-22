@@ -16,12 +16,12 @@ termcapinfo kterm* 'Co#256:pa#32767:AB=\E[48;5;%dm:AF=\E[38;5;%dm:'
 
 ## http://paranoid.dip.jp/kaworu/2008-03-06-1.html
 # Resize Window
+#
 #termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 #termcapinfo kterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 
 ##ctrl + 矢印キーでウィンドウ切り替え
 #http://blog.blueblack.net/item_183
-
 #aterm bindings
 bindkey "^[[c" next
 bindkey "^[[d" prev
@@ -54,3 +54,15 @@ termcapinfo xterm "ks=\E[?1l\E:ku=\E[A:kd=\E[B:kl=\E[D:kr=\E[C:kh=\E[5~:kH=\E[F"
 # bind -c ENCODING s encoding SJIS
 # bind -c ENCODING u encoding UTF-8
 # bind e command -c ENCODING
+
+## 一気にタブをいっぱい開いたりする例
+#
+#screen -t 'svn' 0
+#screen -t 'htdocs' 1
+#screen -t 'template' 2
+#screen -t 'Pages' 3
+#screen -t 'Data' 4
+#screen -t 'log' 5
+#screen -t 'mysql' 6
+#screen -t 'zsh' 7 
+

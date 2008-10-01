@@ -286,7 +286,7 @@ map <Leader>x ,c<space>
 map <Leader>s ,cm<space>
 
 " AlignPlugin.vim  
-let mapleader = ' a'
+let mapleader = ' h'
 vnoremap <Leader>= :Align=<CR>
 vnoremap <Leader>> :Align=><CR>
 vmap     <Leader>: <Space><Space>tsp

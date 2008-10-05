@@ -213,3 +213,9 @@ function d() {
     svn di | diffcolor.rb | /usr/bin/less -RE
 }  
 
+# start screen from given directory
+function sc(){
+    cd $1
+    screen
+}
+

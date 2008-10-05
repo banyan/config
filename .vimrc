@@ -253,6 +253,10 @@ inoremap <C-u> <C-g>u<C-u>
 nnoremap <Space><Space>p :set paste <CR>
 nnoremap <Space><Space>n :set nopaste <CR>
 
+"var_dump のショートカット
+autocmd FileType php noremap <F9> ivar_dump($);<CR>exit;<ESC>kf$a
+autocmd FileType php noremap <F10> ivar_dump($);<ESC>hha
+
 """ plugin
 "-----------------------------------------------------------------------------
 

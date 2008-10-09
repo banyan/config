@@ -50,7 +50,7 @@ esac
 
 ##補完機能の強化
 autoload -U compinit
-compinit
+compinit -u
 
 ### コアダンプサイズを制限
 limit coredumpsize 102400
@@ -130,7 +130,7 @@ export LS_COLORS='di=00;38;05;44:ln=01;35:so=01;32:ex=01;31:bd=00;38;05;44:cd=00
 zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
 
 autoload -U compinit
-compinit
+compinit -C
 
 #export LSCOLORS=exfxcxdxbxegedabagacad
 #export LS_COLORS='di=35:ln=35:so=32:pi=33:ex=31:bd=46;35:cd=43;35:su=41;30:sg=46;30:tw=42;30:ow=43;30'

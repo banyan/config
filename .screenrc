@@ -48,11 +48,11 @@ termcapinfo xterm "ks=\E[?1l\E:ku=\E[A:kd=\E[B:kl=\E[D:kr=\E[C:kh=\E[5~:kH=\E[F"
 # bind -c SELECT 9 select 19
 # bind - command -c SELECT
 #
-# bind -c ENCODING e encoding eucJP
-# bind -c ENCODING j encoding jis
-# bind -c ENCODING s encoding SJIS
-# bind -c ENCODING u encoding UTF-8
-# bind e command -c ENCODING
+bind -c ENCODING e encoding eucJP
+bind -c ENCODING j encoding jis
+bind -c ENCODING s encoding SJIS
+bind -c ENCODING u encoding UTF-8
+bind e command -c ENCODING
 
 ## 一気にタブをいっぱい開いたりする例
 #

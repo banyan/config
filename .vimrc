@@ -263,20 +263,20 @@ nmap <C-w> :w<CR>
 " <TAB>でOmni補完
 " http://coderepos.org/share/export/19203/dotfiles/vim/ukstudio/.vimrc
 
-function! InsertTabWrapper()
-    if pumvisible()
-        return "\<c-n>"
-    endif
-    let col = col('.') - 1
-    if !col || getline('.')[col -1] !~ '\k\|<\|/'
-        return "\<tab>"
-    elseif exists('&omnifunc') && &omnifunc == ''
-        return "\<c-n>"
-    else
-        return "\<c-x>\<c-o>"
-    endif
-endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+"function! InsertTabWrapper()
+    "if pumvisible()
+        "return "\<c-n>"
+    "endif
+    "let col = col('.') - 1
+    "if !col || getline('.')[col -1] !~ '\k\|<\|/'
+        "return "\<tab>"
+    "elseif exists('&omnifunc') && &omnifunc == ''
+        "return "\<c-n>"
+    "else
+        "return "\<c-x>\<c-o>"
+    "endif
+"endfunction
+"inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
 " %マッチでrubyのクラスやメソッドが対応するようにする
 "autocmd FileType ruby :source ~/.vim/ftplugin/ruby-matchit.vim
@@ -319,7 +319,7 @@ autocmd FileType php noremap <F10> ivar_dump($);<ESC>hha
 "-----------------------------------------------------------------------------
 
  " bufferlist.vim
-:map <silent> <C-i> :call BufferList()<CR>
+:map <silent> <C-k> :call BufferList()<CR>
 
  " fuzzyfinder.vim
 let mapleader = ' f'
@@ -386,4 +386,12 @@ au Filetype vim        nnoremap <silent><leader> :source %<Return
 "mru.vim
 "http://www.vim.org/scripts/script.php?script_id=521
 let MRU_Max_Entries=25
+
+"snippetsEmu
+
+filetype plugin on
+
+"バインド(<tab>)を変更したい場合
+"imap <unique> <C-b> <Plug>Jumper
+"smap <unique> <C-b> i<BS><C-b>
 

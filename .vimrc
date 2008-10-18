@@ -13,7 +13,7 @@
 
 """ encoding
 "-----------------------------------------------------------------------------
-
+"{{{
 let mapleader = ' k'
 nnoremap <Leader>u :set fileencoding=utf-8<CR>
 nnoremap <Leader>6 :set fileencoding=ucs-2le<CR>
@@ -89,11 +89,11 @@ set fileformats=unix,dos,mac
 " □とか○の文字があってもカーソル位置がずれないようにする
 if exists('&ambiwidth')
   set ambiwidth=double
-endif
+endif"}}}
 
 """ search
 "-----------------------------------------------------------------------------
-
+"{{{
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set ignorecase
 " 検索文字列に大文字が含まれている場合は区別して検索する
@@ -113,11 +113,11 @@ nmap g# g#zz
 " 検索結果文字列のハイライトを有効にする
 set hlsearch
 " 検索後のハイライトをクリアする
-nnoremap <Space>l :noh<C-L><CR>
+nnoremap <Space>l :noh<C-L><CR>"}}}
 
 """ edit
 "-----------------------------------------------------------------------------
-
+"{{{
 set tabstop=4
 set expandtab
 set autoindent
@@ -140,11 +140,11 @@ set hidden
 " 外部のエディタで編集中のファイルが変更されたら自動で読み直す
 set autoread
 " 前回終了したカーソル行に移動
-autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
+autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif"}}}
 
 """ show
 "-----------------------------------------------------------------------------
-
+"{{{
 " 行番号はつける派
 set nu
 " ルーラー(右下に表示される行・列の番号)を表示する
@@ -195,15 +195,15 @@ set clipboard=unnamed
 
 " 改行後に自動的にコメントを挿入するのをやめさせる
 " http://vimwiki.net/?faq/9
-autocmd FileType * set formatoptions-=ro
+autocmd FileType * set formatoptions-=ro"}}}
 
 """ colorscheme
 "-----------------------------------------------------------------------------
-
+"{{{
 " blacklight をベースに colorscheme を作成中
 " http://www.vim.org/scripts/script.php?script_id=1596
 colorscheme banyan
-"{{{
+
 "colorscheme deveiate
 "colorscheme less
 "colorscheme black_angus
@@ -220,6 +220,7 @@ colorscheme banyan
 
 """ misc
 "-----------------------------------------------------------------------------
+"{{{
 " screen にファイル名を表示
 if $TERM == 'screen'
   autocmd BufEnter * silent! exe '!echo -n "k%\\"'
@@ -317,11 +318,11 @@ autocmd FileType php noremap <F9> ivar_dump($);<CR>exit;<ESC>kf$a
 autocmd FileType php noremap <F10> ivar_dump($);<ESC>hha
 
 "折りたたみを保存する
-set foldmethod=marker
+set foldmethod=marker"}}}
 
 """ plugin
 "-----------------------------------------------------------------------------
-
+"{{{
  " bufferlist.vim
 :map <silent> <C-k> :call BufferList()<CR>
 
@@ -437,5 +438,5 @@ endif
 
 "inoremap <buffer><expr> " search('^#include\%#', 'bcn')? ' "': '"'
 "" if文直後の(は自動で間に空白を入れる
-"inoremap <buffer><expr> ( search('\<\if\%#', 'bcn')? ' (': '('"}}}
+"inoremap <buffer><expr> ( search('\<\if\%#', 'bcn')? ' (': '('"}}}"}}}
 

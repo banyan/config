@@ -395,3 +395,8 @@ filetype plugin on
 "smap <unique> <C-b> i<BS><C-b>
 let g:snippetsEmu_key = "<C-m>"
 
+"yankring.vim
+if has('viminfo')
+    set vi^=!
+endif
+

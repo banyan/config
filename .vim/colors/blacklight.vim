@@ -47,3 +47,19 @@ hi Underlined      term=underline cterm=underline ctermfg=47 gui=underline guifg
 hi Ignore          cterm=bold ctermfg=242 guifg=grey40
 hi Error           term=reverse cterm=bold ctermfg=7 ctermbg=1 guifg=White guibg=Red
 hi Todo            term=standout ctermfg=0 ctermbg=11 guifg=orangered guibg=yellow2
+
+" PHP
+hi phpRegionDelimiter  guifg=#ad7fa8
+hi phpPropertySelector guifg=#afb85e
+hi phpPropertySelectorInString guifg=#4fb2cf
+hi phpOperator guifg=#4fb2cf ctermfg=6
+hi phpArrayPair guifg=#49453a
+hi phpAssignByRef guifg=#4fb2cf
+hi phpRelation ctermfg=235 guifg=#4fb2cf
+hi phpMemberSelector guifg=#4fb2cf
+hi phpUnknownSelector guifg=#4fb2cf
+hi phpVarSelector ctermfg=235 guifg=#babdb6
+hi phpSemicolon guifg=#4fb2cf gui=none
+hi phpFunctions guifg=#d3d7cf
+hi phpParent guifg=#4fb2cf
+

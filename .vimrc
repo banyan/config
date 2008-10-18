@@ -388,10 +388,10 @@ au Filetype vim        nnoremap <silent><leader> :source %<Return
 let MRU_Max_Entries=25
 
 "snippetsEmu
-
 filetype plugin on
 
 "バインド(<tab>)を変更したい場合
 "imap <unique> <C-b> <Plug>Jumper
 "smap <unique> <C-b> i<BS><C-b>
+let g:snippetsEmu_key = "<C-m>"
 

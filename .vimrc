@@ -320,6 +320,54 @@ autocmd FileType php noremap <F10> ivar_dump($);<ESC>hha
 "折りたたみを保存する
 set foldmethod=marker"}}}
 
+""" tab
+"-----------------------------------------------------------------------------
+"{{{
+"screen 風にする"
+let mapleader = ' t'
+nmap <S-t> :tab
+nmap <Leader>c :tabnew 
+nmap <Leader>n :tabn<CR>
+nmap <Leader>p :tabp<CR>
+nmap <Leader>d :tabc<CR>
+nmap <Leader>s :tabs<CR>
+
+"hi TabLine     term=reverse cterm=reverse ctermfg=38 ctermbg=15
+"hi TabLineSel  term=bold cterm=bold ctermfg=15 ctermbg=5
+"hi TabLineFill term=reverse cterm=reverse ctermfg=250 ctermbg=250
+
+hi TabLine     term=reverse cterm=reverse ctermfg=5 ctermbg=253
+hi TabLineSel  term=bold cterm=bold ctermfg=15 ctermbg=38
+hi TabLineFill term=reverse cterm=reverse ctermfg=5 ctermbg=5
+
+set showtabline=2
+
+"http://d.hatena.ne.jp/teramako/20070318/vim7_tab
+"set tabline=%!MyTabLine()
+"function MyTabLine()
+  "let s = ''
+  "for i in range(tabpagenr('$'))
+    "if i + 1 == tabpagenr()
+      "let s .= '%#TabLineSel#'
+    "else
+      "let s .= '%#TabLine#'
+    "endif
+    "let s .= '%' . (i+1) . 'T' 
+    "let s .= ' ' . (i+1) . (1==getwinvar(i+1,'&modified')?'[+]':'') . ' %{MyTabLabel(' . (i+1) . ')} '
+  "endfor
+  "let s .= '%#TabLineFill#%T'
+  "if tabpagenr('$') > 1 
+    "let s .= '%=%#TabLine#%999Xclose'
+  "endif
+  "return s
+"endfunction
+
+"function MyTabLabel(n)
+  "let buflist = tabpagebuflist(a:n)
+  "let winnr = tabpagewinnr(a:n)
+  "return bufname(buflist[winnr - 1]) 
+"endfunction"}}}
+
 """ plugin
 "-----------------------------------------------------------------------------
 "{{{
@@ -341,11 +389,11 @@ nnoremap <silent> <Leader>a :FuzzyFinderAddFavFile<CR>
 "nnoremap <silent> <C-]>     :FuzzyFinderTag! <C-r>=expand('<cword>')<CR><CR>
 
  " taglist.vim
-let mapleader = ' t'
-nnoremap <Leader>l     : Tlist<CR>
-nnoremap <Leader><C-l> : Tlist<CR>
-nnoremap <Leader>o     : TlistClose<CR>
-nnoremap <Leader><C-o> : TlistClose<CR>
+"let mapleader = ' t'
+"nnoremap <Leader>l     : Tlist<CR>
+"nnoremap <Leader><C-l> : Tlist<CR>
+"nnoremap <Leader>o     : TlistClose<CR>
+"nnoremap <Leader><C-o> : TlistClose<CR>
 
 " NERD_commenter
 "<Leader>xでコメントをトグル(NERD_commenter.vim)

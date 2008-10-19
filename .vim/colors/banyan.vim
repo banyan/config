@@ -60,14 +60,14 @@ hi phpAssignByRef              ctermfg=80 guifg=#4fb2cf
 hi phpRelation                 ctermfg=80 guifg=#4fb2cf
 hi phpMemberSelector           ctermfg=164 guifg=#4fb2cf
 hi phpUnknownSelector          ctermfg=80 guifg=#4fb2cf
-hi phpVarSelector              ctermfg=251 guifg=#babdb6
+hi phpVarSelector              ctermfg=148 guifg=#babdb6
 hi phpSemicolon                ctermfg=80 guifg=#4fb2cf gui=none
 hi phpFunctions                ctermfg=164 guifg=#d3d7cf
 hi phpParent                   ctermfg=195 guifg=#4fb2cf
-hi phpIdentifier               ctermfg=255
-hi phpIdentifierSimply         ctermfg=255
-hi phpIdentifierComplex        ctermfg=255
-hi phpIdentifierComplexP       ctermfg=255
+hi phpIdentifier               ctermfg=148
+hi phpIdentifierSimply         ctermfg=148
+hi phpIdentifierComplex        ctermfg=148
+hi phpIdentifierComplexP       ctermfg=148
 hi phpConditional              ctermfg=191
 hi phpRepeat                   ctermfg=164
 hi phpStatement                ctermfg=164

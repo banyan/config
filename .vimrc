@@ -336,9 +336,9 @@ nmap <Leader>s :tabs<CR>
 "hi TabLineSel  term=bold cterm=bold ctermfg=15 ctermbg=5
 "hi TabLineFill term=reverse cterm=reverse ctermfg=250 ctermbg=250
 
-hi TabLine     term=reverse cterm=reverse ctermfg=163 ctermbg=253
+hi TabLine     term=reverse cterm=reverse ctermfg=162 ctermbg=253
 hi TabLineSel  term=bold cterm=bold ctermfg=15 ctermbg=38
-hi TabLineFill term=reverse cterm=reverse ctermfg=163 ctermbg=163
+hi TabLineFill term=reverse cterm=reverse ctermfg=162 ctermbg=162
 
 set showtabline=2
 

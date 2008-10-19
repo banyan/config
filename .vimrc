@@ -379,7 +379,7 @@ else
 endif
 
 " quickrun.vim  
-let mapleader = ' e '
+let mapleader = ' e'
 au Filetype ruby       nnoremap <buffer><leader> :!ruby %<Space> 
 au Filetype php        nnoremap <buffer><leader> :!ruby %<Space> 
 au Filetype perl       nnoremap <buffer><leader> :!perl %<Space> 

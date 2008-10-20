@@ -317,6 +317,9 @@ nnoremap <Space><Space>n :set nopaste <CR>
 autocmd FileType php noremap <F9> ivar_dump($);<CR>exit;<ESC>kf$a
 autocmd FileType php noremap <F10> ivar_dump($);<ESC>hha
 
+" .swp に設定
+set directory^=~/.tmp//
+
 "折りたたみを保存する
 set foldmethod=marker"}}}
 

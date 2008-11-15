@@ -219,3 +219,8 @@ function sc(){
     screen
 }
 
+#find out what's new in a directory: 
+function lsn() {
+    ls -lt ${1+"$@"} | head -20;
+}
+

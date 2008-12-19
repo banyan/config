@@ -33,6 +33,7 @@ bindkey "^[OD" prev
 bindkey "^[[5C" next
 bindkey "^[[5D" prev
 termcapinfo xterm "ks=\E[?1l\E:ku=\E[A:kd=\E[B:kl=\E[D:kr=\E[C:kh=\E[5~:kH=\E[F"
+termcapinfo xterm|xterm-256color 
 
 ## key bindings
 #

@@ -123,8 +123,11 @@ compinit
 #zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;42'
 #zstyle ':completion:*' list-colors ''
 
-alias ls="ls -G"
-alias gls="gls --color"
+#alias
+alias ls="ls --color=auto"
+alias vi='vim'
+alias lla='ls -A'
+
 export LSCOLORS=ExFxCxdxBxegedabagacad
 export LS_COLORS='di=00;38;05;44:ln=01;35:so=01;32:ex=01;31:bd=00;38;05;44:cd=00;38;05;44:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
@@ -141,8 +144,6 @@ compinit -C
 #export LS_COLORS='di=35:ln=35:so=32:pi=33:ex=31:bd=46;35:cd=43;35:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 #zstyle ':completion:*' list-colors 'di=35' 'ln=35' 'so=32' 'ex=31' 'bd=46;35' 'cd=43;35'
 
-
-
 ### ディレクトリ名だけで cd
 setopt auto_cd
 #
@@ -154,12 +155,6 @@ setopt auto_param_keys
 #
 ### スペルチェック
 setopt correct
-
-#alias
-alias vi='vim'
-alias ls="ls -G"
-alias gls="gls --color"
-alias ll='ls -l'
 
 # disable C-q, C-s
 setopt no_flow_control

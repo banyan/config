@@ -1,6 +1,6 @@
 export LANG=ja_JP.UTF-8
 export TERM=xterm-256color
-export LSCOLORS=cxfxcxdxbxegedabagacad
+#export LSCOLORS=cxfxcxdxbxegedabagacad
 
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
@@ -11,42 +11,16 @@ SAVEHIST=100000
 
 #promptとか
 local PROMPT_COLOR=$'%{\e[01;31m%}'
-#local YELLOW_COLOR=$'%{\e[00;38;05;168%}'
-#local RPROMPT_COLOR=$'%{\e[01;38;5;190%}'
-
-#PROMPT=$PROMPT_COLOR'[${USER}@${HOSTNAME}] %(!.#.$) '
-#RPROMPT=$RPROMPT_COLOR'[%~]'$DEFAULT
 setopt PROMPT_SUBST
 
 #http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
 autoload colors
 colors
-case ${UID} in
-0)
-    PROMPT="%{${fg[red]}%}${USER}@${fg[cyan]}${HOST%%.*}%(!.#.$)%{${reset_color}%}%b "
-    RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%} "
-    #PROMPT="%B%{${fg[red]}%}%/#%{${reset_color}%}%b "
-    #PROMPT=$YELLOW_COLOR'[${USER}@${HOSTNAME}] %(!.#.$) '
-    PROMPT2="%{${fg[red]}%}%_#%{${reset_color}%}%b "
-    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
-    #[ -n "${USER}@${HOSTNAME}" ] &&
-    #PROMPT="%{${fg[white]}%}$(echo ${HOST}@)${PROMPT}"
-    #PROMPT="$YELLOW_COLOR$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-    PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-;;
-*)
-    PROMPT="%{${fg[red]}%}${USER}%(!.#.$)%{${reset_color}%} "
-    RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%} "
-    #PROMPT="%{${fg[red]}%}%/%%%{${reset_color}%} "
-    #PROMPT=$YELLOW_COLOR'[${USER}@${HOSTNAME}] %(!.#.$) '
-    PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
-    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-    #[ -n "${USER}@${HOSTNAME}" ] &&
-    #PROMPT="%{${fg[white]}%}$(echo ${HOST}@)${PROMPT}"
-    #PROMPT="$YELLOW_COLOR$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-    PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-;;
-esac
+PROMPT="%{${fg[red]}%}${USER}%(!.#.$)%{${reset_color}%} "
+RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%} "
+PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
+SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+PROMPT="%{${fg[white]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 
 ##補完機能の強化
 autoload -U compinit

@@ -182,14 +182,32 @@ syntax on
 
 filetype plugin indent on
 
- """ file
-autocmd FileType css        set sw=4 ts=4 sts=0 noet
-autocmd FileType eruby      set ts=4 sw=4 sts=0 noet
-autocmd FileType html       set sw=4 ts=4 sts=0 noet
-autocmd FileType javascript set sw=4 ts=4 sts=0 noet
-autocmd FileType php        set sw=4 ts=4 sts=0 et
-autocmd FileType ruby       set sw=2 ts=2 sts=0 et
-autocmd FileType sql        set ts=4 sw=4 sts=0 et
+ """ Indent
+autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
+autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
+autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
+autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
+autocmd FileType css        setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType diff       setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType eruby      setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType html       setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
+autocmd FileType javascript setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
+autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
+autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
+autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
+autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
+autocmd FileType sql        setlocal sw=4 sts=4 ts=4 et
+autocmd FileType vb         setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
+autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
+autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType xml        setlocal sw=4 sts=4 ts=4 noet
+autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
+autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
+
 set nobackup
 set clipboard=unnamed
 
@@ -326,7 +344,7 @@ set foldmethod=marker"}}}
 """ tab
 "-----------------------------------------------------------------------------
 "{{{
-"screen 風にする"
+"タブ関係"
 let mapleader = ' t'
 nmap <S-t> :tab
 nmap <Leader>c :tabnew 
@@ -334,6 +352,7 @@ nmap <Leader>n :tabn<CR>
 nmap <Leader>p :tabp<CR>
 nmap <Leader>d :tabc<CR>
 nmap <Leader>s :tabs<CR>
+nmap <Leader>e :tabe<CR>
 
 "hi TabLine     term=reverse cterm=reverse ctermfg=38 ctermbg=15
 "hi TabLineSel  term=bold cterm=bold ctermfg=15 ctermbg=5

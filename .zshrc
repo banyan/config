@@ -20,7 +20,7 @@ PROMPT="%{${fg[red]}%}${USER}%(!.#.$)%{${reset_color}%} "
 RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%} "
 PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-PROMPT="%{${fg[white]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+PROMPT="%{${fg[yellow]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 
 ##補完機能の強化
 autoload -U compinit

@@ -151,7 +151,7 @@ set nu
 set ruler
 " タブや改行を表示しない
 set nolist
-set wrap
+set nowrap
 set laststatus=2
 set cmdheight=2
 set showcmd

@@ -58,6 +58,7 @@ _zshenv_add_path PATH "/usr/bin"
 _zshenv_add_path PATH "/usr/sbin"
 _zshenv_add_path PATH "/usr/*/bin"
 _zshenv_add_path PATH "/usr/*/sbin"
+_zshenv_add_path PATH "/usr/local/lib/flex3/bin"
 
 export CPATH=
 _zshenv_add_path CPATH "/usr/local/include"

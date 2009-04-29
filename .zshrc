@@ -1,6 +1,5 @@
 export LANG=ja_JP.UTF-8
 export TERM=xterm-256color
-#export LSCOLORS=cxfxcxdxbxegedabagacad
 
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000

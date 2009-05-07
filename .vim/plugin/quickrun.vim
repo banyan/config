@@ -1,12 +1,50 @@
 " quickrun - run a command and show its result quickly
 " Author: ujihisa <http://ujihisa.nowa.jp/>
 " ModifiedBy: kana <http://whileimautomaton.net/>
+" ModifiedBy: Sixeight <http://d.hatena.ne.jp/Sixeight/>
 
 if exists('g:loaded_quickrun')
   finish
 endif
 
 
+function! s:quicklaunch(no)
+  if !exists('g:quicklaunch_commands[a:no]')
+    echoerr 'quicklaunch has no such command:' a:no
+    return
+  endif
+  let quicklaunch_command = g:quicklaunch_commands[a:no]
+  call s:open_result_buffer(quicklaunch_command)
+  call s:write_result_buffer(':-<', 'silent! read !' . quicklaunch_command)
+endfunction
+
+
+function! s:quicklaunch_list()
+  if !exists('g:quicklaunch_commands')
+    echo 'no command registered'
+    return
+  endif
+  call s:open_result_buffer('quicklaunch_list')
+  " FIXME: use s:write_result_buffer
+  silent % delete _
+  call append(0, '')
+  for i in range(10)
+    if exists('g:quicklaunch_commands[i]')
+      call append(line('$'), i . ': ' . g:quicklaunch_commands[i])
+    else
+      call append(line('$'), i . ': <Nop>')
+    endif
+  endfor
+  silent 1 delete _
+endfunction
+
+
+function! s:quickkeywordprg()
+  let keyword = expand('<cword>')
+  let keywordprg = &keywordprg
+  call s:open_result_buffer(keyword)
+  call s:write_result_buffer(':-D', 'silent! read ! ' . keywordprg . ' ' . keyword)
+endfunction
 
 
 function! s:quickrun()
@@ -14,7 +52,7 @@ function! s:quickrun()
     echoerr 'quickrun is not available for filetype:' string(&l:filetype)
     return
   endif
-  let quickrun_command = b:quickrun_command
+  let quickrun_command = s:get_quickrun_command()
 
   let existent_file_p = filereadable(expand('%'))
   if existent_file_p
@@ -34,15 +72,7 @@ function! s:quickrun()
   endif
 
   call s:open_result_buffer(quickrun_command)
-  setlocal modifiable
-    silent % delete _
-    call append(0, ':-)')
-    redraw
-    silent % delete _
-    call append(0, '')
-    execute 'silent! read !' quickrun_command file
-    silent 1 delete _
-  setlocal nomodifiable
+  call s:write_result_buffer(':-)', 'silent! read !' . quickrun_command . ' ' . file)
 
   if existent_file_p
     " nop.
@@ -52,15 +82,24 @@ function! s:quickrun()
 endfunc
 
 
+function! s:get_quickrun_command()
+  let m = matchlist(getline(1), '#!\(.*\)')
+  if(len(m) > 2)
+    return m[1]
+  else
+    return b:quickrun_command
+  endif
+endfunction
+
+
 function! s:open_result_buffer(quickrun_command)
-  let bufname = printf('*quickrun* %s', a:quickrun_command)
+  let bufname = printf('[quickrun] %s', a:quickrun_command)
 
   if !bufexists(bufname)
     execute g:quickrun_direction 'new'
     setlocal bufhidden=unload
     setlocal nobuflisted
     setlocal buftype=nofile
-    setlocal nomodifiable
     setlocal noswapfile
     setfiletype quickrun
     silent file `=bufname`
@@ -76,6 +115,17 @@ function! s:open_result_buffer(quickrun_command)
       execute winnr 'wincmd w'
     endif
   endif
+endfunction
+
+
+function! s:write_result_buffer(loading_message, command)
+  silent % delete _
+  call append(0, a:loading_message)
+  redraw
+  silent % delete _
+  call append(0, '')
+  execute a:command
+  silent 1 delete _
 endfunction
 
 
@@ -99,11 +149,21 @@ endif
 
 nnoremap <silent> <Plug>(quickrun)  :<C-u>call <SID>quickrun()<Return>
 silent! nmap <unique> <Leader>r  <Plug>(quickrun)
+for i in range(10)
+  execute "nnoremap <silent> <Plug>(quicklaunch-" . i . ") :<C-u>call <SID>quicklaunch(" . i . ")<Return>"
+  execute "silent! nmap <unique> <Leader>" . i . "  <Plug>(quicklaunch-" . i . ")"
+endfor
+nnoremap <silent> <Plug>(quicklaunch-list)  :<C-u>call <SID>quicklaunch_list()<Return>
+silent! nmap <unique> <Leader>l  <Plug>(quicklaunch-list)
+nnoremap <silent> <buffer> <Plug>(quickkeywordprg) :<C-u>call <SID>quickkeywordprg()<Cr>
+silent! nmap <unique> K  <Plug>(quickkeywordprg)
+
 
 augroup plugin-quickrun
   autocmd!
   autocmd Filetype awk  call s:set_quickrun_command('awk')
   autocmd Filetype c  call s:set_quickrun_command('function __rungcc__() { gcc $1 && ./a.out } && __rungcc__')
+  autocmd Filetype cpp  call s:set_quickrun_command('function __rungpp__() { g++ $1 && ./a.out } && __rungpp__')
   autocmd Filetype objc  call s:set_quickrun_command('function __rungcc__() { gcc $1 && ./a.out } && __rungcc__')
   autocmd Filetype haskell  call s:set_quickrun_command('runghc')
   autocmd Filetype io  call s:set_quickrun_command('io')
@@ -116,6 +176,9 @@ augroup plugin-quickrun
   autocmd Filetype scheme  call s:set_quickrun_command('gosh')
   autocmd Filetype sed  call s:set_quickrun_command('sed')
   autocmd Filetype sh  call s:set_quickrun_command('sh')
+  autocmd Filetype gnuplot  call s:set_quickrun_command('gnuplot')
+  autocmd Filetype eruby  call s:set_quickrun_command('erb -T -')
+  autocmd Filetype r  call s:set_quickrun_command('R --no-save --slave <')
 augroup END
 
 

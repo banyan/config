@@ -356,6 +356,7 @@ nmap <Leader>p :tabp<CR>
 nmap <Leader>d :tabc<CR>
 nmap <Leader>s :tabs<CR>
 nmap <Leader>e :tabe<CR>
+nmap <Leader>b :tab ball<CR>
 
 "hi TabLine     term=reverse cterm=reverse ctermfg=38 ctermbg=15
 "hi TabLineSel  term=bold cterm=bold ctermfg=15 ctermbg=5

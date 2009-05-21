@@ -217,12 +217,12 @@ autocmd BufNewFile,BufRead *.mxml set filetype=mxml
 
 " 改行後に自動的にコメントを挿入するのをやめさせる
 " http://vimwiki.net/?faq/9
-autocmd FileType * set formatoptions-=ro"}}}
+autocmd FileType * set formatoptions-=ro"
 
 " 行数の非表示を toggle
 nnoremap <Space>n
       \  :<C-u>setlocal nu!
-      \ \|     setlocal nonu?<CR>
+      \ \|     setlocal nonu?<CR>}}}
 
 """ colorscheme
 "-----------------------------------------------------------------------------

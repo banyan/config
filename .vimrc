@@ -219,6 +219,11 @@ autocmd BufNewFile,BufRead *.mxml set filetype=mxml
 " http://vimwiki.net/?faq/9
 autocmd FileType * set formatoptions-=ro"}}}
 
+" 行数の非表示を toggle
+nnoremap <Space>n
+      \  :<C-u>setlocal nu!
+      \ \|     setlocal nonu?<CR>
+
 """ colorscheme
 "-----------------------------------------------------------------------------
 "{{{

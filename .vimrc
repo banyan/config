@@ -421,11 +421,11 @@ nnoremap <silent> <Leader>a :FuzzyFinderAddFavFile<CR>
 "nnoremap <silent> <C-]>     :FuzzyFinderTag! <C-r>=expand('<cword>')<CR><CR>
 
  " taglist.vim
-"let mapleader = ' t'
-"nnoremap <Leader>l     : Tlist<CR>
-"nnoremap <Leader><C-l> : Tlist<CR>
-"nnoremap <Leader>o     : TlistClose<CR>
-"nnoremap <Leader><C-o> : TlistClose<CR>
+let mapleader = ' t'
+nnoremap <Leader>l     : Tlist<CR>
+nnoremap <Leader><C-l> : Tlist<CR>
+nnoremap <Leader>o     : TlistClose<CR>
+nnoremap <Leader><C-o> : TlistClose<CR>
 
 " NERD_commenter
 "<Leader>xでコメントをトグル(NERD_commenter.vim)
@@ -458,7 +458,7 @@ else
     set tags=./tags,./../tags,./*/tags,./../../tags,./../../../tags,./../../../../tags,./../../../../../tags
 endif
 
-" quickrun.vim  
+" quickrun.vim 
 let mapleader = ' e'
 au Filetype ruby       nnoremap <buffer><leader> :!ruby %<Space> 
 au Filetype php        nnoremap <buffer><leader> :!ruby %<Space> 

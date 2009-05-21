@@ -330,9 +330,10 @@ autocmd FileType ruby inoremap <buffer> ; <Esc>:call SmartSemicolon()<CR>a
 "http://ujihisa.nowa.jp/entry/26372573d5
 inoremap <C-u> <C-g>u<C-u>
 
-"pasteのショートカット
-nnoremap <Space><Space>p :set paste <CR>
-nnoremap <Space><Space>n :set nopaste <CR>
+"paste を toggle
+nnoremap <Space>p
+      \  :<C-u>setlocal paste!
+      \ \|     setlocal nopaste?<CR>
 
 "var_dump のショートカット
 autocmd FileType php noremap <F9> ivar_dump($);<CR>exit;<ESC>kf$a

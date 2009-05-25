@@ -5,6 +5,7 @@ escape          ^tt
 shell           zsh
 startup_message off
 vbell           off
+defmonitor      on
 
 ## http://www.negeta.com/~maya/tdiary/?date=20080229#p02
 # 256 colors

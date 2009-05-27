@@ -135,6 +135,8 @@ set shiftwidth=4
 set wildmode=longest,list
 let format_allow_over_tw = 1  " ぶら下り可能幅
 
+" 編集中のファイルをリネームする
+command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 " バッファが編集中でもその他のファイルを開けるように
 set hidden
 " 外部のエディタで編集中のファイルが変更されたら自動で読み直す

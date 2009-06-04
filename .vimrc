@@ -410,16 +410,17 @@ set showtabline=2
 
  " fuzzyfinder.vim
 let mapleader = ' f'
-nnoremap <silent> <C-s> :FuzzyFinderBuffer<CR>
-nnoremap <silent> <Leader>b :FuzzyFinderBuffer<CR>
-nnoremap <silent> <Leader>f :FuzzyFinderFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
-nnoremap <silent> <Leader>m :FuzzyFinderMruFile<CR>
-nnoremap <silent> <Leader>c :FuzzyFinderMruCmd<CR>
-nnoremap <silent> <Leader>v :FuzzyFinderFavFile<CR>
-nnoremap <silent> <Leader>d :FuzzyFinderDir <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
-nnoremap <silent> <Leader>t :FuzzyFinderTag!<CR>
-nnoremap <silent> <Leader>g :FuzzyFinderTaggedFile<CR>
-nnoremap <silent> <Leader>a :FuzzyFinderAddFavFile<CR>
+nnoremap <silent> <C-s> :tabnew<CR>:tabmove<CR>:FuzzyFinderBuffer<CR>
+nnoremap <silent> <Leader>b :tabnew<CR>:tabmove<CR>:FuzzyFinderBuffer<CR>
+nnoremap <silent> <Leader>f :tabnew<CR>:tabmove<CR>:FuzzyFinderFile  <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
+nnoremap <silent> <Leader>n :tabnew<CR>:tabmove<CR>:FuzzyFinderFile! <C-r>=expand('#:~:.')[:-1-len(expand('#:~:.:t'))]<CR><CR>
+nnoremap <silent> <Leader>m :tabnew<CR>:tabmove<CR>:FuzzyFinderMruFile<CR>
+nnoremap <silent> <Leader>c :tabnew<CR>:tabmove<CR>:FuzzyFinderMruCmd<CR>
+nnoremap <silent> <Leader>v :tabnew<CR>:tabmove<CR>:FuzzyFinderFavFile<CR>
+nnoremap <silent> <Leader>d :tabnew<CR>:tabmove<CR>:FuzzyFinderDir <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
+nnoremap <silent> <Leader>t :tabnew<CR>:tabmove<CR>:FuzzyFinderTag!<CR>
+nnoremap <silent> <Leader>g :tabnew<CR>:tabmove<CR>:FuzzyFinderTaggedFile<CR>
+nnoremap <silent> <Leader>a :tabnew<CR>:tabmove<CR>:FuzzyFinderAddFavFile<CR>
 "nnoremap <silent> <C-]>     :FuzzyFinderTag! <C-r>=expand('<cword>')<CR><CR>
 
  " taglist.vim
@@ -435,7 +436,7 @@ let mapleader = ','
 map <Leader>x ,c<space>
 map <Leader>s ,cm<space>
 
-" AlignPlugin.vim  
+" AlignPlugin.vim
 let mapleader = ' h'
 vnoremap <Leader>= :Align=<CR>
 vnoremap <Leader>> :Align=><CR>

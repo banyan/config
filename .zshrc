@@ -173,13 +173,23 @@ function s() {
 
 function d() {
     local -A result
-    result=`git status 2> /dev/null`  
+    result=`git status 2> /dev/null`
     if [ "$result" ] ; then
         git diff | diffcolor.rb | /usr/bin/less -RE
-        return  
-    fi  
+        return
+    fi
     svn di | diffcolor.rb | /usr/bin/less -RE
-}  
+}
+
+function a() {
+    local -A result
+    result=`git status 2> /dev/null`
+    if [ "$result" ] ; then
+        git add .
+        return
+    fi
+    svn status | grep '^?' | awk '{print $2}' | xargs svn add
+}
 
 # start screen from given directory
 function sc(){

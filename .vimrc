@@ -283,6 +283,7 @@ map <F8> <ESC>:bd<CR>
 imap <C-j> <esc>
 "imap <C-j> <ESC>:set iminsert=0<CR>
 "inoremap <C-j> <Esc>:set iminsert=0<CR> 
+"inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
 nmap <Space>w :w<CR>
 nmap <Space>d :diffthis<CR>

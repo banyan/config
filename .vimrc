@@ -348,6 +348,13 @@ autocmd FileType php noremap <F10> ivar_dump($);<ESC>hha
 " .swp に設定
 set directory^=~/.tmp//
 
+" XMLの閉じタグを補完する
+augroup MyXML
+  autocmd!
+  autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
+  autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
+augroup END
+
 "折りたたみを保存する
 set foldmethod=marker"}}}
 

@@ -178,7 +178,7 @@ function d() {
         git diff | diffcolor.rb | /usr/bin/less -RE
         return
     fi
-    svn di | diffcolor.rb
+    svn di | diffcolor.rb | /usr/bin/less -RE
 }
 
 function a() {

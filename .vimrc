@@ -370,6 +370,7 @@ nmap <Leader>c :tabnew
 nmap <Leader>n :tabn<CR>
 nmap <Leader>p :tabp<CR>
 nmap <Leader>d :tabc<CR>
+nmap <Leader>a :tabonly<CR>
 nmap <Leader>s :tabs<CR>
 nmap <Leader>e :tabe<CR>
 nmap <Leader>b :tab ball<CR>

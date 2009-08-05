@@ -470,10 +470,10 @@ else
     set tags=./tags,./../tags,./*/tags,./../../tags,./../../../tags,./../../../../tags,./../../../../../tags
 endif
 
-" quickrun.vim 
+" quickrun.vim
 let mapleader = ' e'
 au Filetype ruby       nnoremap <buffer><leader> :!ruby %<Space> 
-au Filetype php        nnoremap <buffer><leader> :!ruby %<Space> 
+au Filetype php        nnoremap <buffer><leader> :!php %<Space> 
 au Filetype perl       nnoremap <buffer><leader> :!perl %<Space> 
 au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space> 
 au Filetype scheme     nnoremap <buffer><leader> :!gosh %<Space>
@@ -496,4 +496,9 @@ let g:snippetsEmu_key = "<C-I>"
 if has('viminfo')
     set vi^=!
 endif
+
+" yanktmp.vim
+map <silent> sy :call YanktmpYank()<CR>
+map <silent> sp :call YanktmpPaste_p()<CR>
+map <silent> sP :call YanktmpPaste_P()<CR>
 

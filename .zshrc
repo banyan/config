@@ -172,13 +172,22 @@ function s() {
 }
 
 function d() {
+    local str opt
     local -A result
     result=`git status 2> /dev/null`
+
+    if [ $# != 0 ]; then # 引数が存在すれば
+        for i in $*; do
+            str="$str $i"
+        done
+        opt=`echo $str | sed 's/^\ //'` #先頭の空白を削除
+    fi
+
     if [ "$result" ] ; then
-        git diff | diffcolor.rb | /usr/bin/less -RE
+        git diff $opt | diffcolor.rb | /usr/bin/less -RE
         return
     fi
-    svn di | diffcolor.rb | /usr/bin/less -RE
+    svn di $opt | diffcolor.rb | /usr/bin/less -RE
 }
 
 function a() {

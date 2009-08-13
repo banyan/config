@@ -172,16 +172,10 @@ function s() {
 }
 
 function d() {
-    local str opt
+    local opt
     local -A result
+    opt=$*
     result=`git status 2> /dev/null`
-
-    if [ $# != 0 ]; then # 引数が存在すれば
-        for i in $*; do
-            str="$str $i"
-        done
-        opt=`echo $str | sed 's/^\ //'` #先頭の空白を削除
-    fi
 
     if [ "$result" ] ; then
         git diff $opt | diffcolor.rb | /usr/bin/less -RE
@@ -198,6 +192,15 @@ function a() {
         return
     fi
     svn status | grep '^?' | awk '{print $2}' | xargs svn add
+}
+
+function u() {
+    result=`git status 2> /dev/null`
+    if [ "$result" ] ; then
+        git pull origin master
+        return
+    fi
+    svn up
 }
 
 # start screen from given directory

@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+#
+# usage
+# =====
+#
+# 1. locate this script. (eg. ~/.zsh.d/dirctx
+# 2. edit ~/.zshrc
+#
+#     source $HOME/.zsh.d/dirctx
+#     C_DEFAULT=$'%{\e[1;m%}'
+#     C_DIRCTX=$'%{\e[1;36m%}'
+#     C_PWD=$'%{\e[1;36m%}'
+#     RPROMPT=$C_DIRCTX'$DIRCTX'$C_PWD$C_DEFAULT
+#
+
+GITPATH=`which git`
+
+GIT_AVAILABLE=`which git >/dev/null && echo $?`
+HG_AVAILABLE=`which hg >/dev/null && echo $?`
+
+alias __git_real=$GITPATH
+function dirctx () {
+    local __status
+    if [ $GIT_AVAILABLE ]; then
+        __status=`__git_real status . 2>&1`
+        case "$__status" in
+            error*|fatal*)
+                ;;
+            *)
+                __git_real branch | grep '^\*' | sed -e 's/\* //' | xargs echo -n 'git:'
+                return
+                ;;
+        esac
+    fi
+
+    #if [ $HG_AVAILABLE ]; then
+        #__status=`hg status 2>/dev/null 1>/dev/null; echo -n $?`
+        #if [ "$__status" = "0" ]; then
+            #hg branch | xargs echo -n 'mercurial:'
+            #return
+        #fi
+    #fi
+
+    __status=`ls .svn 2>/dev/null 1>/dev/null; echo $?`
+    if [ "$__status" = "0" ]; then
+        echo -n 'svn'
+        __svn_status=(`LANG=C svn info|awk '/^URL:/{url = $2} /^Last Changed Rev:/{rev = $4; print url " " rev} '`)
+        url=`echo ${__svn_status[1]}`
+        revision=`echo r${__svn_status[2]}`
+        case "$url" in
+            *trunk*)
+                echo -n ":trunk:$revision"
+            ;;
+            *branches*)
+                echo -n ':branches'
+                branch=`echo -n $url | sed -e 's/.*branches\///' | sed -e 's/\/.*//'`
+                test $branch && echo -n "/$branch:$revision"
+            ;;
+            *tags*)
+                echo -n ':tags'
+                tag=`echo -n $url | sed -e 's/.*tags\///' | sed -e 's/\/.*//'`
+                test $tag && echo -n "/$tag:$revision"
+            ;;
+        esac
+        return
+    fi
+
+    echo -n
+}
+function git () {
+    /usr/bin/git "$@"
+
+    if [ $1 ]; then
+        case "$1" in
+            checkout|co|pull|merge)
+                DIRCTX=`dirctx $PWD`
+                ;;
+        esac
+    fi
+}
+function cd () {
+    builtin cd "$@" && DIRCTX=`dirctx $PWD`
+}
+
+DIRCTX=`dirctx $PWD`
+
+export DIRCTX

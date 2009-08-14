@@ -12,6 +12,17 @@ SAVEHIST=100000
 local PROMPT_COLOR=$'%{\e[01;31m%}'
 setopt PROMPT_SUBST
 
+local GRAY=$'%{\e[0;37m%}'
+local LIGHT_GRAY=$'%{\e[0;37m%}'
+local WHITE=$'%{\e[1;37m%}'
+local LIGHT_BLUE=$'%{\e[1;36m%}'
+local YELLOW=$'%{\e[1;33m%}'
+local PURPLE=$'%{\e[1;35m%}'
+local GREEN=$'%{\e[1;32m%}'
+local BLUE=$'%{\e[1;34m%}'
+
+source $HOME/.zsh.d/dirctx
+
 #http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
 autoload colors
 colors
@@ -20,6 +31,9 @@ RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%} "
 PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
 PROMPT="%{${fg[yellow]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+
+
+#PROMPT=$GRAY'['$YELLOW'${WINDOW:+"$WINDOW'$GRAY':'$BLUE'"}${USER}'$GRAY'@'$BLUE'${HOST}'$GRAY'('$PURPLE'$DIRCTX'$GRAY')] %(!.#.$) '$WHITE
 
 ##補完機能の強化
 autoload -U compinit
@@ -131,6 +145,7 @@ setopt correct
 
 # disable C-q, C-s
 setopt no_flow_control
+
 
 # http://d.hatena.ne.jp/aircastle/20080428
 

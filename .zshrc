@@ -32,20 +32,6 @@ zmodload -a zsh/zprof zprof
 zmodload -ap zsh/mapfile mapfile
 
 ###
-# Prompts
-###
-# colors#  → 色指定  $fg[色名]/$bg[色名]/$reset_color (${, $} で囲む必要がある)
-# 30黒 31赤 32緑 33黄 34青 35紫 36水 37白
-# http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
-autoload colors
-colors
-PROMPT="%{${fg[red]}%}${USER}%(!.#.$)%{${reset_color}%} "
-RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%} "
-PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
-SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-PROMPT="%{${fg[yellow]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-
-###
 # Setup options
 ###
 setopt APPEND_HISTORY         # .zsh-history を上書きではなく追加
@@ -98,9 +84,24 @@ export EDITOR=vim
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
 SAVEHIST=100000
+# Use dircolors where available
+export LS_COLORS='no=00:di=00;38;05;44:ln=01;35:pi=33:so=01;32:bd=00;38;05;44:cd=00;38;05;44:ex=01;32:*.c=36:*.cc=36:*.h=33:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.app=01;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.sit=00;31:*.sitX=00;31:*.zip=00;31:*.bin=00;31:*.hqx=00;31:*.jpg=00;35:*.jpeg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.tif=00;35:*.tiff=00;35:*.pdf=00;35:*.avi=00;35:*.mov=00;35:*.mpg=00;35:*.mpeg=00;35:*.asf=00;35:*.wmv=00;35:*.rm=00;35:*.swf=00;35:*.mp3=00;35:*.aiff=00;35:*.aif=00;35:*.snd=00;35:*.wav=00;35:';
+export LS_COLORS
+#export ZLS_COLORS=$LS_COLORS
 
-export LSCOLORS=ExFxCxdxBxegedabagacad
-export LS_COLORS='di=00;38;05;44:ln=01;35:so=01;32:ex=01;31:bd=00;38;05;44:cd=00;38;05;44:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+###
+# Prompt
+###
+# colors#  → 色指定  $fg[色名]/$bg[色名]/$reset_color (${, $} で囲む必要がある)
+# 30黒 31赤 32緑 33黄 34青 35紫 36水 37白
+# http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
+autoload colors
+colors
+PROMPT="%{${fg[red]}%}${USER}%(!.#.$)%{${reset_color}%} "
+RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%} "
+PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
+SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+PROMPT="%{${fg[yellow]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 
 ###
 # Aliases
@@ -116,7 +117,6 @@ alias lla='ls -A'
 bindkey -e       # emacs 風
 # bindkey -v     # vi 風
 # カーソル位置から前方削除
-zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
 # override kill-whole-line
 bindkey '^U' backward-kill-line
 

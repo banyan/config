@@ -1,29 +1,35 @@
-export LANG=ja_JP.UTF-8
-export TERM=xterm-256color
+###
+# Complement
+###
+typeset -U fpath
+fpath=($fpath ~/.zsh/myfunc)
 
-HISTFILE=$HOME/.zsh-history
-HISTSIZE=100000
-SAVEHIST=100000
+autoload -U compinit
+compinit -u
 
-#  colors#  → 色指定  $fg[色名]/$bg[色名]/$reset_color (${, $} で囲む必要がある)
-## 30黒 31赤 32緑 33黄 34青 35紫 36水 37白
+zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-#promptとか
-local PROMPT_COLOR=$'%{\e[01;31m%}'
-setopt PROMPT_SUBST
+# 補完関数を作成する時のデバッグ用関数
+if [ -f "$HOME/.zsh/debug.zshrc" ]; then
+    # source "$HOME/.zsh/debug.zshrc"
+fi
 
-local GRAY=$'%{\e[0;37m%}'
-local LIGHT_GRAY=$'%{\e[0;37m%}'
-local WHITE=$'%{\e[1;37m%}'
-local LIGHT_BLUE=$'%{\e[1;36m%}'
-local YELLOW=$'%{\e[1;33m%}'
-local PURPLE=$'%{\e[1;35m%}'
-local GREEN=$'%{\e[1;32m%}'
-local BLUE=$'%{\e[1;34m%}'
+###
+# Autoload zsh modules when they are referenced
+###
+zmodload -a zsh/stat stat
+zmodload -a zsh/zpty zpty
+zmodload -a zsh/zprof zprof
+zmodload -ap zsh/mapfile mapfile
 
-source $HOME/.zsh.d/dirctx
-
-#http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
+###
+# Prompts
+###
+# colors#  → 色指定  $fg[色名]/$bg[色名]/$reset_color (${, $} で囲む必要がある)
+# 30黒 31赤 32緑 33黄 34青 35紫 36水 37白
+# http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
 autoload colors
 colors
 PROMPT="%{${fg[red]}%}${USER}%(!.#.$)%{${reset_color}%} "
@@ -32,150 +38,96 @@ PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
 PROMPT="%{${fg[yellow]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 
+###
+# Setup options
+###
+setopt APPEND_HISTORY         # .zsh-history を上書きではなく追加
+setopt AUTO_CD                # ディレクトリ名だけを入力した時にそこに cd する
+setopt AUTO_LIST              # 候補が複数ある時に自動的に一覧を出す
+setopt AUTO_MENU              # TAB で順に補完候補を切り替える
+setopt AUTO_PARAM_SLASH       # 変数名補完時に、その値がディレクトリ名なら直後にスラッシュも補う
+setopt AUTO_PARAM_KEYS        # カッコの対応などを自動的に補完
+setopt AUTO_RESUME            # サスペンド中のプロセスと同じコマンド名を実行した場合はリジューム
+setopt CHECK_JOBS             # シェルを抜ける (exit) 時に、zsh: you have runnning jobs と警告を出す
+setopt CORRECT                # コマンドのスペルチェック
+setopt CORRECT_ALL            # 対象のファイルもスペルチェックをする
+setopt EXTENDED_GLOB          # ファイル名で #, ~, ^ の 3 文字を正規表現として扱う
+setopt EXTENDED_HISTORY       # zsh の開始, 終了時刻をヒストリファイルに書き込む
+setopt GLOB_DOTS              # . で開始するファイル名にマッチさせるとき、先頭に明示的に . を指定する必要がなくなる。
+setopt HASH_CMDS              # 各コマンドが実行されるときにパスをハッシュに入れる
+setopt HIST_EXPIRE_DUPS_FIRST # ヒストリリストに追加されるコマンド行が古いものと同じなら古いものを削除する
+setopt HIST_NO_STORE          # history コマンドを history に保存しない
+setopt HIST_IGNORE_DUPS       # 直前と同じコマンドをヒストリに追加しない
+setopt HIST_REDUCE_BLANKS     # 余分な空白は詰めて記録
+setopt HIST_SAVE_NO_DUPS      # ヒストリファイルに書き出すときに、古いコマンドと同じものは無視する
+setopt INC_APPEND_HISTORY     # 履歴をインクリメンタルに追加
+setopt LIST_TYPES             # 補完候補一覧でファイルの種別をマーク表示
+setopt MARK_DIRS              # ファイル名の展開でディレクトリにマッチした場合 末尾に / を付加
+setopt NUMERIC_GLOB_SORT      # 数字を数値と解釈してソートする
+setopt NOBEEP                 # ビープを鳴らさない
+setopt NO_FLOW_CONTROL        # disable C-q, C-s
+setopt PROMPT_SUBST           # PROMPT 変数に対して変数展開、コマンド置換、算術展開を施す
+setopt RM_STAR_WAIT           # rm * を実行する前に確認
+setopt SHARE_HISTORY          # 履歴の共有
 
-#PROMPT=$GRAY'['$YELLOW'${WINDOW:+"$WINDOW'$GRAY':'$BLUE'"}${USER}'$GRAY'@'$BLUE'${HOST}'$GRAY'('$PURPLE'$DIRCTX'$GRAY')] %(!.#.$) '$WHITE
+#setopt AUTOPUSHD             # cd 時に自動で push
+#setopt EQUALS                # =command を command のパス名に展開する
+#setopt HIST_VERIFY           # ヒストリを呼び出してから実行する間に一旦編集
+#setopt LIST_ROWS_FIRST       # 補完リストを水平にソートする
+#setopt LONG_LIST_JOBS        # 内部コマンド jobs の出力をデフォルトで jobs -l にする
+#setopt MAGIC_EQUAL_SUBST     # --prefix=/usr などの = 以降も補完
+#setopt PRINT_EIGHT_BIT       # 出力時8ビットを通す
+#setopt PUSHD_IGNORE_DUPS     # 同じディレクトリを pushd しない
 
-##補完機能の強化
-autoload -U compinit
-compinit -u
+#unsetopt PROMPTCR            # 出力の文字列末尾に改行コードが無い場合でも表示
 
-### コアダンプサイズを制限
-limit coredumpsize 102400
-#
-### 出力の文字列末尾に改行コードが無い場合でも表示
-#unsetopt promptcr
-#
-### 色を使う
-setopt prompt_subst
-#
-### ビープを鳴らさない
-setopt nobeep
-#
-### 内部コマンド jobs の出力をデフォルトで jobs -l にする
-#setopt long_list_jobs
-#
-### 補完候補一覧でファイルの種別をマーク表示
-setopt list_types
-#
-### サスペンド中のプロセスと同じコマンド名を実行した場合はリジューム
-setopt auto_resume
-#
-### 補完候補を一覧表示
-setopt auto_list
-#
-### 直前と同じコマンドをヒストリに追加しない
-setopt hist_ignore_dups
-#
-### cd 時に自動で push
-#setopt autopushd
-#
-### 同じディレクトリを pushd しない
-#setopt pushd_ignore_dups
-#
-### ファイル名で #, ~, ^ の 3 文字を正規表現として扱う
-#setopt extended_glob
-#
-### TAB で順に補完候補を切り替える
-setopt auto_menu
-#
-### zsh の開始, 終了時刻をヒストリファイルに書き込む
-setopt extended_history
-#
-### =command を command のパス名に展開する
-#setopt equals
-#
-### --prefix=/usr などの = 以降も補完
-#setopt magic_equal_subst
-#
-### ヒストリを呼び出してから実行する間に一旦編集
-#setopt hist_verify
-#
-## ファイル名の展開で辞書順ではなく数値的にソート
-#setopt numeric_glob_sort
-#
-### 出力時8ビットを通す
-#setopt print_eight_bit
-#
-### ヒストリを共有
-setopt share_history
-#
-### 補完候補のカーソル選択を有効に
-zstyle ':completion:*:default' menu select=1
-#
-### 補完候補の色づけ
+###
+# Setup vars
+###
+export LANG=ja_JP.UTF-8
+export TERM=xterm-256color
+export EDITOR=vim
 
-autoload -U compinit
-compinit
-
-#zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;42'
-#zstyle ':completion:*' list-colors ''
-
-#alias
-alias ls="ls --color=auto"
-#alias vi='vim'
-alias lla='ls -A'
+HISTFILE=$HOME/.zsh-history
+HISTSIZE=100000
+SAVEHIST=100000
 
 export LSCOLORS=ExFxCxdxBxegedabagacad
 export LS_COLORS='di=00;38;05;44:ln=01;35:so=01;32:ex=01;31:bd=00;38;05;44:cd=00;38;05;44:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
 
-autoload -U compinit
-compinit -C
+###
+# Aliases
+###
+alias ls="ls --color=auto"
+alias lla='ls -A'
 
-#export LSCOLORS=exfxcxdxbxegedabagacad
-#export LS_COLORS='di=35:ln=35:so=32:pi=33:ex=31:bd=46;35:cd=43;35:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+#alias vi='vim'
 
-#zstyle ':completion:*' list-colors 'di=35' 'ln=35' 'so=32' 'ex=31' 'bd=46;35' 'cd=43;35'
-
-#export LSCOLORS=exfxcxdxbxegedabagacad
-#export LS_COLORS='di=35:ln=35:so=32:pi=33:ex=31:bd=46;35:cd=43;35:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-#zstyle ':completion:*' list-colors 'di=35' 'ln=35' 'so=32' 'ex=31' 'bd=46;35' 'cd=43;35'
-
-### ディレクトリ名だけで cd
-setopt auto_cd
-#
-### カッコの対応などを自動的に補完
-setopt auto_param_keys
-#
-### ディレクトリ名の補完で末尾の / を自動的に付加し、次の補完に備える
-#setopt auto_param_slash
-#
-### スペルチェック
-setopt correct
-
-# disable C-q, C-s
-setopt no_flow_control
-
-
-# http://d.hatena.ne.jp/aircastle/20080428
-
-# CPU 使用率の高い方から8つ
-function pst() {
-  psa | head -n 1
-    psa | sort -r -n +2 | grep -v "ps -auxww" | grep -v grep | head -n 8
-}
-# メモリ占有率の高い方から8つ
-function psm() {
-  psa | head -n 1
-    psa | sort -r -n +3 | grep -v "ps -auxww" | grep -v grep | head -n 8
-}
-# 全プロセスから引数の文字列を含むものを grep
-function psg() {
-  psa | head -n 1                                    # ラベルを表示
-    psa | grep $* | grep -v "ps -auxww" | grep -v grep # grep プロセスを除外
-}
-
+###
+# Keybindings
+###
 # カーソル位置から前方削除
 # override kill-whole-line
 bindkey '^U' backward-kill-line
 
+
+###
+# Misc
+###
+# コアダンプサイズを制限
+limit coredumpsize 102400
 # ls /usr/local/etc などと打っている際に、C-w で単語ごとに削除
 # default  : ls /usr/local → ls /usr/ → ls /usr → ls /
 # この設定 : ls /usr/local → ls /usr/ → ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
-#zshでgit statusをラクにするfunction
-#http://ujihisa.nowa.jp/entry/980da8c89b
+#source $HOME/.zsh.d/dirctx
+
+###
+# Functions
+###
+
+# svn st, git st
 function s() {
     local -A result
     result=`git status 2> /dev/null`
@@ -186,6 +138,7 @@ function s() {
     svn status
 }
 
+# svn di, git di
 function d() {
     local opt
     local -A result
@@ -199,6 +152,7 @@ function d() {
     svn di $opt | diffcolor.rb | /usr/bin/less -RE
 }
 
+# svn add, git add
 function a() {
     local -A result
     result=`git status 2> /dev/null`
@@ -209,6 +163,7 @@ function a() {
     svn status | grep '^?' | awk '{print $2}' | xargs svn add
 }
 
+# svn up, git pull origin master
 function u() {
     result=`git status 2> /dev/null`
     if [ "$result" ] ; then
@@ -224,8 +179,52 @@ function sc(){
     screen
 }
 
-#find out what's new in a directory: 
+# find out what's new in a directory:
 function lsn() {
     ls -lt ${1+"$@"} | head -20;
+}
+
+# http://d.hatena.ne.jp/aircastle/20080428
+
+# CPU 使用率の高い方から8つ
+function pst() {
+  psa | head -n 1
+    psa | sort -r -n +2 | grep -v "ps -auxww" | grep -v grep | head -n 8
+}
+
+# メモリ占有率の高い方から8つ
+function psm() {
+  psa | head -n 1
+    psa | sort -r -n +3 | grep -v "ps -auxww" | grep -v grep | head -n 8
+}
+
+# 全プロセスから引数の文字列を含むものを grep
+function psg() {
+  psa | head -n 1                                      # ラベルを表示
+    psa | grep $* | grep -v "ps -auxww" | grep -v grep # grep プロセスを除外
+}
+
+# http://subtech.g.hatena.ne.jp/secondlife/20080604/1212562182
+function cdf () {
+    local -a tmpparent; tmpparent=""
+    local -a filename; filename="${1}"
+    local -a file
+    local -a num; num=0
+    while [ $num -le 10 ]; do
+        tmpparent="${tmpparent}../"
+        file="${tmpparent}${filename}"
+        if [ -f "${file}" ] || [ -d "${file}" ]; then
+            cd ${tmpparent}
+            break
+        fi
+        num=$(($num + 1))
+    done
+}
+function cdrake () {
+    cdf "Rakefile"
+}
+
+function cdcat () {
+    cdf "Makefile.PL"
 }
 

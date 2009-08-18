@@ -1,0 +1,8 @@
+#compdef emacs
+
+_arguments -C -s \
+  '--help[display help message]' \
+  '(--no-init-file -q)'{--no-init-file,-q}'[load neither ~/.emacs nor default.el]' \
+  '(-u --user)'{-u,--user}'[load ~USER/.emacs instead of your own]:user name:_users' \
+  '*:file:_files' && return 0
+return 1

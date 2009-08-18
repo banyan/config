@@ -7,9 +7,16 @@ fpath=($fpath ~/.zsh/myfunc)
 autoload -U compinit
 compinit -u
 
+# 履歴による予測入力 (man zshcontrib)
+autoload -U predict-on
+
+# 補完候補を ←↓↑→ で選択 (補完候補が色分け表示される)
 zstyle ':completion:*:default' menu select=1
-zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
+# 補完の時に大文字小文字を区別しない (但し、大文字を打った場合は小文字に変換しない)
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# カレントディレクトリに候補がない場合のみ cdpath 上のディレクトリを候補
+zstyle ':completion:*:cd:*' tag-order local-directories path-directories
+zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
 
 # 補完関数を作成する時のデバッグ用関数
 if [ -f "$HOME/.zsh/debug.zshrc" ]; then
@@ -106,7 +113,10 @@ alias lla='ls -A'
 ###
 # Keybindings
 ###
+bindkey -e       # emacs 風
+# bindkey -v     # vi 風
 # カーソル位置から前方削除
+zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
 # override kill-whole-line
 bindkey '^U' backward-kill-line
 

@@ -120,7 +120,6 @@ zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=3
 # override kill-whole-line
 bindkey '^U' backward-kill-line
 
-
 ###
 # Misc
 ###
@@ -132,6 +131,27 @@ limit coredumpsize 102400
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 #source $HOME/.zsh.d/dirctx
+
+###
+# Colours
+###
+local red="%{"$'\e[1;31m'"%}"
+local RED="%{"$'\e[0;31m'"%}"
+local cyan="%{"$'\e[1;36m'"%}"
+local CYAN="%{"$'\e[0;36m'"%}"
+local blue="%{"$'\e[1;34m'"%}"
+local BLUE="%{"$'\e[0;34m'"%}"
+local green="%{"$'\e[1;32m'"%}"
+local GREEN="%{"$'\e[0;32m'"%}"
+local magenta="%{"$'\e[1;35m'"%}"
+local MAGENTA="%{"$'\e[0;35m'"%}"
+local yellow="%{"$'\e[1;33m'"%}"
+local YELLOW="%{"$'\e[0;33m'"%}"
+local gray="%{"$'\e[1;30m'"%}"
+local GRAY="%{"$'\e[0;37m'"%}"
+local white="%{"$'\e[1;37m'"%}"
+local NOCOLOR="%{"$'\e[0m'"%}"
+local NEWLINE="%{"$'\e[80D'"%}"
 
 ###
 # Functions

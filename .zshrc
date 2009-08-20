@@ -118,8 +118,8 @@ autoload colors
 colors
 
 PROMPT="%{$STRAWBERRY%}${USER}%(!.#.$)%{${reset_color}%} "
-VCS_INFO="%1(v|%{$DARK_BLUE%}%1v%f|)"
-RPROMPT="${VCS_INFO}%{$LIGHT_YELLOW%}[%~]%{${reset_color}%}"
+VCS_INFO="%1(v|%{$LIGHT_YELLOW%}%1v%f|)"
+RPROMPT="${VCS_INFO}%{$DARK_BLUE%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
 PROMPT="%{$LIGHT_GREEN%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 

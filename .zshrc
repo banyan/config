@@ -23,6 +23,17 @@ if [ -f "$HOME/.zsh/debug.zshrc" ]; then
     # source "$HOME/.zsh/debug.zshrc"
 fi
 
+# vcs_info
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
+zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
+precmd () {
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+}
+
 ###
 # Autoload zsh modules when they are referenced
 ###
@@ -86,8 +97,7 @@ HISTSIZE=100000
 SAVEHIST=100000
 # Use dircolors where available
 export LS_COLORS='no=00:di=00;38;05;44:ln=01;35:pi=33:so=01;32:bd=00;38;05;44:cd=00;38;05;44:ex=01;32:*.c=36:*.cc=36:*.h=33:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.app=01;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.sit=00;31:*.sitX=00;31:*.zip=00;31:*.bin=00;31:*.hqx=00;31:*.jpg=00;35:*.jpeg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.tif=00;35:*.tiff=00;35:*.pdf=00;35:*.avi=00;35:*.mov=00;35:*.mpg=00;35:*.mpeg=00;35:*.asf=00;35:*.wmv=00;35:*.rm=00;35:*.swf=00;35:*.mp3=00;35:*.aiff=00;35:*.aif=00;35:*.snd=00;35:*.wav=00;35:';
-export LS_COLORS
-#export ZLS_COLORS=$LS_COLORS
+export ZLS_COLORS=$LS_COLORS
 
 ###
 # Prompt
@@ -97,9 +107,10 @@ export LS_COLORS
 # http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
 autoload colors
 colors
+
 PROMPT="%{${fg[red]}%}${USER}%(!.#.$)%{${reset_color}%} "
-RPROMPT="%{${fg[cyan]}%}[%~]%{${reset_color}%} "
-PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
+VCS_INFO="%1(v|%F{magenta}%1v%f|)"
+RPROMPT="${VCS_INFO}%{${fg[cyan]}%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
 PROMPT="%{${fg[yellow]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 

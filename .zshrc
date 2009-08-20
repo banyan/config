@@ -24,6 +24,7 @@ if [ -f "$HOME/.zsh/debug.zshrc" ]; then
 fi
 
 # vcs_info
+
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' formats '(%s)-[%b]'
 zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
@@ -100,6 +101,14 @@ export LS_COLORS='no=00:di=00;38;05;44:ln=01;35:pi=33:so=01;32:bd=00;38;05;44:cd
 export ZLS_COLORS=$LS_COLORS
 
 ###
+# Colours
+###
+local LIGHT_GREEN=$'%{\e[38;5;190m%}'
+local STRAWBERRY=$'%{\e[38;5;199m%}'
+local DARK_BLUE=$'%{\e[38;5;38m%}'
+local LIGHT_YELLOW=$'%{\e[38;5;230m%}'
+
+###
 # Prompt
 ###
 # colors#  → 色指定  $fg[色名]/$bg[色名]/$reset_color (${, $} で囲む必要がある)
@@ -108,11 +117,11 @@ export ZLS_COLORS=$LS_COLORS
 autoload colors
 colors
 
-PROMPT="%{${fg[red]}%}${USER}%(!.#.$)%{${reset_color}%} "
-VCS_INFO="%1(v|%F{magenta}%1v%f|)"
-RPROMPT="${VCS_INFO}%{${fg[cyan]}%}[%~]%{${reset_color}%}"
+PROMPT="%{$STRAWBERRY%}${USER}%(!.#.$)%{${reset_color}%} "
+VCS_INFO="%1(v|%{$DARK_BLUE%}%1v%f|)"
+RPROMPT="${VCS_INFO}%{$LIGHT_YELLOW%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-PROMPT="%{${fg[yellow]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+PROMPT="%{$LIGHT_GREEN%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 
 ###
 # Aliases
@@ -140,29 +149,6 @@ limit coredumpsize 102400
 # default  : ls /usr/local → ls /usr/ → ls /usr → ls /
 # この設定 : ls /usr/local → ls /usr/ → ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-#source $HOME/.zsh.d/dirctx
-
-###
-# Colours
-###
-local red="%{"$'\e[1;31m'"%}"
-local RED="%{"$'\e[0;31m'"%}"
-local cyan="%{"$'\e[1;36m'"%}"
-local CYAN="%{"$'\e[0;36m'"%}"
-local blue="%{"$'\e[1;34m'"%}"
-local BLUE="%{"$'\e[0;34m'"%}"
-local green="%{"$'\e[1;32m'"%}"
-local GREEN="%{"$'\e[0;32m'"%}"
-local magenta="%{"$'\e[1;35m'"%}"
-local MAGENTA="%{"$'\e[0;35m'"%}"
-local yellow="%{"$'\e[1;33m'"%}"
-local YELLOW="%{"$'\e[0;33m'"%}"
-local gray="%{"$'\e[1;30m'"%}"
-local GRAY="%{"$'\e[0;37m'"%}"
-local white="%{"$'\e[1;37m'"%}"
-local NOCOLOR="%{"$'\e[0m'"%}"
-local NEWLINE="%{"$'\e[80D'"%}"
 
 ###
 # Functions
@@ -283,5 +269,16 @@ function most_useless_use_of_zsh {
         done
         echo
     done
+}
+
+# 256色を確かめる
+function pcolor() {
+    for ((f = 0; f < 255; f++)); do
+        printf "\e[38;5;%dm %3d#\e[m" $f $f
+        if [[ $f%8 -eq 7 ]] then
+            printf "\n"
+        fi
+    done
+    echo
 }
 

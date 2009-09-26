@@ -1,0 +1,5 @@
+#compdef foo
+_arguments : \
+    '-x[eXclude]' \
+    '-file[Specify input file]:Input file:_files' \
+    '*:file:_svn_cmd'

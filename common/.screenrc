@@ -1,0 +1,126 @@
+autodetach      on
+bell_msg        "Bell in window %^G"
+defscrollback   10000
+escape          ^tt
+shell           zsh
+startup_message off
+vbell           off
+defmonitor      on
+
+# 256 colors
+attrcolor   b ".I"
+defbce      on
+termcapinfo xterm|xterm-256color 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+
+# stop resize
+termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+
+# scroll for Terminal.app
+#termcapinfo xterm-color ti@:te@
+
+
+##ctrl + 矢印キーでウィンドウ切り替え
+#http://blog.blueblack.net/item_183
+#aterm bindings
+#bindkey "^[[c" next
+#bindkey "^[[d" prev
+#bindkey "^[Oc" next
+#bindkey "^[Od" prev
+#putty bindings
+#bindkey "^[OC" next
+#bindkey "^[OD" prev
+#some other term, don't remember which
+#bindkey "^[[5C" next
+#bindkey "^[[5D" prev
+
+## key bindings
+#
+# bind -c SELECT 0 select 10
+# bind -c SELECT 1 select 11
+# bind -c SELECT 2 select 12
+# bind -c SELECT 3 select 13
+# bind -c SELECT 4 select 14
+# bind -c SELECT 5 select 15
+# bind -c SELECT 6 select 16
+# bind -c SELECT 7 select 17
+# bind -c SELECT 8 select 18
+# bind -c SELECT 9 select 19
+# bind - command -c SELECT
+#
+bind -c ENCODING e encoding eucJP
+bind -c ENCODING j encoding jis
+bind -c ENCODING s encoding SJIS
+bind -c ENCODING u encoding UTF-8
+bind e command -c ENCODING
+
+## 一気にタブをいっぱい開いたりする例
+#
+#screen -t 'svn' 0
+#screen -t 'htdocs' 1
+#screen -t 'template' 2
+#screen -t 'Pages' 3
+#screen -t 'Data' 4
+#screen -t 'log' 5
+#screen -t 'mysql' 6
+#screen -t 'zsh' 7 
+
+# ↓黄色のステータスバーにするが、どうにも字のコントラストがよくない
+hardstatus      alwayslastline "%{= yB}%-w%{.B}%{= WK}%n %t%{-}%+w "
+# ↓マゼンダ contrastはいいが・・・
+#hardstatus      alwayslastline "%{= mW}%-w%{.W}%{= WK}%n %t%{-}%+w "
+
+#hardstatus の例
+# http://yoka.at.webry.info/200802/article_1.html
+#hardstatus alwayslastline "%{= Wb}[%m/%d %02c:%s]%016=%{= WK}%-w%50>%{= bW}%n %t%{-}%+w%-0< %="
+
+# hardstatus description:
+# 
+# %{= Wb} - blue on bright white
+# %m - Two-letter month number
+# %d - Two-letter day number
+# %02c - time (hh:mm) in 24 hour format
+# %s - seconds
+# %016= - left 16 padding for datetime
+# %{= WK} - white on bright white
+# %-w - window list up to but not including the current window (-)
+# %50> - truncation/padding marker; place this point about 50% of the
+# way into the display area (50)
+# %{=u bW} - underline, blue on bright white
+# %n - number of the current window
+# %t - title of current window
+# %{-} - undo last color change(so now we're back to white on bright white)
+# %+w - window list from the next window on (-)
+# %-0< - truncation/padding point. place this point zero spaces (0) 
+# from the right margin (-).
+# %= - truncation/paddion point. 
+
+# APPENDIX: STRING ESCAPES (make extracts from screen (1))
+#
+# The attribute set can either be specified as hexadecimal number 
+# or a combination of the following letters:
+#
+# d dim
+# u underline
+# b bold
+# r reverse
+# s standout
+# B blinking
+#
+# Colors are coded either as a hexadecimal number or two letters specifying 
+# the desired background and foreground color (in that order). 
+# The following colors are known: 
+#
+# k black
+# r red
+# g green
+# y yellow
+# b blue
+# m magenta
+# c cyan
+# w white
+# d default color
+# . leave color unchanged
+#
+# The capitalized versions of the letter specify bright colors.
+# You can also use the pseudo-color `i' to set just the brightness and leave the color unchanged.
+

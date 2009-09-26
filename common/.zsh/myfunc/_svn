@@ -1,0 +1,43 @@
+#compdef svn
+
+# svn helpは次にコマンド一覧を表示してやればいい
+_svn_help(){
+    _arguments : \
+        '-x[eXclude]' \
+        '-file[Specify input file]:Input file:_files' \
+        '*:argument:(foo bar baz qux quux quuux)'
+}
+
+# コマンド一覧の表示
+_svn_cmd(){
+    # command
+    local line
+    local -a cmd
+    _call_program help-command svn help \
+    | sed -n '/^ /s/[(), ]/ /gp' \
+    | while read -A line; do
+        cmd=($line $cmd)
+          done
+    _describe -t svn-command 'Subversion command' cmd
+}
+
+_svn(){
+    if ((CURRENT > 2)); then
+    local cmd=${words[2]}
+
+    curcontext="${curcontext%:*:*}:svn-$cmd"
+    (( CURRENT -- ))
+
+    shift words
+    if (( $+functions[_svn_$cmd] )) then
+        _svn_$cmd
+    else
+        _files
+    fi
+    else
+    _svn_cmd
+    fi
+}
+
+_svn "$@"
+

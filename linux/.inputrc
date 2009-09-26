@@ -1,8 +1,0 @@
-$if mysql
-"\C-xd": "show databases;"
-"\C-xt": "show tables;"
-"\C-xu": "select user,host,password from mysql.user order by user,host;"
-"\C-xb": "select user,host,db       from mysql.db   order by user,host;"
-"\C-xc": "show create table TN\\G"
-$endif
-

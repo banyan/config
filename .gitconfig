@@ -1,0 +1,19 @@
+[user]
+	name  = banyan
+	email = ameutau@gmail.com
+[core]
+	excludesfile = /home/admin/.gitignore
+[color]
+	diff        = auto
+	status      = auto
+	branch      = auto
+	interactive = auto
+[alias]
+    ci = commit
+    co = checkout
+    st = status -a
+    di = diff
+
+[github]
+	user = banyan
+	token = 0276c95e63cfcf2d2009bbbda2bdcfd9

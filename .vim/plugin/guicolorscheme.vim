@@ -1,13 +1,23 @@
 " guicolorscheme.vim: Convert GUI only color schems
 "
-" Maintainer:	 Aaron Griffin <aaron@archlinux.org>
-" Last Modified: Mon Feb 26 22:52:34 UTC 2007
+" Maintainer:    Aaron Griffin <aaron@archlinux.org>
+" Modified By:   thinca <thinca@gmail.com>
+" Last Modified: 2009-03-27T22:06:11+09:00
 " Version:       1.2
-" URL:           http://www.vim.org/script.php?script_id=39
+" URL:           http://www.vim.org/script.php?script_id=1809
 "
 " Convert a GUI-only colorscheme to support 88 and 256 color terminals
 " This should also work on the GUI, so using it 100% of the time, assuming
 " you always have a non 8/16 color terminal should work fine
+
+if exists('g:loaded_guicolorscheme') || has('gui_running')
+    finish
+endif
+let g:loaded_guicolorscheme = 1
+
+let s:save_cpo = &cpo
+set cpo&vim
+
 
 " conversion functions {{{
 " canibalized from desert256.vim
@@ -197,20 +207,6 @@ function! s:cindex(rgb) "{{{
     return s:color(l:r, l:g, l:b)
 endfunction "}}}
 
-function! s:HL(group, fg, bg, attr) "{{{
-    "The main highlight (HL) function
-    exec "hi clear " . a:group
-    if a:fg != ""
-        exec "hi " . a:group . " guifg=#" . a:fg . " ctermfg=" . s:cindex(a:fg)
-    endif
-    if a:bg != ""
-        exec "hi " . a:group . " guibg=#" . a:bg . " ctermbg=" . s:cindex(a:bg)
-    endif
-    if a:attr != ""
-        exec "hi " . a:group . " gui=" . a:attr . " cterm=" . a:attr
-    endif
-endfunction "}}}
-
 "}}}
 
 " Completion Helpers {{{
@@ -235,8 +231,45 @@ function! s:GetColorschemeFile(fname)
     endif
 endfunction
 
-command! -complete=customlist,s:Colorscheme_Complete -nargs=1 GuiColorScheme :call s:GuiColorScheme("<args>")
+command! -complete=customlist,s:Colorscheme_Complete -nargs=1 GuiColorScheme :call s:GuiColorScheme(<q-args>)
 " }}}
+
+function! s:removeLineContinuation(lines)
+    let lines = a:lines
+    let i = 1
+    while i < len(lines)
+        if lines[i] =~ '^\s*\\'
+            let lines[i - 1] .= substitute(lines[i], '\s*\\', '', '')
+            unlet lines[i]
+        else
+            let i += 1
+        endif
+    endwhile
+    return lines
+endfunction
+
+function! s:getRuntimeSource(line)
+    let rt = matchlist(a:line, '\v^\s*:?\s*ru%[ntime]>(!?)\s+(.+)$')
+    let res = []
+    for f in split(globpath(&rtp, rt[2]), "\n")[0:0 - strlen(rt[1])]
+        let res += readfile(f)
+    endfor
+    return s:expandRuntime(res)
+endfunction
+
+function! s:expandRuntime(lines)
+    let lines = s:removeLineContinuation(a:lines)
+    let i = 0
+    while i < len(lines)
+        if lines[i] =~ '^\s*:\?\s*ru\%[ntime]\>'
+            let s = s:getRuntimeSource(lines[i])
+            let lines = lines[:i - 1] + s + lines[i + 1:]
+            let i += len(s) - 1
+        endif
+        let i += 1
+    endwhile
+    return lines
+endfunction
 
 function! s:GuiColorScheme(fname)
     let l:file = s:GetColorschemeFile(a:fname)
@@ -249,65 +282,75 @@ function! s:GuiColorScheme(fname)
         return 0
     endif
 
-    for line in readfile(l:file)
-        if line =~ '\s*hi'
-            let l:name = ""
-            let l:fg = ""
-            let l:bg = ""
-            let l:attr = ""
+    let lines = s:expandRuntime(readfile(file))
 
-            " get highlight name
-            let l:start = match(line, "hi")
-            let l:end = match(line, "[ \t]", l:start)
-            let l:start = l:end +1
-            let l:end = match(line, "[ \t]", l:start)
-            let l:name = strpart(line, l:start, l:end - l:start)
-
-            " strip foreground color
-            let l:start = match(line, "guifg=")
-            if l:start != -1
-                let l:start = l:start + 6 "strlen(guifg=)
-                let l:end = match(line, "[ \t]", l:start)
-                if l:end == -1
-                    let l:fg = strpart(line, l:start)
-                else
-                    let l:fg = strpart(line, l:start, l:end - l:start)
-                endif
-                if strpart(l:fg, 0, 1) == "#"
-                    let l:fg = strpart(l:fg, 1)
-                endif
-            endif
-
-            " strip background color
-            let l:start = match(line, "guibg=")
-            if l:start != -1
-                let l:start = l:start + 6 "strlen(guibg=)
-                let l:end = match(line, "[ \t]", l:start)
-                if l:end == -1
-                    let l:bg = strpart(line, l:start)
-                else
-                    let l:bg = strpart(line, l:start, l:end - l:start)
-                endif
-                if strpart(l:bg, 0, 1) == "#"
-                    let l:bg = strpart(l:bg, 1)
-                endif
-            endif
-
-            " strip attribute
-            let l:start = match(line, "gui=")
-            if l:start != -1
-                let l:start = l:start + 4 "strlen(gui=)
-                let l:end = match(line, "[ \t]", l:start)
-                if l:end == -1
-                    let l:attr = strpart(line, l:start)
-                else
-                    let l:attr = strpart(line, l:start, l:end - l:start)
-                endif
-            endif
-
-            call s:HL(l:name, l:fg, l:bg, l:attr)
+    let i = 0
+    while i < len(lines)
+        let hi = matchstr(lines[i], '^\s*:\?\s*hi\%[ghlight]\>.*')
+        if hi == ''
+            let i += 1
+            continue
         endif
-    endfor
+
+        " Split to parts.
+        " 'hi Normal    guifg=#ffffff     guibg=#050505'
+        " => ['hi', 'Normal', 'guifg=#ffffff', 'guibg=#050505']
+        let parts = split(hi, '\v%(\S+\s*\=\s*%(''[^'']*''|\S+)|\w+)\zs\s*')
+
+        " gui => cterm
+        for type in ['bg', 'fg', '']
+            let pos = match(parts, '^gui' . type . '\s*=')
+            if pos < 0
+                continue
+            endif
+            let rhs = matchstr(parts[pos], '^\w*\s*=\s*\zs.*')
+            " Convert the name that there is not in cterm.
+            let rhs = get(g:guicolorscheme_color_table, tolower(rhs), rhs)
+            if rhs =~ '#\x\{6}'
+                let rhs = s:cindex(rhs[1:])
+            endif
+            let pos = match(parts, '^cterm' . type . '\s*=')
+            if 0 <= pos
+                unlet parts[pos]
+            endif
+            call add(parts, 'cterm' . type . '=' . rhs)
+        endfor
+
+        let lines[i] = join(parts)
+        let i += 1
+    endwhile
+
+    " execute
+    let [save_z, @z] = [@z, join(lines, "\n")]
+    @z
+    let @z = save_z
 endfunction
+
+" read rgb.txt (may be heavy).
+function! s:readRGBtxt()
+    let table = {}
+    let txt = globpath(&rtp, '**/rgb.txt')
+    if empty(txt)
+        return table
+    endif
+    for line in readfile(split(txt, "\n")[0])
+        if line =~ '^\s*!'
+            continue
+        endif
+        let r = split(line)
+        let rgb = call('printf', ['#%02X%02X%02X'] + r[:2])
+        for name in r[3:]
+            let table[tolower(name)] = rgb
+        endfor
+    endfor
+    return table
+endfunction
+
+let g:guicolorscheme_color_table = extend(s:readRGBtxt(),
+  \ exists('g:guicolorscheme_color_table') ?
+  \ g:guicolorscheme_color_table : {})
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
 
 " vim:ft=vim:fdl=0:fdm=marker:ts=4:sw=4

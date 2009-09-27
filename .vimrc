@@ -229,23 +229,15 @@ nnoremap <Space>n
 """ colorscheme
 "-----------------------------------------------------------------------------
 "{{{
-" blacklight をベースに colorscheme を作成中
+" blacklight をベースに colorscheme banyan を作成中
 " http://www.vim.org/scripts/script.php?script_id=1596
-colorscheme banyan
 
-"colorscheme deveiate
-"colorscheme less
-"colorscheme black_angus
-"colorscheme xoria256
-"colorscheme rdark
-"colorscheme rdark2
-"colorscheme relaxedgreen
-"colorscheme ps_color
-"colorscheme 3dglasses
-"colorscheme inkpot
-"colorscheme zenburn
-"colorscheme colorful256
-"colorscheme desert256"}}}
+" guicolorscheme.vim
+" http://github.com/thinca/vim-guicolorscheme
+let g:guicolorscheme_color_table = {'bg' : 'black', 'fg' : 'Grey'}
+autocmd VimEnter * :GuiColorScheme banyan
+"autocmd VimEnter * :GuiColorScheme rdark
+"}}}
 
 """ misc
 "-----------------------------------------------------------------------------

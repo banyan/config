@@ -126,7 +126,14 @@ PROMPT="%{$LIGHT_GREEN%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 ###
 # Aliases
 ###
-alias ls="ls --color=auto"
+case "$OSTYPE" in
+    freebsd*|darwin*)
+        alias ls='ls -G -w'
+    ;;
+    *)
+        alias ls='ls --color=auto'
+    ;;
+esac
 alias lla='ls -A'
 
 #alias vi='vim'

@@ -282,6 +282,7 @@ imap <C-j> <esc>
 nmap <Space>w :w<CR>
 nmap <Space>d :diffthis<CR>
 nmap <Space>c :q<CR>
+nmap <Space>q :q<CR>
 
 " <TAB>でOmni補完
 " http://coderepos.org/share/export/19203/dotfiles/vim/ukstudio/.vimrc

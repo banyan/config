@@ -55,7 +55,7 @@ hi phpRegionDelimiter          ctermfg=152 guifg=#ad7fa8
 hi phpPropertySelector         ctermfg=100 guifg=#afb85e
 hi phpPropertySelectorInString ctermfg=80 guifg=#4fb2cf
 hi phpOperator                 ctermfg=80 guifg=#4fb2cf
-hi phpArrayPair                ctermfg=198 guifg=#49453a
+"hi phpArrayPair                ctermfg=233 guifg=#49453a
 hi phpAssignByRef              ctermfg=80 guifg=#4fb2cf
 hi phpRelation                 ctermfg=80 guifg=#4fb2cf
 hi phpMemberSelector           ctermfg=164 guifg=#4fb2cf

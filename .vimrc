@@ -47,7 +47,7 @@ set ignorecase
 set smartcase
 " 検索文字列に大文字が含まれている場合は区別して検索する
 set wrapscan
-" けっ、検索中にインクリメンタルサーチしちゃうんだからねっ！
+" 検索中にインクリメンタルサーチをする
 set incsearch
 " 検索語が画面の真ん中に来るようにする
 nmap n nzz
@@ -60,7 +60,13 @@ nmap g# g#zz
 " 検索結果文字列のハイライトを有効にする
 set hlsearch
 " 検索後のハイライトをクリアする
-nnoremap <Space>l :noh<C-L><CR>"}}}
+nnoremap <Space>l :noh<C-L><CR>
+
+" / ? を自動でエスケープする
+cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> ?  getcmdtype() == '?' ? '\?' : '?'
+
+"}}}
 
 """ edit
 "-----------------------------------------------------------------------------

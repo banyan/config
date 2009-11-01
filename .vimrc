@@ -451,3 +451,7 @@ map <silent> sP :call YanktmpPaste_P()<CR>
 " sudo.vim
 nmap <C-w> :w sudo:%<CR>
 
+" str2htmlentity.vim
+vmap <silent> sx :Str2HtmlEntity<cr>
+vmap <silent> sr :Entity2HtmlString<cr>
+

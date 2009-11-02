@@ -1,10 +1,9 @@
 " Vim syntax file
 " Language:     JavaScript
 " Maintainer:   Yi Zhao (ZHAOYI) <zzlinux AT hotmail DOT com>
-" Last Change:  Nov 17, 2007
-" Version:      0.7.6
-" Changes:      Update the 'syntax sync' method to improve the performance
-"               with larget Javascript files. 
+" Last Change:  June 4, 2009
+" Version:      0.7.7
+" Changes:      Add "undefined" as a type keyword
 "
 " TODO:
 "  - Add the HTML syntax inside the JSDoc
@@ -69,7 +68,7 @@ syntax keyword javaScriptPrototype      prototype
 
 "" Programm Keywords
 syntax keyword javaScriptSource         import export
-syntax keyword javaScriptType           const this var void yield
+syntax keyword javaScriptType           const this undefined var void yield 
 syntax keyword javaScriptOperator       delete new in instanceof let typeof
 syntax keyword javaScriptBoolean        true false
 syntax keyword javaScriptNull           null

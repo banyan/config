@@ -280,6 +280,10 @@ autocmd FileType ruby imap <buffer> else else<Enter>
 autocmd FileType ruby inoremap <buffer> ; <Esc>:call SmartSemicolon()<CR>a
 "autocmd FileType ruby imap <buffer> eacho each do \|\|<Enter>end<ESC>k$h
 
+" Vimで"gf"をスラッシュで始まる相対URLに対応させる
+" http://hail2u.net/blog/software/support-slash-started-relative-url-in-vim-gf.html
+autocmd FileType html :setlocal path+=;/
+
 "挿入モード時のC-uはundoできないので間違えたときに怖い。
 "http://ujihisa.nowa.jp/entry/26372573d5
 inoremap <C-u> <C-g>u<C-u>

@@ -459,3 +459,7 @@ nmap <C-w> :w sudo:%<CR>
 vmap <silent> sx :Str2HtmlEntity<cr>
 vmap <silent> sr :Entity2HtmlString<cr>
 
+" sortcss.pl
+nmap gso vi{:!sortcss<CR>
+vmap gso i{:!sortcss<CR>
+

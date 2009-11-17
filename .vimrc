@@ -308,7 +308,12 @@ augroup MyXML
 augroup END
 
 "折りたたみを保存する
-set foldmethod=marker"}}}
+set foldmethod=marker
+
+" C-h で help を引く
+nnoremap <C-h> :<C-u>h<Space>
+
+"}}}
 
 """ tab
 "-----------------------------------------------------------------------------

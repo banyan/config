@@ -1,2 +1,17 @@
 .vim_mru_files
 .vimfuzzyfinder
+*.o
+*.lo
+*.la
+#*#
+.*.rej
+*.rej
+.*~
+*~
+.#*
+.DS_Store
+*.sw[po]
+tags
+*.html.php
+*.svn
+

@@ -313,6 +313,10 @@ set foldmethod=marker
 " C-h で help を引く
 nnoremap <C-h> :<C-u>h<Space>
 
+" help を 日本語、英語
+nnoremap <Space>hj :setlocal helplang=ja
+nnoremap <Space>he :setlocal helplang=en
+
 "}}}
 
 """ tab

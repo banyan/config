@@ -135,8 +135,7 @@ case "$OSTYPE" in
     ;;
 esac
 alias lla='ls -A'
-
-#alias vi='vim'
+alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 
 ###
 # Keybindings

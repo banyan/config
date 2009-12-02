@@ -156,6 +156,13 @@ limit coredumpsize 102400
 # この設定 : ls /usr/local → ls /usr/ → ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+# cdd を追加
+source ~/.zsh.d/cdd
+
+function chpwd() {
+    _reg_pwd_screennum
+}
+
 ###
 # Functions
 ###

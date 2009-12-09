@@ -16,6 +16,7 @@
     d     = diff
     di    = diff
     dic   = diff --cached
+    dc    = diff --cached
     cob   = checkout -b
     b     = branch
     br    = branch

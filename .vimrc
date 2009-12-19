@@ -434,7 +434,11 @@ let mapleader = ' e'
 au Filetype ruby       nnoremap <buffer><leader> :!ruby %<Space> 
 au Filetype php        nnoremap <buffer><leader> :!php %<Space> 
 au Filetype perl       nnoremap <buffer><leader> :!perl %<Space> 
-au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space> 
+au Filetype python     nnoremap <buffer><leader> :!python %<Space>
+au Filetype sh         nnoremap <buffer><leader> :!sh %<Space>
+au Filetype scala      nnoremap <buffer><leader> :!scala %<Space>
+au Filetype zsh        nnoremap <buffer><leader> :!zsh %<Space>
+au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space>
 au Filetype scheme     nnoremap <buffer><leader> :!gosh %<Space>
 au Filetype javascript nnoremap <buffer><leader> :!js %<Space>
 au Filetype vim        nnoremap <silent><leader> :source %<Return

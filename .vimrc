@@ -185,11 +185,15 @@ nnoremap <Space>n
 " blacklight をベースに colorscheme banyan を作成中
 " http://www.vim.org/scripts/script.php?script_id=1596
 
-" guicolorscheme.vim
+" guicolorscheme.vim は半角/全角の色がおかしくなるので使わない
 " http://github.com/thinca/vim-guicolorscheme
-let g:guicolorscheme_color_table = {'bg' : 'black', 'fg' : 'Grey'}
-autocmd VimEnter * :GuiColorScheme banyan
-"autocmd VimEnter * :GuiColorScheme rdark
+"let g:guicolorscheme_color_table = {'bg' : 'black', 'fg' : 'Grey'}
+"autocmd VimEnter * :GuiColorScheme banyan
+
+autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+autocmd VimEnter,WinEnter * match IdeographicSpace /　/
+
+colorscheme banyan
 "}}}
 
 """ misc
@@ -211,7 +215,7 @@ hi Pmenu ctermbg=8
 hi PmenuSel ctermbg=4
 hi PmenuSbar ctermbg=8
 
-" http://d.hatena.ne.jp/kasahi/20070902/1188744907 
+" http://d.hatena.ne.jp/kasahi/20070902/1188744907
 " 半角を別色表示に
 highlight WhitespaceEOL ctermbg=8 guibg=red
 match WhitespaceEOL /\s\+$/
@@ -229,13 +233,12 @@ map <F8> <ESC>:bd<CR>
 "insert mode時にc-jで抜けてかつ IME off
 imap <C-j> <esc>
 "imap <C-j> <ESC>:set iminsert=0<CR>
-"inoremap <C-j> <Esc>:set iminsert=0<CR> 
+"inoremap <C-j> <Esc>:set iminsert=0<CR>
 "inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
 nmap <Space>w :w<CR>
 nmap <Space>d :diffthis<CR>
 nmap <Space>c :q<CR>
-nmap <Space>q :q<CR>
 
 " <TAB>でOmni補完
 " http://coderepos.org/share/export/19203/dotfiles/vim/ukstudio/.vimrc
@@ -466,7 +469,7 @@ map <silent> sp :call YanktmpPaste_p()<CR>
 map <silent> sP :call YanktmpPaste_P()<CR>
 
 " sudo.vim
-nmap <C-w> :w sudo:%<CR>
+nmap <silent> sudo :call YanktmpPaste_P()<CR>
 
 " str2htmlentity.vim
 vmap <silent> sx :Str2HtmlEntity<cr>

@@ -321,6 +321,13 @@ nnoremap <C-h> :<C-u>h<Space>
 nnoremap <Space>hj :setlocal helplang=ja
 nnoremap <Space>he :setlocal helplang=en
 
+"入力モード時、ステータスラインのカラーを変更
+augroup InsertHook
+autocmd!
+autocmd InsertEnter * highlight StatusLine ctermfg=255 ctermbg=39
+autocmd InsertLeave * highlight StatusLine ctermfg=37 ctermbg=15
+augroup END
+
 "}}}
 
 """ tab

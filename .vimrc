@@ -108,7 +108,7 @@ set ruler
 set nolist
 set nowrap
 set laststatus=2
-set cmdheight=2
+set cmdheight=1
 set showcmd
 set title
 set titlestring=Vim:\ %f\ %h%r%m

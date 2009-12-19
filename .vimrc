@@ -190,9 +190,6 @@ nnoremap <Space>n
 "let g:guicolorscheme_color_table = {'bg' : 'black', 'fg' : 'Grey'}
 "autocmd VimEnter * :GuiColorScheme banyan
 
-autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-autocmd VimEnter,WinEnter * match IdeographicSpace /　/
-
 colorscheme banyan
 "}}}
 
@@ -219,7 +216,11 @@ hi PmenuSbar ctermbg=8
 " 半角を別色表示に
 highlight WhitespaceEOL ctermbg=8 guibg=red
 match WhitespaceEOL /\s\+$/
-autocmd WinEnter * match WhitespaceEOL /\s\+$/
+autocmd WinEnter * match WhitespaceEOL
+
+" 全角スペースを別色表示に
+"autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+"autocmd VimEnter,WinEnter * match 
 
 " ステイタス行に文字コードと改行コードを表示。
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P

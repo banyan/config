@@ -431,21 +431,13 @@ endif
 
 " quickrun.vim
 let mapleader = ' e'
-
-au Filetype ruby        nnoremap <buffer><leader> :call QuickRun('ruby')<Return>
-au Filetype haskell     nnoremap <buffer><leader> :call QuickRun('runghc')<Return>
-au Filetype python      nnoremap <buffer><leader> :call QuickRun('python')<Return>
-au Filetype javascript  nnoremap <buffer><leader> :call QuickRun('js')<Return>
-au Filetype scheme      nnoremap <buffer><leader> :call QuickRun('gosh')<Return>
-au Filetype sh          nnoremap <buffer><leader> :call QuickRun('sh')<Return>
-au Filetype awk         nnoremap <buffer><leader> :call QuickRun('awk')<Return>
-au Filetype sed         nnoremap <buffer><leader> :call QuickRun('sed')<Return>
-au Filetype scala       nnoremap <buffer><leader> :call QuickRun('scala')<Return>
-au Filetype perl        nnoremap <buffer><leader> :call QuickRun('perl')<Return>
-au Filetype php         nnoremap <buffer><leader> :call QuickRun('php')<Return>
-au Filetype io          nnoremap <buffer><leader> :call QuickRun('io')<Return>
-au Filetype c           nnoremap <buffer><leader> :call QuickRun('function __rungcc__() { gcc $1 && ./a.out } && __rungcc__')<Return>
-au Filetype vim         nnoremap <buffer><leader> :source %<Return>
+au Filetype ruby       nnoremap <buffer><leader> :!ruby %<Space> 
+au Filetype php        nnoremap <buffer><leader> :!php %<Space> 
+au Filetype perl       nnoremap <buffer><leader> :!perl %<Space> 
+au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space> 
+au Filetype scheme     nnoremap <buffer><leader> :!gosh %<Space>
+au Filetype javascript nnoremap <buffer><leader> :!js %<Space>
+au Filetype vim        nnoremap <silent><leader> :source %<Return
 
 "mru.vim
 "http://www.vim.org/scripts/script.php?script_id=521

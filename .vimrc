@@ -108,7 +108,7 @@ set ruler
 set nolist
 set nowrap
 set laststatus=2
-set cmdheight=2
+set cmdheight=1
 set showcmd
 set title
 set titlestring=Vim:\ %f\ %h%r%m
@@ -185,11 +185,12 @@ nnoremap <Space>n
 " blacklight をベースに colorscheme banyan を作成中
 " http://www.vim.org/scripts/script.php?script_id=1596
 
-" guicolorscheme.vim
+" guicolorscheme.vim は半角/全角の色がおかしくなるので使わない
 " http://github.com/thinca/vim-guicolorscheme
-let g:guicolorscheme_color_table = {'bg' : 'black', 'fg' : 'Grey'}
-autocmd VimEnter * :GuiColorScheme banyan
-"autocmd VimEnter * :GuiColorScheme rdark
+"let g:guicolorscheme_color_table = {'bg' : 'black', 'fg' : 'Grey'}
+"autocmd VimEnter * :GuiColorScheme banyan
+
+colorscheme banyan
 "}}}
 
 """ misc
@@ -211,11 +212,15 @@ hi Pmenu ctermbg=8
 hi PmenuSel ctermbg=4
 hi PmenuSbar ctermbg=8
 
-" http://d.hatena.ne.jp/kasahi/20070902/1188744907 
+" http://d.hatena.ne.jp/kasahi/20070902/1188744907
 " 半角を別色表示に
 highlight WhitespaceEOL ctermbg=8 guibg=red
 match WhitespaceEOL /\s\+$/
 autocmd WinEnter * match WhitespaceEOL /\s\+$/
+
+" 全角スペースを別色表示に
+"autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+"autocmd VimEnter,WinEnter * match
 
 " ステイタス行に文字コードと改行コードを表示。
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
@@ -229,13 +234,12 @@ map <F8> <ESC>:bd<CR>
 "insert mode時にc-jで抜けてかつ IME off
 imap <C-j> <esc>
 "imap <C-j> <ESC>:set iminsert=0<CR>
-"inoremap <C-j> <Esc>:set iminsert=0<CR> 
+"inoremap <C-j> <Esc>:set iminsert=0<CR>
 "inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
 nmap <Space>w :w<CR>
 nmap <Space>d :diffthis<CR>
 nmap <Space>c :q<CR>
-nmap <Space>q :q<CR>
 
 " <TAB>でOmni補完
 " http://coderepos.org/share/export/19203/dotfiles/vim/ukstudio/.vimrc
@@ -316,6 +320,13 @@ nnoremap <C-h> :<C-u>h<Space>
 " help を 日本語、英語
 nnoremap <Space>hj :setlocal helplang=ja
 nnoremap <Space>he :setlocal helplang=en
+
+"入力モード時、ステータスラインのカラーを変更
+augroup InsertHook
+autocmd!
+autocmd InsertEnter * highlight StatusLine ctermfg=255 ctermbg=39
+autocmd InsertLeave * highlight StatusLine ctermfg=37 ctermbg=15
+augroup END
 
 "}}}
 
@@ -434,7 +445,11 @@ let mapleader = ' e'
 au Filetype ruby       nnoremap <buffer><leader> :!ruby %<Space> 
 au Filetype php        nnoremap <buffer><leader> :!php %<Space> 
 au Filetype perl       nnoremap <buffer><leader> :!perl %<Space> 
-au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space> 
+au Filetype python     nnoremap <buffer><leader> :!python %<Space>
+au Filetype sh         nnoremap <buffer><leader> :!sh %<Space>
+au Filetype scala      nnoremap <buffer><leader> :!scala %<Space>
+au Filetype zsh        nnoremap <buffer><leader> :!zsh %<Space>
+au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space>
 au Filetype scheme     nnoremap <buffer><leader> :!gosh %<Space>
 au Filetype javascript nnoremap <buffer><leader> :!js %<Space>
 au Filetype vim        nnoremap <silent><leader> :source %<Return
@@ -462,7 +477,7 @@ map <silent> sp :call YanktmpPaste_p()<CR>
 map <silent> sP :call YanktmpPaste_P()<CR>
 
 " sudo.vim
-nmap <C-w> :w sudo:%<CR>
+nmap <silent> sudo :call YanktmpPaste_P()<CR>
 
 " str2htmlentity.vim
 vmap <silent> sx :Str2HtmlEntity<cr>

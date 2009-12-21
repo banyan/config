@@ -1,7 +1,7 @@
 " Vim color file
-" Maintaner: Kohei Hasegawa <ameutau@gmail.com>
+" Maintaner: banyan <ameutau@gmail.com>
 " Created with color_toon.vim & blacklight.vim
-" Version: 0.1
+" Version: 0.2
 
 set background=dark
 hi clear
@@ -55,16 +55,16 @@ hi phpRegionDelimiter          ctermfg=152 guifg=#ad7fa8
 hi phpPropertySelector         ctermfg=100 guifg=#afb85e
 hi phpPropertySelectorInString ctermfg=80 guifg=#4fb2cf
 hi phpOperator                 ctermfg=80 guifg=#4fb2cf
-"hi phpArrayPair                ctermfg=233 guifg=#49453a
+hi phpArrayPair                ctermfg=201 guifg=#49453a
 hi phpAssignByRef              ctermfg=80 guifg=#4fb2cf
 hi phpRelation                 ctermfg=80 guifg=#4fb2cf
 hi phpMemberSelector           ctermfg=164 guifg=#4fb2cf
 hi phpUnknownSelector          ctermfg=80 guifg=#4fb2cf
-hi phpVarSelector              ctermfg=148 guifg=#babdb6
+hi phpVarSelector              ctermfg=252 guifg=#babdb6
 hi phpSemicolon                ctermfg=80 guifg=#4fb2cf gui=none
-hi phpFunctions                ctermfg=164 guifg=#d3d7cf
+hi phpFunctions                ctermfg=190 guifg=#d3d7cf
 hi phpParent                   ctermfg=195 guifg=#4fb2cf
-hi phpIdentifier               ctermfg=148
+hi phpIdentifier               ctermfg=15
 hi phpIdentifierSimply         ctermfg=148
 hi phpIdentifierComplex        ctermfg=148
 hi phpIdentifierComplexP       ctermfg=148
@@ -75,5 +75,5 @@ hi phpStringDouble             ctermfg=156
 hi phpBacktick                 ctermfg=156
 hi phpStringSingle             ctermfg=156
 hi phpNumber                   ctermfg=226
-hi phpLabel                    ctermfg=Magenta 
+hi phpLabel                    ctermfg=5 
 

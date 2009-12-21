@@ -9,11 +9,28 @@
 	branch      = auto
 	interactive = auto
 [alias]
-    ci = commit
-    co = checkout
-    st = status -a
-    di = diff
+    ci    = commit
+    co    = checkout
+    s     = status -a
+    st    = status -a
+    d     = diff
+    di    = diff
+    dic   = diff --cached
+    dc    = diff --cached
+    cob   = checkout -b
+    b     = branch
+    br    = branch
+    sh    = !git-sh
+    a     = add
+    aa    = add -A
+    sa    = stash
+    sap   = stash pop
+    r     = reset
+    svnci = svn dcommit
+    svnre = svn rebase
+    m     = merge
 
 [github]
-	user = banyan
+	user  = banyan
 	token = 0276c95e63cfcf2d2009bbbda2bdcfd9
+

@@ -2,33 +2,47 @@
 	name  = banyan
 	email = ameutau@gmail.com
 [core]
-	excludesfile = /home/admin/.gitignore
+	excludesfile = /Users/kohei/.gitignore
 [color]
 	diff        = auto
 	status      = auto
 	branch      = auto
 	interactive = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
 [alias]
-    ci    = commit
-    co    = checkout
-    s     = status -a
-    st    = status -a
-    d     = diff
-    di    = diff
-    dic   = diff --cached
-    dc    = diff --cached
-    cob   = checkout -b
-    b     = branch
-    br    = branch
-    sh    = !git-sh
-    a     = add
-    aa    = add -A
-    sa    = stash
-    sap   = stash pop
-    r     = reset
-    svnci = svn dcommit
-    svnre = svn rebase
-    m     = merge
+    ci      = commit
+    co      = checkout
+    s       = status -a
+    st      = status -a
+    d       = diff
+    di      = diff
+    dic     = diff --cached
+    dc      = diff --cached
+    difflog = log -p HEAD@{3.days.ago}
+    cob     = checkout -b
+    b       = branch
+    br      = branch
+    sh      = !git-sh
+    a       = add
+    aa      = add -A
+    sa      = stash
+    sap     = stash pop
+    r       = reset
+    svnci   = svn dcommit
+    svnre   = svn rebase
+    m       = merge
 
 [github]
 	user  = banyan

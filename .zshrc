@@ -137,6 +137,7 @@ esac
 alias lla='ls -A'
 alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 alias g="git"
+alias py="python"
 
 ###
 # Keybindings

@@ -78,7 +78,7 @@ set autoindent
 set backspace=2
 " 括弧入力時の対応する括弧を表示
 set showmatch
-" 勝手にインデントだぜ！
+" 勝手にインデントする
 set smartindent
 set wildmenu
 "set formatoptions+=mM
@@ -87,6 +87,8 @@ set ambiwidth=double
 set shiftwidth=4
 set wildmode=longest,list
 let format_allow_over_tw = 1  " ぶら下り可能幅
+
+set virtualedit+=block " 短形選択で自由に移動する
 
 " 編集中のファイルをリネームする
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))

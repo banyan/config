@@ -78,7 +78,7 @@ set autoindent
 set backspace=2
 " 括弧入力時の対応する括弧を表示
 set showmatch
-" 勝手にインデントだぜ！
+" 勝手にインデントする
 set smartindent
 set wildmenu
 "set formatoptions+=mM
@@ -87,6 +87,8 @@ set ambiwidth=double
 set shiftwidth=4
 set wildmode=longest,list
 let format_allow_over_tw = 1  " ぶら下り可能幅
+
+set virtualedit+=block " 短形選択で自由に移動する
 
 " 編集中のファイルをリネームする
 command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
@@ -327,6 +329,35 @@ autocmd!
 autocmd InsertEnter * highlight StatusLine ctermfg=255 ctermbg=39
 autocmd InsertLeave * highlight StatusLine ctermfg=37 ctermbg=15
 augroup END
+
+"}}}
+
+""" window
+"-----------------------------------------------------------------------------
+"{{{
+"window 関係"
+nnoremap ss <C-W>s
+nnoremap sc <C-W>c
+nnoremap so <C-W>o
+
+nnoremap sj <C-W>j
+nnoremap sk <C-W>k
+nnoremap <silent> sh <C-W>h:call <SID>good_width()<CR>
+nnoremap <silent> sl <C-W>l:call <SID>good_width()<Cr>
+" ウィンドウの幅をいい感じにする
+function! s:good_width()
+  if winwidth(0) < 84
+    vertical resize 84
+  endif
+endfunction
+
+" ウィンドウの大きさを最大化する
+function! s:big()
+    wincmd _ | wincmd |
+endfunction
+nnoremap <silent> s<CR> :<C-u>call <SID>big()<CR> " 最大化
+nnoremap s0 1<C-W>_ " 最小化
+nnoremap s. <C-W>=  " 全部同じ大きさにする
 
 "}}}
 

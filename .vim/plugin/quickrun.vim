@@ -1,189 +1,188 @@
-" quickrun - run a command and show its result quickly
-" Author: ujihisa <http://ujihisa.nowa.jp/>
-" ModifiedBy: kana <http://whileimautomaton.net/>
-" ModifiedBy: Sixeight <http://d.hatena.ne.jp/Sixeight/>
+" Run commands quickly.
+" Version: 0.3.3
+" Author : thinca <thinca+vim@gmail.com>, ujihisa <ujihisa at gmail com>
+" License: Creative Commons Attribution 2.1 Japan License
+"          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
 if exists('g:loaded_quickrun')
   finish
 endif
-
-
-function! s:quicklaunch(no)
-  if !exists('g:quicklaunch_commands[a:no]')
-    echoerr 'quicklaunch has no such command:' a:no
-    return
-  endif
-  let quicklaunch_command = g:quicklaunch_commands[a:no]
-  call s:open_result_buffer(quicklaunch_command)
-  call s:write_result_buffer(':-<', 'silent! read !' . quicklaunch_command)
-endfunction
-
-
-function! s:quicklaunch_list()
-  if !exists('g:quicklaunch_commands')
-    echo 'no command registered'
-    return
-  endif
-  call s:open_result_buffer('quicklaunch_list')
-  " FIXME: use s:write_result_buffer
-  silent % delete _
-  call append(0, '')
-  for i in range(10)
-    if exists('g:quicklaunch_commands[i]')
-      call append(line('$'), i . ': ' . g:quicklaunch_commands[i])
-    else
-      call append(line('$'), i . ': <Nop>')
-    endif
-  endfor
-  silent 1 delete _
-endfunction
-
-
-function! s:quickkeywordprg()
-  let keyword = expand('<cword>')
-  let keywordprg = &keywordprg
-  call s:open_result_buffer(keyword)
-  call s:write_result_buffer(':-D', 'silent! read ! ' . keywordprg . ' ' . keyword)
-endfunction
-
-
-function! s:quickrun()
-  if !exists('b:quickrun_command')
-    echoerr 'quickrun is not available for filetype:' string(&l:filetype)
-    return
-  endif
-  let quickrun_command = s:get_quickrun_command()
-
-  let existent_file_p = filereadable(expand('%'))
-  if existent_file_p
-    silent update
-    let file = expand('%')
-  else
-    let file = tempname() . expand('%:e')
-    let original_bufname = bufname('')
-    let original_modified = &l:modified
-      silent keepalt write `=file`
-      if original_bufname == ''
-        " Reset the side effect of ":write {file}" - it sets {file} as the
-        " name of the current buffer if it is unnamed buffer.
-        silent 0 file
-      endif
-    let &l:modified = original_modified
-  endif
-
-  call s:open_result_buffer(quickrun_command)
-  call s:write_result_buffer(':-)', 'silent! read !' . quickrun_command . ' ' . file)
-
-  if existent_file_p
-    " nop.
-  else
-    call delete(file)
-  endif
-endfunc
-
-
-function! s:get_quickrun_command()
-  let m = matchlist(getline(1), '#!\(.*\)')
-  if(len(m) > 2)
-    return m[1]
-  else
-    return b:quickrun_command
-  endif
-endfunction
-
-
-function! s:open_result_buffer(quickrun_command)
-  let bufname = printf('[quickrun] %s', a:quickrun_command)
-
-  if !bufexists(bufname)
-    execute g:quickrun_direction 'new'
-    setlocal bufhidden=unload
-    setlocal nobuflisted
-    setlocal buftype=nofile
-    setlocal noswapfile
-    setfiletype quickrun
-    silent file `=bufname`
-
-    nnoremap <buffer> <silent> q  <C-w>c
-  else
-    let bufnr = bufnr(bufname)  " FIXME: escape.
-    let winnr = bufwinnr(bufnr)
-    if winnr == -1
-      execute g:quickrun_direction 'split'
-      execute bufnr 'buffer'
-    else
-      execute winnr 'wincmd w'
-    endif
-  endif
-endfunction
-
-
-function! s:write_result_buffer(loading_message, command)
-  silent % delete _
-  call append(0, a:loading_message)
-  redraw
-  silent % delete _
-  call append(0, '')
-  execute a:command
-  silent 1 delete _
-endfunction
-
-
-function! s:set_quickrun_command(command)
-  " Use user's settings if they exist.
-  if !exists('b:quickrun_command')
-    let b:quickrun_command = a:command
-  endif
-endfunction
-
-
-
-
-
-if !exists('g:quickrun_direction')
-  let g:quickrun_direction = 'rightbelow'
-endif
-
-
-
-
-nnoremap <silent> <Plug>(quickrun)  :<C-u>call <SID>quickrun()<Return>
-silent! nmap <unique> <Leader>r  <Plug>(quickrun)
-for i in range(10)
-  execute "nnoremap <silent> <Plug>(quicklaunch-" . i . ") :<C-u>call <SID>quicklaunch(" . i . ")<Return>"
-  execute "silent! nmap <unique> <Leader>" . i . "  <Plug>(quicklaunch-" . i . ")"
-endfor
-nnoremap <silent> <Plug>(quicklaunch-list)  :<C-u>call <SID>quicklaunch_list()<Return>
-silent! nmap <unique> <Leader>l  <Plug>(quicklaunch-list)
-nnoremap <silent> <buffer> <Plug>(quickkeywordprg) :<C-u>call <SID>quickkeywordprg()<Cr>
-silent! nmap <unique> K  <Plug>(quickkeywordprg)
-
-
-augroup plugin-quickrun
-  autocmd!
-  autocmd Filetype awk  call s:set_quickrun_command('awk')
-  autocmd Filetype c  call s:set_quickrun_command('function __rungcc__() { gcc $1 && ./a.out } && __rungcc__')
-  autocmd Filetype cpp  call s:set_quickrun_command('function __rungpp__() { g++ $1 && ./a.out } && __rungpp__')
-  autocmd Filetype objc  call s:set_quickrun_command('function __rungcc__() { gcc $1 && ./a.out } && __rungcc__')
-  autocmd Filetype haskell  call s:set_quickrun_command('runghc')
-  autocmd Filetype io  call s:set_quickrun_command('io')
-  autocmd Filetype javascript  call s:set_quickrun_command('js')
-  autocmd Filetype perl  call s:set_quickrun_command('perl')
-  autocmd Filetype php  call s:set_quickrun_command('php')
-  autocmd Filetype python  call s:set_quickrun_command('python')
-  autocmd Filetype ruby  call s:set_quickrun_command('ruby')
-  autocmd Filetype scala  call s:set_quickrun_command('scala')
-  autocmd Filetype scheme  call s:set_quickrun_command('gosh')
-  autocmd Filetype sed  call s:set_quickrun_command('sed')
-  autocmd Filetype sh  call s:set_quickrun_command('sh')
-  autocmd Filetype gnuplot  call s:set_quickrun_command('gnuplot')
-  autocmd Filetype eruby  call s:set_quickrun_command('erb -T -')
-  autocmd Filetype r  call s:set_quickrun_command('R --no-save --slave <')
-augroup END
-
-
-
-
 let g:loaded_quickrun = 1
 
-" __END__
+let s:save_cpo = &cpo
+set cpo&vim
+
+" MISC Functions. {{{1
+" ----------------------------------------------------------------------------
+" Function for |g@|.
+function! QuickRun(mode)  " {{{2
+  execute 'QuickRun -mode o -visualmode' a:mode
+endfunction
+
+
+
+function! s:is_win()  " {{{2
+  return has('win32') || has('win64')
+endfunction
+
+
+
+" ----------------------------------------------------------------------------
+" Initialize. {{{1
+function! s:init()
+  let g:quickrun_default_config = {
+        \ '*': {
+        \   'shebang': 1,
+        \   'output': '',
+        \   'append': 0,
+        \   'runmode': 'simple',
+        \   'args': '',
+        \   'output_encode': '&fenc:&enc',
+        \   'tempfile'  : '{tempname()}',
+        \   'exec': '%c %s %a',
+        \   'split': '{winwidth(0) * 2 < winheight(0) * 5 ? "" : "vertical"}',
+        \   'into': 0,
+        \   'eval': 0,
+        \   'eval_template': '%s',
+        \   'shellcmd': s:is_win() ? 'silent !"%s" & pause' : '!%s',
+        \   'running_mark': ':-)',
+        \ },
+        \ 'awk': {
+        \   'exec': '%c -f %s %a',
+        \ },
+        \ 'bash': {},
+        \ 'c':
+        \   s:is_win() && executable('cl') ? {
+        \     'command': 'cl',
+        \     'exec': ['%c %s /nologo /Fo%s:p:r.obj /Fe%s:p:r.exe > nul',
+        \               '%s:p:r.exe %a', 'del %s:p:r.exe %s:p:r.obj'],
+        \     'tempfile': '{tempname()}.c',
+        \   } :
+        \   executable('gcc') ? {
+        \     'command': 'gcc',
+        \     'exec': ['%c %s -o %s:p:r', '%s:p:r %a', 'rm -f %s:p:r'],
+        \     'tempfile': '{tempname()}.c',
+        \   } : {},
+        \ 'cpp':
+        \   s:is_win() && executable('cl') ? {
+        \     'command': 'cl',
+        \     'exec': ['%c %s /nologo /Fo%s:p:r.obj /Fe%s:p:r.exe > nul',
+        \               '%s:p:r.exe %a', 'del %s:p:r.exe %s:p:r.obj'],
+        \     'tempfile': '{tempname()}.cpp',
+        \   } :
+        \   executable('g++') ? {
+        \     'command': 'g++',
+        \     'exec': ['%c %s -o %s:p:r', '%s:p:r %a', 'rm -f %s:p:r'],
+        \     'tempfile': '{tempname()}.cpp',
+        \   } : {},
+        \ 'eruby': {
+        \   'command': 'erb',
+        \   'exec': '%c -T - %s %a',
+        \ },
+        \ 'go':
+        \   $GOARCH ==# '386' ? {
+        \     'exec':
+        \       s:is_win() ?
+        \         ['8g %s', '8l -o %s:p:r.exe %s:p:r.8', '%s:p:r.exe %a', 'del /F %s:p:r.exe'] :
+        \         ['8g %s', '8l -o %s:p:r %s:p:r.8', '%s:p:r %a', 'rm -f %s:p:r']
+        \   } :
+        \   $GOARCH ==# 'amd64' ? {
+        \     'exec': ['6g %s', '6l -o %s:p:r %s:p:r.6', '%s:p:r %a', 'rm -f %s:p:r'],
+        \   } :
+        \   $GOARCH ==# 'arm' ? {
+        \     'exec': ['5g %s', '5l -o %s:p:r %s:p:r.5', '%s:p:r %a', 'rm -f %s:p:r'],
+        \   } : {},
+        \ 'groovy': {
+        \   'exec': '%c -c {&fenc==""?&enc:&fenc} %s %a',
+        \ },
+        \ 'haskell': {
+        \   'command': 'runghc',
+        \   'tempfile': '{tempname()}.hs',
+        \   'eval_template': 'main = print $ %s',
+        \ },
+        \ 'java': {
+        \   'exec': ['javac %s', '%c %s:t:r', ':call delete("%S:t:r.class")'],
+        \   'output_encode': '&tenc:&enc',
+        \ },
+        \ 'javascript': {
+        \   'command': executable('js') ? 'js':
+        \              executable('jrunscript') ? 'jrunscript':
+        \              executable('cscript') ? 'cscript': '',
+        \   'tempfile': '{tempname()}.js',
+        \ },
+        \ 'llvm': {
+        \   'command': 'llvm-as %s -o=- | lli - %a',
+        \ },
+        \ 'lua': {},
+        \ 'markdown': {
+        \   'command': 'pandoc',
+        \   'exec': ['%c -f markdown -t html -o %s:p:r.html %s', 'open %s:p:r.html', 'sleep 1', 'rm %s:p:r.html'],
+        \   'tempfile': '{tempname()}.md'
+        \ },
+        \ 'dosbatch': {
+        \   'command': '',
+        \   'exec': 'call %s %a',
+        \   'tempfile': '{tempname()}.bat',
+        \ },
+        \ 'io': {},
+        \ 'ocaml': {},
+        \ 'perl': {
+        \   'eval_template': join([
+        \     'use Data::Dumper',
+        \     '$Data::Dumper::Terse = 1',
+        \     '$Data::Dumper::Indent = 0',
+        \     'print Dumper eval{%s}'], ';')
+        \ },
+        \ 'python': {'eval_template': 'print(%s)'},
+        \ 'php': {},
+        \ 'r': {
+        \   'command': 'R',
+        \   'exec': '%c --no-save --slave %a < %s',
+        \ },
+        \ 'ruby': {
+        \   'exec': '%c %s %a',
+        \ },
+        \ 'scala': {
+        \   'output_encode': '&tenc:&enc',
+        \ },
+        \ 'scheme': {
+        \   'command': 'gosh',
+        \   'exec': '%c %s:p %a',
+        \   'eval_template': '(display (begin %s))',
+        \ },
+        \ 'sed': {},
+        \ 'sh': {},
+        \ 'vim': {
+        \   'command': ':source',
+        \   'exec': '%c %s',
+        \   'eval_template': "echo %s",
+        \ },
+        \ 'zsh': {},
+        \}
+  lockvar! g:quickrun_default_config
+endfunction
+
+call s:init()
+
+command! -nargs=* -range=% -complete=customlist,quickrun#complete QuickRun
+\ call quickrun#run('-start <line1> -end <line2> ' . <q-args>)
+
+
+
+command! -nargs=* -range=% QuickRunIt
+\ call s:quickrun('-start <line1> -end <line2> ' . (exists('b:quickrun_it') ? b:quickrun_it : '') . ' -mode <q-args>')
+
+
+
+nnoremap <silent> <Plug>(quickrun-op) :<C-u>set operatorfunc=QuickRun<CR>g@
+
+silent! nnoremap <silent> <Plug>(quickrun) :<C-u>QuickRunIt n<CR>
+silent! vnoremap <silent> <Plug>(quickrun) :<C-u>QuickRunIt v<CR>
+" Default key mappings.
+if !exists('g:quickrun_no_default_key_mappings')
+\  || !g:quickrun_no_default_key_mappings
+  silent! map <unique> <Leader>r <Plug>(quickrun)
+endif
+
+let &cpo = s:save_cpo
+unlet s:save_cpo

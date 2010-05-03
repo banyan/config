@@ -164,6 +164,7 @@ autocmd FileType xhtml        setlocal sw=4 sts=4 ts=4 noet
 autocmd FileType xml          setlocal sw=4 sts=4 ts=4 noet
 autocmd FileType yaml         setlocal sw=2 sts=2 ts=2 et
 autocmd FileType zsh          setlocal sw=4 sts=4 ts=4 et
+autocmd FileType scala        setlocal sw=2 sts=2 ts=2 et
 
 set nobackup
 set clipboard=unnamed
@@ -483,7 +484,6 @@ au Filetype zsh        nnoremap <buffer><leader> :!zsh %<Space>
 au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space>
 au Filetype scheme     nnoremap <buffer><leader> :!gosh %<Space>
 au Filetype javascript nnoremap <buffer><leader> :!js %<Space>
-au Filetype scala      nnoremap <buffer><leader> :!scala %<Space>
 au Filetype vim        nnoremap <silent><leader> :source %<Return
 
 "mru.vim

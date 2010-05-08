@@ -3,6 +3,7 @@
 	email = ameutau@gmail.com
 [core]
 	excludesfile = /Users/kohei/.gitignore
+    pager        = less -r
 [color]
 	diff        = auto
 	status      = auto
@@ -10,16 +11,16 @@
 	interactive = auto
 [color "branch"]
     current = yellow reverse
-    local = yellow
-    remote = green
+    local   = yellow
+    remote  = green
 [color "diff"]
     meta = yellow bold
     frag = magenta bold
-    old = red bold
-    new = green bold
+    old  = red bold
+    new  = green bold
 [color "status"]
-    added = yellow
-    changed = green
+    added     = yellow
+    changed   = green
     untracked = cyan
 [alias]
     ci      = commit

@@ -59,9 +59,19 @@ _zshenv_add_path PATH "/usr/sbin"
 _zshenv_add_path PATH "/usr/*/bin"
 _zshenv_add_path PATH "/usr/*/sbin"
 _zshenv_add_path PATH "/usr/local/lib/flex3/bin"
+_zshenv_add_path PATH "/usr/local/src/apache-maven-2.2.1/bin"
+_zshenv_add_path PATH "/usr/local/ImageMagick-6.5.8-5/lib"
+
 
 export CPATH=
 _zshenv_add_path CPATH "/usr/local/include"
 _zshenv_add_path CPATH "/opt/local/include"
 _zshenv_add_path CPATH "/opt/include"
+
+#export JAVA_HOME=/usr/java/default
+#export PATH=$PATH:$JAVA_HOME/bin
+#export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
+
+#export JRUBY_HOME=/usr/local/lib/jruby
+#export PATH=$JRUBY_HOME/bin:$PATH
 

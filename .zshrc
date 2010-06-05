@@ -142,6 +142,10 @@ alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 alias g="git"
 alias py="python"
 
+# for Mac
+alias there="fcd"
+alias here="open ."
+
 ###
 # Keybindings
 ###

@@ -109,7 +109,7 @@ set ruler
 " タブや改行を表示しない
 set nolist
 set nowrap
-set laststatus=2
+set laststatus=1
 set cmdheight=1
 set showcmd
 set title

@@ -10,9 +10,6 @@
 [submodule "bundle/vim-haml"]
 	path = .vim/bundle/vim-haml
 	url = git://github.com/tpope/vim-haml.git
-[submodule "bundle/Align"]
-	path = .vim/bundle/Align
-	url = git://github.com/vim-scripts/Align.vim.git
 [submodule "bundle/NERD_commenter"]
 	path = .vim/bundle/NERD_commenter
 	url = git://github.com/vim-scripts/The-NERD-Commenter.git

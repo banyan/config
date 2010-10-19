@@ -1,0 +1,1 @@
+/Users/banyan/.vim/bundle/pathogen/autoload/pathogen.vim

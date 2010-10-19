@@ -1,0 +1,66 @@
+[submodule "bundle/fugitive"]
+	path = bundle/fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "bundle/vim-pathogen"]
+	path = bundle/vim-pathogen
+	url = git://github.com/vim-scripts/pathogen.vim.git
+[submodule "bundle/vim-ham"]
+	path = bundle/vim-ham
+	url = git://github.com/tpope/vim-haml.git
+[submodule "bundle/vim-haml"]
+	path = bundle/vim-haml
+	url = git://github.com/tpope/vim-haml.git
+[submodule "bundle/Align"]
+	path = bundle/Align
+	url = git://github.com/vim-scripts/Align.vim.git
+[submodule "bundle/NERD_commenter"]
+	path = bundle/NERD_commenter
+	url = git://github.com/vim-scripts/The-NERD-Commenter.git
+[submodule "bundle/sudo"]
+	path = bundle/sudo
+	url = git://github.com/vim-scripts/sudo.vim.git
+[submodule "bundle/endwise"]
+	path = bundle/endwise
+	url = git://github.com/vim-scripts/endwise.vim.git
+[submodule "bundle/thinca_vim-guicolorscheme"]
+	path = bundle/thinca_vim-guicolorscheme
+	url = git://github.com/thinca/vim-guicolorscheme.git
+[submodule "bundle/yanktmp"]
+	path = bundle/yanktmp
+	url = git://github.com/vim-scripts/yanktmp.vim.git
+[submodule "bundle/YankRing"]
+	path = bundle/YankRing
+	url = git://github.com/vim-scripts/YankRing.vim.git
+[submodule "bundle/autocomplpop"]
+	path = bundle/autocomplpop
+	url = git://github.com/vim-scripts/AutoComplPop.git
+[submodule "bundle/eregex"]
+	path = bundle/eregex
+	url = git://github.com/vim-scripts/eregex.vim.git
+[submodule "bundle/mru"]
+	path = bundle/mru
+	url = git://github.com/vim-scripts/mru.vim.git
+[submodule "bundle/quickrun"]
+	path = bundle/quickrun
+	url = git://github.com/vim-scripts/quickrun.git
+[submodule "bundle/Smooth-Scroll"]
+	path = bundle/Smooth-Scroll
+	url = git://github.com/vim-scripts/Smooth-Scroll.git
+[submodule "bundle/JavaScript-syntax"]
+	path = bundle/JavaScript-syntax
+	url = git://github.com/vim-scripts/JavaScript-syntax.git
+[submodule "bundle/vim-javascript"]
+	path = bundle/vim-javascript
+	url = git://github.com/vim-scripts/JavaScript-syntax.git
+[submodule "bundle/cecutil"]
+	path = bundle/cecutil
+	url = git://github.com/vim-scripts/cecutil.git
+[submodule "bundle/pathogen"]
+	path = bundle/pathogen
+	url = git://github.com/vim-scripts/pathogen.vim.git
+[submodule "bundle/vim-scala"]
+	path = bundle/vim-scala
+	url = git://github.com/vim-scripts/scala.vim.git
+[submodule "bundle/vim-php"]
+	path = bundle/vim-php
+	url = git://github.com/vim-scripts/php.vim.git

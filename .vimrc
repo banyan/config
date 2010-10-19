@@ -13,8 +13,10 @@
 
 """ pathogen
 "-----------------------------------------------------------------------------
+"{{{
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+"}}}
 
 """ encoding
 "-----------------------------------------------------------------------------
@@ -40,7 +42,7 @@ nnoremap <Leader>rn :e ++fileformat=dos<CR>
 
 " 文字コードの自動認識プラグインを読み込む
 " http://d.hatena.ne.jp/shizu9/20090402/1238697718
-source ~/.vim/plugin/recognize_charcode.vim
+source ~/.vim/bundle/recognize_charcode/plugin/recognize_charcode.vim
 "}}}
 
 """ search
@@ -523,4 +525,3 @@ vmap <silent> sr :Entity2HtmlString<cr>
 " sortcss.pl
 nmap gso vi{:!sortcss<CR>
 vmap gso i{:!sortcss<CR>
-

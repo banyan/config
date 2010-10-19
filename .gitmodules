@@ -64,3 +64,6 @@
 [submodule "bundle/vim-php"]
 	path = .vim/bundle/vim-php
 	url = git://github.com/vim-scripts/php.vim.git
+[submodule ".vim/bundle/pathogen"]
+	path = .vim/bundle/pathogen
+	url = git://github.com/tpope/vim-pathogen.git

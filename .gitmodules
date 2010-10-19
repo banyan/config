@@ -46,9 +46,6 @@
 [submodule "bundle/vim-javascript"]
 	path = .vim/bundle/vim-javascript
 	url = git://github.com/vim-scripts/JavaScript-syntax.git
-[submodule "bundle/vim-scala"]
-	path = .vim/bundle/vim-scala
-	url = git://github.com/vim-scripts/scala.vim.git
 [submodule "bundle/vim-php"]
 	path = .vim/bundle/vim-php
 	url = git://github.com/vim-scripts/php.vim.git

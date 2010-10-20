@@ -324,6 +324,9 @@ augroup END
 "折りたたみを保存する
 set foldmethod=marker
 
+"スワップファイルを作らない
+set noswapfile
+
 " C-h で help を引く
 nnoremap <C-h> :<C-u>h<Space>
 

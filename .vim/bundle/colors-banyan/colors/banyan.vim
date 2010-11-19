@@ -37,7 +37,6 @@ hi DiffText        term=reverse cterm=bold ctermbg=1 gui=bold guibg=Red
 hi SignColumn      term=standout ctermfg=14 ctermbg=242 guifg=Cyan guibg=Grey
 hi Cursor          guifg=#303030 guibg=#00ff5f
 hi lCursor         guifg=bg guibg=fg
-hi Normal          ctermfg=38 ctermbg=235 guifg=#00afff guibg=#262626
 hi Comment         term=bold ctermfg=251 guifg=#c6c6c6
 hi Constant        term=underline ctermfg=165 guifg=#d700ff
 hi Special         term=bold ctermfg=3 guifg=DarkYellow

@@ -10,6 +10,7 @@ if exists("syntax_on")
 endif
 let colors_name="banyan"
 
+hi Normal          ctermfg=39 ctermbg=NONE guifg=#000000 guibg=#F8F8FF
 hi SpecialKey      term=bold ctermfg=2 guifg=yellowgreen
 hi NonText         term=bold ctermfg=84 gui=bold guifg=#5fff87
 hi Directory       term=bold ctermfg=84 guifg=#5fff87

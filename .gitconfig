@@ -25,8 +25,8 @@
 [alias]
     ci      = commit
     co      = checkout
-    s       = status
-    st      = status
+    s       = status --ignore-submodules
+    st      = status --ignore-submodules
     d       = diff
     di      = diff
     dic     = diff --cached

@@ -18,7 +18,19 @@ termcapinfo xterm* 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
 # scroll for Terminal.app
 #termcapinfo xterm-color ti@:te@
 
+#bind -c REGION o focus down
+#bind -c REGION p focus up
+#bind -c REGION 0 remove
+#bind -c REGION 1 only
+#bind -c REGION 2 split
+#bind -c REGION 3 split -v
+#bind -c REGION \^ resize +2
+#bind -c REGION } resize +2
+#bind -c REGION { resize -2
 
+#bind sp prev
+#bind sp other
+#bind ^sp other
 ##ctrl + 矢印キーでウィンドウ切り替え
 #http://blog.blueblack.net/item_183
 #aterm bindings
@@ -63,6 +75,28 @@ bind e command -c ENCODING
 #screen -t 'log' 5
 #screen -t 'mysql' 6
 #screen -t 'zsh' 7 
+
+screen -t n 1
+screen -t n 2
+screen -t n 3
+screen -t n 4
+screen -t n 5
+screen -t n 6
+screen -t n 7
+screen -t n 8
+screen -t n 9
+screen -t n 10
+screen -t n 11
+screen -t n 12
+screen -t n 13
+screen -t n 14
+screen -t n 15
+screen -t n 16
+screen -t n 17
+screen -t n 18
+screen -t n 19
+screen -t n 20
+select 1
 
 # ↓黄色のステータスバーにするが、どうにも字のコントラストがよくない
 hardstatus      alwayslastline "%{= yB}%-w%{.B}%{= WK}%n %t%{-}%+w "

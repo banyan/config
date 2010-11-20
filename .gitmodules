@@ -52,3 +52,15 @@
 [submodule ".vim/bundle/pathogen"]
 	path = .vim/bundle/pathogen
 	url = git://github.com/tpope/vim-pathogen.git
+[submodule ".vim/bundle/The-NERD-Commenter"]
+	path = .vim/bundle/The-NERD-Commenter
+	url = https://github.com/vim-scripts/The-NERD-Commenter.git
+[submodule ".vim/bundle/YankRing"]
+	path = .vim/bundle/YankRing
+	url = https://github.com/vim-scripts/YankRing.vim.git
+[submodule ".vim/bundle/autocomplpop"]
+	path = .vim/bundle/autocomplpop
+	url = https://github.com/vim-scripts/AutoComplPop.git
+[submodule ".vim/bundle/eregex"]
+	path = .vim/bundle/eregex
+	url = https://github.com/vim-scripts/eregex.vim.git

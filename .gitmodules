@@ -52,3 +52,6 @@
 [submodule ".vim/bundle/eregex"]
 	path = .vim/bundle/eregex
 	url = https://github.com/vim-scripts/eregex.vim.git
+[submodule ".vim/bundle/unite"]
+	path = .vim/bundle/unite
+	url = https://github.com/Shougo/unite.vim.git

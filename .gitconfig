@@ -27,10 +27,10 @@
     co      = checkout
     s       = status --ignore-submodules
     st      = status --ignore-submodules
-    d       = diff
-    di      = diff
-    dic     = diff --cached
-    dc      = diff --cached
+    d       = diff --ignore-submodules
+    di      = diff --ignore-submodules
+    dic     = diff --cached --ignore-submodules
+    dc      = diff --cached --ignore-submodules
     difflog = log -p HEAD@{3.days.ago}
     cob     = checkout -b
     b       = branch

@@ -55,3 +55,6 @@
 [submodule ".vim/bundle/unite"]
 	path = .vim/bundle/unite
 	url = https://github.com/Shougo/unite.vim.git
+[submodule ".vim/bundle/vim-ref"]
+	path = .vim/bundle/vim-ref
+	url = https://github.com/thinca/vim-ref.git

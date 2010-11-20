@@ -14,8 +14,16 @@
 """ pathogen
 "-----------------------------------------------------------------------------
 "{{{
+" pathogen.vim で ftdetect などを load させるために一度ファイルタイプ判定を off にする
+filetype off
+
+" pathogen.vim によって bundle 配下の plugin を path に加える
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+
+" filetype 判定を戻す
+filetype plugin on
+
 "}}}
 
 """ encoding

@@ -3,12 +3,23 @@
 
 require 'fileutils'
 
-SRC_PATH = "/usr/local/src/"
-BIN_PATH = "/usr/local/bin/"
+def is_mac
+  RUBY_PLATFORM =~ /darwin/ ? true : false
+end
+
+# Change Paths as you like
+if is_mac
+  SRC_PATH = "#{ENV['HOME']}/Sources/"
+  BIN_PATH = "#{ENV['HOME']}/bin/"
+else
+  SRC_PATH = "/usr/local/src/"
+  BIN_PATH = "/usr/local/bin/"
+end
 
 VERSIONS = %w(
   scala-2.7.7.final
   scala-2.8.0.RC1
+  scala-2.8.0.final
 )
 
 COMMANDS = %w(
@@ -33,6 +44,10 @@ end
 def create_symbolic_link(version)
   COMMANDS.each do |c|
     original = SRC_PATH + version + "/bin/#{c}"
+    unless FileTest.exist?(original)
+      puts "invalid scala's bin path."
+      exit
+    end
     link     = BIN_PATH + c
     FileUtils.symlink(original, link)
   end

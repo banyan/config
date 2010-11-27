@@ -399,6 +399,8 @@ hi TabLineFill term=reverse cterm=reverse ctermfg=162 ctermbg=162
 
 set showtabline=2
 
+"}}}
+
 """ plugin
 "-----------------------------------------------------------------------------
 "{{{
@@ -497,3 +499,14 @@ nmap <silent> sudo :call YanktmpPaste_P()<CR>
 " str2htmlentity.vim
 vmap <silent> sx :Str2HtmlEntity<cr>
 vmap <silent> sr :Entity2HtmlString<cr>
+
+"}}}
+
+""" local
+"-----------------------------------------------------------------------------
+"{{{
+
+" local 用の設定を行う
+if filereadable(expand('~/.vimrc.local'))
+    source ~/.vimrc.local
+endif

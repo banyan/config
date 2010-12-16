@@ -1,0 +1,60 @@
+[submodule "bundle/fugitive"]
+	path = .vim/bundle/fugitive
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule "bundle/vim-ham"]
+	path = .vim/bundle/vim-ham
+	url = git://github.com/tpope/vim-haml.git
+[submodule "bundle/vim-haml"]
+	path = .vim/bundle/vim-haml
+	url = git://github.com/tpope/vim-haml.git
+[submodule "bundle/sudo"]
+	path = .vim/bundle/sudo
+	url = git://github.com/vim-scripts/sudo.vim.git
+[submodule "bundle/endwise"]
+	path = .vim/bundle/endwise
+	url = git://github.com/vim-scripts/endwise.vim.git
+[submodule "bundle/thinca_vim-guicolorscheme"]
+	path = .vim/bundle/thinca_vim-guicolorscheme
+	url = git://github.com/thinca/vim-guicolorscheme.git
+[submodule "bundle/yanktmp"]
+	path = .vim/bundle/yanktmp
+	url = git://github.com/vim-scripts/yanktmp.vim.git
+[submodule "bundle/YankRing"]
+	path = .vim/bundle/YankRing
+	url = git://github.com/vim-scripts/YankRing.vim.git
+[submodule "bundle/mru"]
+	path = .vim/bundle/mru
+	url = git://github.com/vim-scripts/mru.vim.git
+[submodule "bundle/quickrun"]
+	path = .vim/bundle/quickrun
+	url = git://github.com/vim-scripts/quickrun.git
+[submodule "bundle/Smooth-Scroll"]
+	path = .vim/bundle/Smooth-Scroll
+	url = git://github.com/vim-scripts/Smooth-Scroll.git
+[submodule "bundle/JavaScript-syntax"]
+	path = .vim/bundle/JavaScript-syntax
+	url = git://github.com/vim-scripts/JavaScript-syntax.git
+[submodule "bundle/vim-javascript"]
+	path = .vim/bundle/vim-javascript
+	url = git://github.com/vim-scripts/JavaScript-syntax.git
+[submodule "bundle/vim-php"]
+	path = .vim/bundle/vim-php
+	url = git://github.com/vim-scripts/php.vim.git
+[submodule ".vim/bundle/pathogen"]
+	path = .vim/bundle/pathogen
+	url = git://github.com/tpope/vim-pathogen.git
+[submodule ".vim/bundle/The-NERD-Commenter"]
+	path = .vim/bundle/The-NERD-Commenter
+	url = https://github.com/vim-scripts/The-NERD-Commenter.git
+[submodule ".vim/bundle/autocomplpop"]
+	path = .vim/bundle/autocomplpop
+	url = https://github.com/vim-scripts/AutoComplPop.git
+[submodule ".vim/bundle/eregex"]
+	path = .vim/bundle/eregex
+	url = https://github.com/vim-scripts/eregex.vim.git
+[submodule ".vim/bundle/unite"]
+	path = .vim/bundle/unite
+	url = https://github.com/Shougo/unite.vim.git
+[submodule ".vim/bundle/vim-ref"]
+	path = .vim/bundle/vim-ref
+	url = https://github.com/thinca/vim-ref.git

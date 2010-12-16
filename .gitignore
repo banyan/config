@@ -13,7 +13,7 @@
 *.sw[po]
 tags
 *.html.php
-*.svn
+*.svn/
 .zsh/cdd_pwd_list
 .zsh/cdd_pwd_list.t
 

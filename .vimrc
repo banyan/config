@@ -11,6 +11,21 @@
 "   \::::/__/       /:/  /     \:\__\        \:\__\        \::/  /
 "    ~~~~           \/__/       \/__/         \/__/         \/__/
 
+""" pathogen
+"-----------------------------------------------------------------------------
+"{{{
+" pathogen.vim で ftdetect などを load させるために一度ファイルタイプ判定を off にする
+filetype off
+
+" pathogen.vim によって bundle 配下の plugin を path に加える
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
+" filetype 判定を戻す
+filetype plugin on
+
+"}}}
+
 """ encoding
 "-----------------------------------------------------------------------------
 "{{{
@@ -35,7 +50,7 @@ nnoremap <Leader>rn :e ++fileformat=dos<CR>
 
 " 文字コードの自動認識プラグインを読み込む
 " http://d.hatena.ne.jp/shizu9/20090402/1238697718
-source ~/.vim/plugin/recognize_charcode.vim
+source ~/.vim/bundle/recognize_charcode/plugin/recognize_charcode.vim
 "}}}
 
 """ search
@@ -109,7 +124,7 @@ set ruler
 " タブや改行を表示しない
 set nolist
 set nowrap
-set laststatus=2
+set laststatus=1
 set cmdheight=1
 set showcmd
 set title
@@ -187,12 +202,6 @@ nnoremap <Space>n
 "{{{
 " blacklight をベースに colorscheme banyan を作成中
 " http://www.vim.org/scripts/script.php?script_id=1596
-
-" guicolorscheme.vim は半角/全角の色がおかしくなるので使わない
-" http://github.com/thinca/vim-guicolorscheme
-"let g:guicolorscheme_color_table = {'bg' : 'black', 'fg' : 'Grey'}
-"autocmd VimEnter * :GuiColorScheme banyan
-
 colorscheme banyan
 "}}}
 
@@ -211,8 +220,8 @@ vmap j gj
 vmap k gk
 
 " ポップアップメニューの色
-hi Pmenu ctermbg=8
-hi PmenuSel ctermbg=4
+hi Pmenu     ctermbg=8
+hi PmenuSel  ctermbg=4
 hi PmenuSbar ctermbg=8
 
 " http://d.hatena.ne.jp/kasahi/20070902/1188744907
@@ -222,8 +231,8 @@ match WhitespaceEOL /\s\+$/
 autocmd WinEnter * match WhitespaceEOL /\s\+$/
 
 " 全角スペースを別色表示に
-"autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
-"autocmd VimEnter,WinEnter * match
+autocmd Colorscheme * highlight IdeographicSpace term=underline ctermbg=DarkGreen guibg=DarkGreen
+autocmd VimEnter,WinEnter * match
 
 " ステイタス行に文字コードと改行コードを表示。
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
@@ -317,6 +326,9 @@ augroup END
 "折りたたみを保存する
 set foldmethod=marker
 
+"スワップファイルを作らない
+set noswapfile
+
 " C-h で help を引く
 nnoremap <C-h> :<C-u>h<Space>
 
@@ -387,31 +399,7 @@ hi TabLineFill term=reverse cterm=reverse ctermfg=162 ctermbg=162
 
 set showtabline=2
 
-"http://d.hatena.ne.jp/teramako/20070318/vim7_tab
-"set tabline=%!MyTabLine()
-"function MyTabLine()
-  "let s = ''
-  "for i in range(tabpagenr('$'))
-    "if i + 1 == tabpagenr()
-      "let s .= '%#TabLineSel#'
-    "else
-      "let s .= '%#TabLine#'
-    "endif
-    "let s .= '%' . (i+1) . 'T' 
-    "let s .= ' ' . (i+1) . (1==getwinvar(i+1,'&modified')?'[+]':'') . ' %{MyTabLabel(' . (i+1) . ')} '
-  "endfor
-  "let s .= '%#TabLineFill#%T'
-  "if tabpagenr('$') > 1 
-    "let s .= '%=%#TabLine#%999Xclose'
-  "endif
-  "return s
-"endfunction
-
-"function MyTabLabel(n)
-  "let buflist = tabpagebuflist(a:n)
-  "let winnr = tabpagewinnr(a:n)
-  "return bufname(buflist[winnr - 1]) 
-"endfunction"}}}
+"}}}
 
 """ plugin
 "-----------------------------------------------------------------------------
@@ -462,7 +450,7 @@ nmap <silent> <F4>
 "set tags=~/.tags,tags
 set tags=~/.tags
 
-" タグファイルを指定するよー
+" タグファイルを指定する
 " set tags
 " from id:secondlife
 if has("autochdir")
@@ -490,9 +478,6 @@ au Filetype vim        nnoremap <silent><leader> :source %<Return
 "http://www.vim.org/scripts/script.php?script_id=521
 let MRU_Max_Entries=25
 
-"snippetsEmu
-filetype plugin on
-
 "バインド(<tab>)を変更したい場合
 "imap <unique> <C-b> <Plug>Jumper
 "smap <unique> <C-b> i<BS><C-b>
@@ -515,7 +500,13 @@ nmap <silent> sudo :call YanktmpPaste_P()<CR>
 vmap <silent> sx :Str2HtmlEntity<cr>
 vmap <silent> sr :Entity2HtmlString<cr>
 
-" sortcss.pl
-nmap gso vi{:!sortcss<CR>
-vmap gso i{:!sortcss<CR>
+"}}}
 
+""" local
+"-----------------------------------------------------------------------------
+"{{{
+
+" local 用の設定を行う
+if filereadable(expand('~/.vimrc.local'))
+    source ~/.vimrc.local
+endif

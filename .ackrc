@@ -1,0 +1,5 @@
+--type-set=tx=.tx
+--type-set=mt=.mt
+--type-set=haml=.haml
+--type-set=scaml=.scaml
+--type-set=ini=.ini

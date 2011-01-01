@@ -430,10 +430,16 @@ nnoremap <Leader>o     : TlistClose<CR>
 nnoremap <Leader><C-o> : TlistClose<CR>
 
 " NERD_commenter
-"<Leader>xでコメントをトグル(NERD_commenter.vim)
+" http://www.vim.org/scripts/script.php?script_id=1218
+let g:NERDCreateDefaultMappings = 0
+let g:NERDSpaceDelims = 1
 let mapleader = ','
-map <Leader>x ,c<space>
-map <Leader>s ,cm<space>
+map <Leader>x  <Plug>NERDCommenterToggle
+map <Leader>s  <Plug>NERDCommenterSexy
+map <Leader>m  <Plug>NERDCommenterMinimal
+map <Leader>ad <Plug>NERDCommenterAltDelims
+map <Leader>al <Plug>NERDCommenterAlignLeft
+map <Leader>ab <Plug>NERDCommenterAlignBoth
 
 " AlignPlugin.vim
 let mapleader = ' h'

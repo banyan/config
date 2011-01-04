@@ -137,10 +137,12 @@ case "$OSTYPE" in
         alias ls='ls --color=auto'
     ;;
 esac
+alias ll='ls -alF'
 alias lla='ls -A'
 alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 alias g="git"
 alias py="python"
+alias r="rails"
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
@@ -308,3 +310,5 @@ function pcolor() {
     echo
 }
 
+alias javac='javac -J-Dfile.encoding=UTF-8'
+alias java='java -Dfile.encoding=UTF-8'

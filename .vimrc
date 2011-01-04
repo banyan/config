@@ -431,8 +431,9 @@ nnoremap <Leader><C-o> : TlistClose<CR>
 
 " NERD_commenter
 " http://www.vim.org/scripts/script.php?script_id=1218
-let g:NERDCreateDefaultMappings = 0
-let g:NERDSpaceDelims = 1
+
+let g:NERDCreateDefaultMappings = 0 " デフォルトのマッピングを無効にする
+let g:NERDSpaceDelims = 1           " 行頭に1スペースを作ってコメントアウトする
 let mapleader = ','
 map <Leader>x  <Plug>NERDCommenterToggle
 map <Leader>s  <Plug>NERDCommenterSexy

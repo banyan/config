@@ -143,6 +143,7 @@ alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 alias g="git"
 alias py="python"
 alias r="rails"
+alias wget='wget --no-check-certificate'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855

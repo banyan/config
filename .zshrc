@@ -18,6 +18,10 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
 
+# glob (*) での履歴のインクリメンタル検索
+bindkey '^R' history-incremental-pattern-search-backward
+bindkey '^S' history-incremental-pattern-search-forward
+
 # 補完関数を作成する時のデバッグ用関数
 if [ -f "$HOME/.zsh/debug.zshrc" ]; then
     # source "$HOME/.zsh/debug.zshrc"

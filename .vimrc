@@ -507,6 +507,22 @@ nmap <silent> sudo :call YanktmpPaste_P()<CR>
 vmap <silent> sx :Str2HtmlEntity<cr>
 vmap <silent> sr :Entity2HtmlString<cr>
 
+" ref.vim
+let g:ref_phpmanual_path        = '~/.vim/doc/phpmanual'
+let g:ref_perldoc_complete_head = 1
+let g:ref_use_vimproc           = 0
+let g:ref_jquery_use_cache      = 1
+let g:ref_alc_use_cache         = 1
+nnoremap <silent> <Space>ra :<C-u>call ref#jump('normal', 'alc')<CR>
+vnoremap <silent> <Space>ra :<C-u>call ref#jump('visual', 'alc')<CR>
+nnoremap <silent> <Space>rp :<C-u>call ref#jump('normal', 'phpmanual')<CR>
+vnoremap <silent> <Space>rp :<C-u>call ref#jump('visual', 'phpmanual')<CR>
+nnoremap <C-f><C-f> :<C-u>Ref<Space>
+" nnoremap <C-f><C-p> :<C-u>Ref perldoc<Space>
+nnoremap <C-f><C-l> :<C-u>Ref alc<Space>
+nnoremap <C-f><C-h> :<C-u>Ref phpmanual<Space>
+nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
+
 "}}}
 
 """ local

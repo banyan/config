@@ -4,6 +4,7 @@
 [core]
 	excludesfile = /Users/kohei/.gitignore
     pager        = less -r
+	editor = /usr/bin/vim
 [color]
 	diff        = auto
 	status      = auto

@@ -508,7 +508,7 @@ vmap <silent> sx :Str2HtmlEntity<cr>
 vmap <silent> sr :Entity2HtmlString<cr>
 
 " ref.vim
-let g:ref_phpmanual_path        = '~/.vim/doc/phpmanual'
+let g:ref_phpmanual_path        = $HOME . '/git/config/doc/phpmanual'
 let g:ref_perldoc_complete_head = 1
 let g:ref_use_vimproc           = 0
 let g:ref_jquery_use_cache      = 1

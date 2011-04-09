@@ -3,8 +3,8 @@
 	email = ameutau@gmail.com
 [core]
 	excludesfile = /Users/kohei/.gitignore
-    pager        = less -r
-	editor = /usr/bin/vim
+	pager        = less -r
+	editor       = /usr/bin/vim
 [color]
 	diff        = auto
 	status      = auto
@@ -45,8 +45,8 @@
     svnci   = svn dcommit
     svnre   = svn rebase
     m       = merge
+    graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date=short
 
 [github]
 	user  = banyan
 	token = 0276c95e63cfcf2d2009bbbda2bdcfd9
-

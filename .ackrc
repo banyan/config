@@ -3,3 +3,4 @@
 --type-set=haml=.haml
 --type-set=scaml=.scaml
 --type-set=ini=.ini
+--type-set=htaccess=.htaccess

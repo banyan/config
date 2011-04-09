@@ -180,6 +180,12 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # cdd を追加
 source ~/.zsh.d/cdd
 
+# source git-flow-completion
+# https://github.com/bobthecow/git-flow-completion
+if [ -f "$HOME/.zsh.d/.git-flow-completion.zsh" ]; then
+    source "$HOME/.zsh.d/.git-flow-completion.zsh"
+fi
+
 function chpwd() {
     _reg_pwd_screennum
 }

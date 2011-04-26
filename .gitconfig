@@ -26,12 +26,15 @@
 [alias]
     ci      = commit
     co      = checkout
-    s       = status --ignore-submodules
-    st      = status --ignore-submodules
-    d       = diff --ignore-submodules
-    di      = diff --ignore-submodules
-    dic     = diff --cached --ignore-submodules
-    dc      = diff --cached --ignore-submodules
+    s       = status
+    st      = status
+    sti     = status --ignore-submodules
+    d       = diff
+    di      = diff
+    dii     = diff --ignore-submodules
+    dic     = diff --cached
+    dc      = diff --cached
+    dci     = diff --cached --ignore-submodules
     difflog = log -p HEAD@{3.days.ago}
     cob     = checkout -b
     b       = branch

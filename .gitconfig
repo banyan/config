@@ -48,7 +48,8 @@
     svnci   = svn dcommit
     svnre   = svn rebase
     m       = merge
-    graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date=short
+    graph   = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date=short
+    sub     = submodule
 
 [github]
 	user  = banyan

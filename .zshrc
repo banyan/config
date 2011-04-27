@@ -182,8 +182,8 @@ source ~/.zsh.d/cdd
 
 # source git-flow-completion
 # https://github.com/bobthecow/git-flow-completion
-if [ -f "$HOME/.zsh.d/.git-flow-completion.zsh" ]; then
-    source "$HOME/.zsh.d/.git-flow-completion.zsh"
+if [ -f "$HOME/.zsh.d/git-flow-completion.zsh" ]; then
+    source "$HOME/.zsh.d/git-flow-completion.zsh"
 fi
 
 function chpwd() {

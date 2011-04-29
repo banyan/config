@@ -14,7 +14,6 @@ Bundle 'endwise.vim'
 Bundle 'haml.zip'
 Bundle 'git-commit'
 Bundle 'rails.vim'
-Bundle 'sudo.vim'
 Bundle 'yanktmp.vim'
 Bundle 'YankRing.vim'
 Bundle 'mru.vim'
@@ -382,6 +381,9 @@ nnoremap <silent> s<CR> :<C-u>call <SID>big()<CR> " 最大化
 nnoremap s0 1<C-W>_ " 最小化
 nnoremap s. <C-W>=  " 全部同じ大きさにする
 
+" sudo.vim
+cmap w!! :w !sudo tee >/dev/null %
+
 "}}}
 
 """ tab
@@ -526,9 +528,6 @@ endif
 map <silent> sy :call YanktmpYank()<CR>
 map <silent> sp :call YanktmpPaste_p()<CR>
 map <silent> sP :call YanktmpPaste_P()<CR>
-
-" sudo.vim
-nmap <silent> sudo :call<CR>
 
 " str2htmlentity.vim
 vmap <silent> sx :Str2HtmlEntity<cr>

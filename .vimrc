@@ -1,7 +1,7 @@
 """ vundle
 "-----------------------------------------------------------------------------
 "{{{
-set nocompatible
+set nocompatible " Use Vim defaults instead of 100% vi compatibility
 " vundle.vim で ftdetect などを load させるために一度ファイルタイプ判定を off にする
 filetype off
 
@@ -23,7 +23,6 @@ Bundle 'Smooth-Scroll'
 Bundle 'JavaScript-syntax'
 Bundle 'php.vim'
 Bundle 'The-NERD-Commenter'
-Bundle 'AutoComplPop'
 Bundle 'eregex.vim'
 Bundle 'Align'
 
@@ -154,21 +153,11 @@ set scrolljump=5
 set scrolloff=3
 set t_Co=256
 
-" カーソルライン表示 激重で断念
-"set cul
-" かっこいいけど重くて使えないお＞＜
-" http://vimwiki.net/?faq%2F3
-" ラインカーソル
-"set updatetime=1
-"sign define Cursor text=>> linehl=Search
-"fun! PlaceCursor()
-    "sign unplace *
-    "exe "sign place 1 line=" . line(".") . " name=Cursor buffer=" . bufnr("%")
-"endfun
-"au! CursorHold * call PlaceCursor()
+" カーソルライン表示 重いので止めてる
+" set cul
 " 現在行をhighlight
-"set updatetime=1
-"autocmd CursorHold * :match Search /^.*\%#.*$/
+" set updatetime=1
+" autocmd CursorHold * :match Search /^.*\%#.*$/
 
 "シンタックスハイライトを有効にする
 syntax on
@@ -221,8 +210,7 @@ nnoremap <Space>n
 """ colorscheme
 "-----------------------------------------------------------------------------
 "{{{
-" blacklight をベースに colorscheme banyan を作成中
-" http://www.vim.org/scripts/script.php?script_id=1596
+" https://github.com/banyan/banyan.vim
 colorscheme banyan
 "}}}
 
@@ -274,9 +262,6 @@ nmap <Space>w :w<CR>
 nmap <Space>d :diffthis<CR>
 nmap <Space>c :q<CR>
 
-" <TAB>でOmni補完
-" http://coderepos.org/share/export/19203/dotfiles/vim/ukstudio/.vimrc
-
 "function! InsertTabWrapper()
     "if pumvisible()
         "return "\<c-n>"
@@ -291,9 +276,6 @@ nmap <Space>c :q<CR>
     "endif
 "endfunction
 "inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-
-" %マッチでrubyのクラスやメソッドが対応するようにする
-"autocmd FileType ruby :source ~/.vim/ftplugin/ruby-matchit.vim
 
 "カーソルがある行をハイライトする
 "http://peace-pipe.blogspot.com/2006/05/vimrc-vim.html
@@ -330,10 +312,6 @@ nnoremap <Space>p
       \  :<C-u>setlocal paste!
       \ \|     setlocal nopaste?<CR>
 
-"var_dump のショートカット
-autocmd FileType php noremap <F9> ivar_dump($);<CR>exit;<ESC>kf$a
-autocmd FileType php noremap <F10> ivar_dump($);<ESC>hha
-
 " .swp に設定
 set directory^=~/.tmp//
 
@@ -363,6 +341,16 @@ autocmd!
 autocmd InsertEnter * highlight StatusLine ctermfg=255 ctermbg=39
 autocmd InsertLeave * highlight StatusLine ctermfg=37 ctermbg=15
 augroup END
+
+" ディレクトリが存在しなくてもディレクトリつくってファイル作成
+function! s:newFileOpen(file)
+    let dir = fnamemodify(a:file, ':h')
+    if !isdirectory(dir)
+        call mkdir(dir, 'p')
+    endif
+    execute 'edit ' . a:file
+endfunction
+command! -nargs=1 -complete=file New call s:newFileOpen(<q-args>)
 
 "}}}
 
@@ -425,23 +413,6 @@ set showtabline=2
 """ plugin
 "-----------------------------------------------------------------------------
 "{{{
- " bufferlist.vim
-:map <silent> <C-k> :call BufferList()<CR>
-
- " fuzzyfinder.vim
-let mapleader = ' f'
-nnoremap <silent> <C-s> :tabnew<CR>:tabmove<CR>:FuzzyFinderBuffer<CR>
-nnoremap <silent> <Leader>b :tabnew<CR>:tabmove<CR>:FuzzyFinderBuffer<CR>
-nnoremap <silent> <Leader>f :tabnew<CR>:tabmove<CR>:FuzzyFinderFile  <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
-nnoremap <silent> <Leader>n :tabnew<CR>:tabmove<CR>:FuzzyFinderFile! <C-r>=expand('#:~:.')[:-1-len(expand('#:~:.:t'))]<CR><CR>
-nnoremap <silent> <Leader>m :tabnew<CR>:tabmove<CR>:FuzzyFinderMruFile<CR>
-nnoremap <silent> <Leader>c :tabnew<CR>:tabmove<CR>:FuzzyFinderMruCmd<CR>
-nnoremap <silent> <Leader>v :tabnew<CR>:tabmove<CR>:FuzzyFinderFavFile<CR>
-nnoremap <silent> <Leader>d :tabnew<CR>:tabmove<CR>:FuzzyFinderDir <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
-nnoremap <silent> <Leader>t :tabnew<CR>:tabmove<CR>:FuzzyFinderTag!<CR>
-nnoremap <silent> <Leader>g :tabnew<CR>:tabmove<CR>:FuzzyFinderTaggedFile<CR>
-nnoremap <silent> <Leader>a :tabnew<CR>:tabmove<CR>:FuzzyFinderAddFavFile<CR>
-"nnoremap <silent> <C-]>     :FuzzyFinderTag! <C-r>=expand('<cword>')<CR><CR>
 
  " taglist.vim
 let mapleader = ' t'
@@ -452,7 +423,6 @@ nnoremap <Leader><C-o> : TlistClose<CR>
 
 " NERD_commenter
 " http://www.vim.org/scripts/script.php?script_id=1218
-
 let g:NERDCreateDefaultMappings = 0 " デフォルトのマッピングを無効にする
 let g:NERDSpaceDelims = 1           " 行頭に1スペースを作ってコメントアウトする
 let mapleader = ','
@@ -502,6 +472,41 @@ au Filetype scheme     nnoremap <buffer><leader> :!gosh %<Space>
 au Filetype javascript nnoremap <buffer><leader> :!js %<Space>
 au Filetype vim        nnoremap <silent><leader> :source %<Return
 
+" neocomplcache.vim
+let g:acp_enableAtStartup                        = 0 " Disable AutoComplPop.
+let g:neocomplcache_enable_at_startup            = 1 " Use neocomplcache.
+let g:neocomplcache_enable_smart_case            = 1 " Use smartcase.
+let g:neocomplcache_enable_camel_case_completion = 1 " Use camel case completion
+let g:neocomplcache_enable_underbar_completion   = 1 " Use underbar completion.
+let g:neocomplcache_min_syntax_length            = 3 " Set minimum syntax keyword length.
+let g:neocomplcache_lock_buffer_name_pattern     = '\*ku\*'
+" let g:neocomplcache_enable_auto_select           = 1 " AutoComplPop like behavior.
+
+" Recommended key-mappings.
+" inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>" " doesn't work o_O
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><C-e> neocomplcache#cancel_popup()
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
 "mru.vim
 "http://www.vim.org/scripts/script.php?script_id=521
 let MRU_Max_Entries=25
@@ -539,7 +544,7 @@ vnoremap <silent> <Space>ra :<C-u>call ref#jump('visual', 'alc')<CR>
 nnoremap <silent> <Space>rp :<C-u>call ref#jump('normal', 'phpmanual')<CR>
 vnoremap <silent> <Space>rp :<C-u>call ref#jump('visual', 'phpmanual')<CR>
 nnoremap <C-f><C-f> :<C-u>Ref<Space>
-" nnoremap <C-f><C-p> :<C-u>Ref perldoc<Space>
+nnoremap <C-f><C-p> :<C-u>Ref perldoc<Space>
 nnoremap <C-f><C-l> :<C-u>Ref alc<Space>
 nnoremap <C-f><C-h> :<C-u>Ref phpmanual<Space>
 nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>

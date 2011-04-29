@@ -39,6 +39,7 @@ function _zshenv_add_path() {
 
 export PATH=
 _zshenv_add_path PATH "$HOME/bin"
+_zshenv_add_path PATH "$HOME/git/config/bin" # git で管理する bin
 _zshenv_add_path PATH "$HOME/sbin"
 _zshenv_add_path PATH "/usr/local/bin"
 _zshenv_add_path PATH "/usr/local/sbin"
@@ -62,7 +63,6 @@ _zshenv_add_path PATH "/usr/local/lib/flex3/bin"
 _zshenv_add_path PATH "/usr/local/src/apache-maven-2.2.1/bin"
 _zshenv_add_path PATH "/usr/local/ImageMagick-6.5.8-5/lib"
 
-
 export CPATH=
 _zshenv_add_path CPATH "/usr/local/include"
 _zshenv_add_path CPATH "/opt/local/include"
@@ -74,4 +74,3 @@ _zshenv_add_path CPATH "/opt/include"
 
 #export JRUBY_HOME=/usr/local/lib/jruby
 #export PATH=$JRUBY_HOME/bin:$PATH
-

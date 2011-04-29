@@ -69,8 +69,8 @@ nnoremap <Leader>r :e ++fileformat=mac<CR>
 nnoremap <Leader>rn :e ++fileformat=dos<CR>
 
 " 文字コードの自動認識プラグインを読み込む
-" http://d.hatena.ne.jp/shizu9/20090402/1238697718
-" source ~/.vim/bundle/recognize_charcode/plugin/recognize_charcode.vim
+" https://github.com/banyan/recognize_charcode.vim
+source ~/.vim/bundle/recognize_charcode.vim/plugin/recognize_charcode.vim
 "}}}
 
 """ search

@@ -550,15 +550,15 @@ nnoremap <C-f><C-h> :<C-u>Ref phpmanual<Space>
 nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
 
 " unite.vim
-nnoremap    [unite]   <Nop>
-nmap      f [unite]
+nnoremap        [unite]   <Nop>
+nmap      <C-k> [unite]
 
-nnoremap [unite]u  :<C-u>Unite<Space>
-nnoremap <silent> [unite]a  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
-nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
-nnoremap <silent> [unite]u  :<C-u>Unite buffer file_mru<CR>
+nnoremap [unite]<C-u>  :<C-u>Unite<Space>
+nnoremap <silent> [unite]<C-l>  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]<C-k>  :<C-u>Unite -buffer-name=files file<CR>
+nnoremap <silent> [unite]<C-n>  :<C-u>Unite buffer<CR>
+nnoremap <silent> [unite]<C-m>  :<C-u>Unite file_mru<CR>
+nnoremap <silent> [unite]<C-u>  :<C-u>Unite buffer file_mru<CR>
 
 " nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 

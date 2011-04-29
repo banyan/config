@@ -17,4 +17,4 @@ tags
 .zsh/cdd_pwd_list
 .zsh/cdd_pwd_list.t
 .zsh/local.zshenv
-.vim/bundle
+.vim/bundle/*

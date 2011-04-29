@@ -25,6 +25,7 @@ Bundle 'php.vim'
 Bundle 'The-NERD-Commenter'
 Bundle 'eregex.vim'
 Bundle 'Align'
+Bundle 'neco-look'
 
 " original repos on github
 Bundle 'vim-ruby/vim-ruby'
@@ -527,7 +528,7 @@ map <silent> sp :call YanktmpPaste_p()<CR>
 map <silent> sP :call YanktmpPaste_P()<CR>
 
 " sudo.vim
-nmap <silent> sudo :call YanktmpPaste_P()<CR>
+nmap <silent> sudo :call<CR>
 
 " str2htmlentity.vim
 vmap <silent> sx :Str2HtmlEntity<cr>

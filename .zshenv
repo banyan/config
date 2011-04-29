@@ -39,7 +39,7 @@ function _zshenv_add_path() {
 
 export PATH=
 _zshenv_add_path PATH "$HOME/bin"
-_zshenv_add_path PATH "$HOME/git/config/bin" # git で管理する bin
+_zshenv_add_path PATH "$HOME/git/config/bin/*" # git で管理する bin
 _zshenv_add_path PATH "$HOME/sbin"
 _zshenv_add_path PATH "/usr/local/bin"
 _zshenv_add_path PATH "/usr/local/sbin"

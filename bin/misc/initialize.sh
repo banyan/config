@@ -18,3 +18,7 @@ if [ $? -eq 0 ]; then
 else
     echo "some problems occur... O_o"
 fi
+
+# loading submodule 
+cd ~/git/config
+git submodule update --init

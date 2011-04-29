@@ -58,3 +58,6 @@
 [submodule ".vim/bundle/vim-ref"]
 	path = .vim/bundle/vim-ref
 	url = https://github.com/thinca/vim-ref.git
+[submodule "bin/gittools"]
+	path = bin/gittools
+	url = https://github.com/tyru/gittools.git

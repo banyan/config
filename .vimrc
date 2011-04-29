@@ -1,6 +1,7 @@
 """ vundle
 "-----------------------------------------------------------------------------
 "{{{
+set nocompatible
 " vundle.vim で ftdetect などを load させるために一度ファイルタイプ判定を off にする
 filetype off
 
@@ -37,10 +38,13 @@ Bundle 'h1mesuke/unite-outline'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-haml'
 Bundle 'thinca/vim-guicolorscheme'
-Bundle 'thinca/thinca/vim-ref'
+Bundle 'thinca/vim-ref'
+Bundle 'bdd/vim-scala'
+Bundle 'banyan/banyan.vim'
+Bundle 'banyan/recognize_charcode.vim'
 
 " filetype 判定を戻す
-filetype plugin on
+filetype plugin indent on
 "}}}
 
 """ encoding

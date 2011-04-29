@@ -1,29 +1,46 @@
-"
-"                                ___           ___           ___
-"      ___                      /\  \         /\  \         /\__\
-"     /\  \        ___         |::\  \       /::\  \       /:/  /
-"     \:\  \      /\__\        |:|:\  \     /:/\:\__\     /:/  /
-"      \:\  \    /:/__/      __|:|\:\  \   /:/ /:/  /    /:/  /  ___
-"  ___  \:\__\  /::\  \     /::::|_\:\__\ /:/_/:/__/___ /:/__/  /\__\
-" /\  \ |:|  |  \/\:\  \__  \:\~~\  \/__/ \:\/:::::/  / \:\  \ /:/  /
-" \:\  \|:|  |   ~~\:\/\__\  \:\  \        \::/~~/~~~~   \:\  /:/  /
-"  \:\__|:|__|      \::/  /   \:\  \        \:\~~\        \:\/:/  /
-"   \::::/__/       /:/  /     \:\__\        \:\__\        \::/  /
-"    ~~~~           \/__/       \/__/         \/__/         \/__/
-
-""" pathogen
+""" vundle
 "-----------------------------------------------------------------------------
 "{{{
-" pathogen.vim で ftdetect などを load させるために一度ファイルタイプ判定を off にする
+" vundle.vim で ftdetect などを load させるために一度ファイルタイプ判定を off にする
 filetype off
 
-" pathogen.vim によって bundle 配下の plugin を path に加える
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+set rtp+=~/.vim/vundle/ 
+call vundle#rc()
+
+" vim-scripts repos
+Bundle 'cucumber.zip'
+Bundle 'endwise.vim'
+Bundle 'haml.zip'
+Bundle 'git-commit'
+Bundle 'rails.vim'
+Bundle 'sudo.vim'
+Bundle 'yanktmp.vim'
+Bundle 'YankRing.vim'
+Bundle 'mru.vim'
+Bundle 'quickrun.vim'
+Bundle 'Smooth-Scroll'
+Bundle 'JavaScript-syntax'
+Bundle 'php.vim'
+Bundle 'The-NERD-Commenter'
+Bundle 'AutoComplPop'
+Bundle 'eregex.vim'
+Bundle 'Align'
+
+" original repos on github
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'motemen/git-vim'
+Bundle 'Shougo/neocomplcache'
+Bundle 'h1mesuke/vim-alignta'
+Bundle 'Shougo/unite.vim'
+Bundle 'tsukkee/unite-help'
+Bundle 'h1mesuke/unite-outline'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-haml'
+Bundle 'thinca/vim-guicolorscheme'
+Bundle 'thinca/thinca/vim-ref'
 
 " filetype 判定を戻す
 filetype plugin on
-
 "}}}
 
 """ encoding
@@ -50,7 +67,7 @@ nnoremap <Leader>rn :e ++fileformat=dos<CR>
 
 " 文字コードの自動認識プラグインを読み込む
 " http://d.hatena.ne.jp/shizu9/20090402/1238697718
-source ~/.vim/bundle/recognize_charcode/plugin/recognize_charcode.vim
+" source ~/.vim/bundle/recognize_charcode/plugin/recognize_charcode.vim
 "}}}
 
 """ search

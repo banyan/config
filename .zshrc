@@ -144,17 +144,19 @@ esac
 alias ll='ls -alF'
 alias lla='ls -A'
 alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
-alias g="git"
-alias dc="git diff --cached"
 alias py="python"
 alias wget='wget --no-check-certificate'
-alias rspec='rspec -c'
 alias javac='javac -J-Dfile.encoding=UTF-8'
 alias java='java -Dfile.encoding=UTF-8'
-alias f='git flow'
 
 alias r="rails"
 alias rr="rake routes | less"
+alias rspec='rspec -c'
+
+alias g="git"
+alias dc="git diff --cached"
+alias ci="git commit"
+alias f='git flow'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855

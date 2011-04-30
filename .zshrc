@@ -149,6 +149,9 @@ alias py="python"
 alias r="rails"
 alias wget='wget --no-check-certificate'
 alias rspec='rspec -c'
+alias javac='javac -J-Dfile.encoding=UTF-8'
+alias java='java -Dfile.encoding=UTF-8'
+alias f='git flow'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
@@ -321,6 +324,3 @@ function pcolor() {
     done
     echo
 }
-
-alias javac='javac -J-Dfile.encoding=UTF-8'
-alias java='java -Dfile.encoding=UTF-8'

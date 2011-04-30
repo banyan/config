@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+class Password
+  DEFAULT_LENGTH = 16
+
+  DEFAULT_CHAR_GROUPS = [
+    :readable_number,
+    :readable_upper,
+    :readable_lower,
+  ].freeze
+
+  CHAR_GROUPS = {
+    :symbol            => (?!..?~).map{|c| c.chr }.grep(/^(?![0-9A-Za-z])/).freeze,
+    :compatible_symbol => %w( ! # $ % , - . / ; < > ? ).freeze,
+    :readable_symbol   => %w( ! # $ % - / < > ? ).freeze,
+    :number            => ('0'..'9').to_a.freeze,
+    :readable_number   => ('0'..'9').grep(/[2-9]/).freeze,
+    :upper             => ('A'..'Z').to_a.freeze,
+    :readable_upper    => ('A'..'Z').grep(/[A-HJ-NP-Z]/).freeze,
+    :lower             => ('a'..'z').to_a.freeze,
+    :readable_lower    => ('a'..'z').grep(/[a-kmnp-z]/).freeze,
+  }.freeze
+
+  REGENERATE_LIMIT = 16
+
+  def self.generate(length = DEFAULT_LENGTH, char_groups = DEFAULT_CHAR_GROUPS)
+    new(length, char_groups).generate
+  end
+
+  def initialize(length = DEFAULT_LENGTH, char_groups = DEFAULT_CHAR_GROUPS)
+    @length      = length
+    @char_groups = char_groups
+  end
+
+  def generate(length = @length, char_groups = @char_groups)
+    chars = char_groups.map{|g| CHAR_GROUPS[g] }.flatten
+    password_chars = (1 .. length).map { chars[rand(chars.length)] }
+
+    count = 0
+    char_groups.each do |char_group|
+      chars_of_group = CHAR_GROUPS[char_group]
+      if (password_chars & chars_of_group).empty?
+        next if (count += 1) > REGENERATE_LIMIT
+        password_chars.delete_at(rand(password_chars.length))
+        password_chars << chars_of_group[rand(chars_of_group.length)]
+        retry
+      end
+    end
+
+    password_chars.sort_by{ rand }.join
+  end
+end
+
+
+require 'optparse'
+
+char_groups = Password::DEFAULT_CHAR_GROUPS.dup
+
+opt = OptionParser.new
+opt.on('-n') { char_groups = [:number] }
+opt.on('-s') { char_groups << :readable_symbol }
+opt.parse!(ARGV)
+
+unless (1 .. 2 ** 8).include?(length = ARGV.first.to_i)
+  length = Password::DEFAULT_LENGTH
+end
+
+puts Password.generate(length, char_groups)

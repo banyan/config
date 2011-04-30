@@ -145,6 +145,7 @@ alias ll='ls -alF'
 alias lla='ls -A'
 alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 alias g="git"
+alias dc="git diff --cached"
 alias py="python"
 alias r="rails"
 alias wget='wget --no-check-certificate'
@@ -216,7 +217,7 @@ function d() {
     result=`git status 2> /dev/null`
 
     if [ "$result" ] ; then
-        git diff $opt | diffcolor.rb | /usr/bin/less -RE
+        git diff $opt
         return
     fi
     svn di $opt | diffcolor.rb | /usr/bin/less -RE

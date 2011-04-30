@@ -202,7 +202,7 @@ function s() {
     local -A result
     result=`git status 2> /dev/null`
     if [ "$result" ] ; then
-        echo $result
+        git status
         return
     fi
     svn status

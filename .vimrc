@@ -25,6 +25,7 @@ Bundle 'The-NERD-Commenter'
 Bundle 'eregex.vim'
 Bundle 'Align'
 Bundle 'neco-look'
+Bundle 'molokai'
 
 " original repos on github
 Bundle 'vim-ruby/vim-ruby'

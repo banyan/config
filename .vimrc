@@ -253,7 +253,7 @@ map <F7> <ESC>:bw<CR>
 map <F8> <ESC>:bd<CR>
 
 "insert mode時にc-jで抜けてかつ IME off
-imap <C-j> <esc>
+" imap <C-j> <esc>
 "imap <C-j> <ESC>:set iminsert=0<CR>
 "inoremap <C-j> <Esc>:set iminsert=0<CR>
 "inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
@@ -551,14 +551,14 @@ nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
 
 " unite.vim
 nnoremap          [unite]   <Nop>
-nmap      <C-k>   [unite]
+nmap      <C-j>   [unite]
 
-nnoremap          [unite]<C-u> :<C-u>Unite -default-action=tabopen<Space>
-nnoremap <silent> [unite]<C-k> :<C-u>Unite -default-action=tabopen -buffer-name=files file<CR>
-nnoremap <silent> [unite]<C-b> :<C-u>Unite -default-action=tabopen buffer<CR>
-nnoremap <silent> [unite]<C-m> :<C-u>Unite -default-action=tabopen file_mru<CR>
-nnoremap <silent> [unite]<C-u> :<C-u>Unite -default-action=tabopen buffer file_mru<CR>
-nnoremap <silent> [unite]<C-l> :<C-u>UniteWithCurrentDir -default-action=tabopen -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap          [unite]<C-u> :<C-u>Unite<Space>
+nnoremap <silent> [unite]<C-j> :<C-u>Unite -buffer-name=files file<CR>
+nnoremap <silent> [unite]<C-b> :<C-u>Unite buffer<CR>
+nnoremap <silent> [unite]<C-m> :<C-u>Unite file_mru<CR>
+nnoremap <silent> [unite]<C-u> :<C-u>Unite buffer file_mru<CR>
+nnoremap <silent> [unite]<C-k> :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
@@ -568,6 +568,7 @@ function! s:unite_my_settings()"{{{
   imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
   " Start insert.
   let g:unite_enable_start_insert = 1
+  call unite#custom_default_action('file', 'tabopen')
 endfunction"}}}
 
 let g:unite_source_file_mru_limit = 200

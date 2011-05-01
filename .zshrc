@@ -154,7 +154,6 @@ alias rr="rake routes | less"
 alias rspec='rspec -c'
 
 alias g="git"
-alias dc="git diff --cached"
 alias ci="git commit"
 alias f='git flow'
 
@@ -246,6 +245,13 @@ function u() {
         return
     fi
     svn up
+}
+
+# git diff --cached
+function dc() {
+    local opt
+    opt=$*
+    git diff --cached $opt
 }
 
 # start screen from given directory

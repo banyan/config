@@ -561,7 +561,8 @@ nnoremap <silent> [unite]<C-b> :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]<C-m> :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]<C-l> :<C-u>Unite buffer file_mru<CR>
 nnoremap <silent> [unite]<C-k> :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]<C-o> :<C-u>Unite -auto-preview outline<CR>
+nnoremap <silent> [unite]<C-o> :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]<C-p> :<C-u>Unite -auto-preview outline<CR>
 
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{

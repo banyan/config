@@ -1,6 +1,5 @@
-###
-# Complement
-###
+
+# Complement {{{
 typeset -U fpath
 fpath=($fpath ~/.zsh/myfunc)
 
@@ -28,7 +27,6 @@ if [ -f "$HOME/.zsh/debug.zshrc" ]; then
 fi
 
 # vcs_info
-
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' formats '(%s)-[%b]'
 zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
@@ -38,18 +36,16 @@ precmd () {
     LANG=en_US.UTF-8 vcs_info
     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
+# }}}
 
-###
-# Autoload zsh modules when they are referenced
-###
+# Autoload zsh modules when they are referenced {{{
 zmodload -a zsh/stat stat
 zmodload -a zsh/zpty zpty
 zmodload -a zsh/zprof zprof
 zmodload -ap zsh/mapfile mapfile
+# }}}
 
-###
-# Setup options
-###
+# Setup options {{{
 setopt APPEND_HISTORY         # .zsh-history を上書きではなく追加
 setopt AUTO_CD                # ディレクトリ名だけを入力した時にそこに cd する
 setopt AUTO_LIST              # 候補が複数ある時に自動的に一覧を出す
@@ -89,10 +85,9 @@ setopt SHARE_HISTORY          # 履歴の共有
 #setopt PUSHD_IGNORE_DUPS     # 同じディレクトリを pushd しない
 
 #unsetopt PROMPTCR            # 出力の文字列末尾に改行コードが無い場合でも表示
+# }}}
 
-###
-# Setup vars
-###
+# Setup vars {{{
 export LANG=ja_JP.UTF-8
 export TERM=xterm-256color
 export EDITOR=vim
@@ -103,18 +98,16 @@ SAVEHIST=100000
 # Use dircolors where available
 export LS_COLORS='no=00:di=00;38;05;44:ln=01;35:pi=33:so=01;32:bd=00;38;05;44:cd=00;38;05;44:ex=01;32:*.c=36:*.cc=36:*.h=33:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.app=01;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.sit=00;31:*.sitX=00;31:*.zip=00;31:*.bin=00;31:*.hqx=00;31:*.jpg=00;35:*.jpeg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.tif=00;35:*.tiff=00;35:*.pdf=00;35:*.avi=00;35:*.mov=00;35:*.mpg=00;35:*.mpeg=00;35:*.asf=00;35:*.wmv=00;35:*.rm=00;35:*.swf=00;35:*.mp3=00;35:*.aiff=00;35:*.aif=00;35:*.snd=00;35:*.wav=00;35:';
 export ZLS_COLORS=$LS_COLORS
+# }}}
 
-###
-# Colours
-###
+# Colours {{{
 local LIGHT_GREEN=$'%{\e[38;5;190m%}'
 local STRAWBERRY=$'%{\e[38;5;199m%}'
 local DARK_BLUE=$'%{\e[38;5;38m%}'
 local LIGHT_YELLOW=$'%{\e[38;5;230m%}'
+# }}}
 
-###
-# Prompt
-###
+# Prompt {{{
 # colors#  → 色指定  $fg[色名]/$bg[色名]/$reset_color (${, $} で囲む必要がある)
 # 30黒 31赤 32緑 33黄 34青 35紫 36水 37白
 # http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
@@ -129,10 +122,9 @@ PROMPT="%{$LIGHT_GREEN%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 
 # MySQL のプロンプト
 # export MYSQL_PS1='(^[[32m\u^[[00m@^[[33m\h^[[00m) ^[[34m[\d]^[[00m > '
+# }}}
 
-###
-# Aliases
-###
+# Aliases {{{
 case "$OSTYPE" in
     freebsd*|darwin*)
         alias ls='ls -G -w'
@@ -149,13 +141,19 @@ alias wget='wget --no-check-certificate'
 alias javac='javac -J-Dfile.encoding=UTF-8'
 alias java='java -Dfile.encoding=UTF-8'
 
+# rails
 alias r="rails"
 alias rr="rake routes | less"
 alias rspec='rspec -c'
 
+# git
 alias g="git"
 alias ci="git commit"
 alias f='git flow'
+alias gl="git pull --rebase"
+alias pus="git push"
+alias c="git checkout"
+alias b='git branch'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
@@ -164,19 +162,17 @@ alias -g V="| vim -"
 # for Mac
 alias there="fcd"
 alias here="open ."
+# }}}
 
-###
-# Keybindings
-###
+# Keybindings {{{
 bindkey -e       # emacs 風
 # bindkey -v     # vi 風
 # カーソル位置から前方削除
 # override kill-whole-line
 bindkey '^U' backward-kill-line
+# }}}
 
-###
-# Misc
-###
+# Misc {{{
 # コアダンプサイズを制限
 limit coredumpsize 102400
 # ls /usr/local/etc などと打っている際に、C-w で単語ごとに削除
@@ -196,11 +192,9 @@ fi
 function chpwd() {
     _reg_pwd_screennum
 }
+# }}}
 
-###
-# Functions
-###
-
+# Functions {{{
 # svn st, git st
 function s() {
     local -A result
@@ -335,3 +329,4 @@ function pcolor() {
     done
     echo
 }
+# }}}

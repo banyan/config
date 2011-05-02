@@ -212,6 +212,7 @@ nnoremap <Space>n
 "-----------------------------------------------------------------------------
 "{{{
 " https://github.com/banyan/banyan.vim
+" colorscheme molokai
 colorscheme banyan
 "}}}
 

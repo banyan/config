@@ -36,6 +36,12 @@ precmd () {
     LANG=en_US.UTF-8 vcs_info
     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
+
+# source git-flow-completion
+# https://github.com/bobthecow/git-flow-completion
+if [ -f "$HOME/.zsh.d/git-flow-completion.zsh" ]; then
+    source "$HOME/.zsh.d/git-flow-completion.zsh"
+fi
 # }}}
 
 # Autoload zsh modules when they are referenced {{{
@@ -149,11 +155,11 @@ alias rspec='rspec -c'
 # git
 alias g="git"
 alias ci="git commit"
-alias f='git flow'
 alias gl="git pull --rebase"
 alias pus="git push"
 alias c="git checkout"
 alias b='git branch'
+alias f='git flow'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
@@ -182,12 +188,6 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 # cdd を追加
 source ~/.zsh.d/cdd
-
-# source git-flow-completion
-# https://github.com/bobthecow/git-flow-completion
-if [ -f "$HOME/.zsh.d/git-flow-completion.zsh" ]; then
-    source "$HOME/.zsh.d/git-flow-completion.zsh"
-fi
 
 function chpwd() {
     _reg_pwd_screennum

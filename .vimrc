@@ -354,6 +354,9 @@ function! s:newFileOpen(file)
 endfunction
 command! -nargs=1 -complete=file New call s:newFileOpen(<q-args>)
 
+" select all and copy
+nmap <C-a> ggVGy<ESC><C-o><C-o>
+
 "}}}
 
 """ window

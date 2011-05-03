@@ -9,38 +9,39 @@ set rtp+=~/.vim/vundle/
 call vundle#rc()
 
 " vim-scripts repos
-Bundle 'cucumber.zip'
-Bundle 'endwise.vim'
-Bundle 'haml.zip'
-Bundle 'git-commit'
-Bundle 'rails.vim'
 Bundle 'yanktmp.vim'
 Bundle 'YankRing.vim'
 Bundle 'mru.vim'
 Bundle 'quickrun.vim'
 Bundle 'Smooth-Scroll'
-Bundle 'JavaScript-syntax'
-Bundle 'php.vim'
 Bundle 'The-NERD-Commenter'
 Bundle 'eregex.vim'
 Bundle 'Align'
-Bundle 'neco-look'
+Bundle 'speeddating.vim'
+Bundle 'endwise.vim'
+Bundle 'haml.zip'
+Bundle 'JavaScript-syntax'
+Bundle 'php.vim'
+Bundle 'cucumber.zip'
+Bundle 'git-commit'
+Bundle 'rails.vim'
 Bundle 'molokai'
+Bundle 'neco-look'
 
 " original repos on github
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'motemen/git-vim'
-Bundle 'Shougo/neocomplcache'
 Bundle 'h1mesuke/vim-alignta'
+Bundle 'bdd/vim-scala'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-haml'
 Bundle 'Shougo/unite.vim'
 Bundle 'tsukkee/unite-help'
 Bundle 'h1mesuke/unite-outline'
+Bundle 'motemen/git-vim'
 Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-haml'
 Bundle 'thinca/vim-guicolorscheme'
-Bundle 'thinca/vim-ref'
-Bundle 'bdd/vim-scala'
 Bundle 'banyan/banyan.vim'
+Bundle 'Shougo/neocomplcache'
+Bundle 'thinca/vim-ref'
 Bundle 'banyan/recognize_charcode.vim'
 
 " filetype 判定を戻す
@@ -181,6 +182,7 @@ autocmd FileType perl         setlocal sw=4 sts=4 ts=4 et
 autocmd FileType php          setlocal sw=4 sts=4 ts=4 et
 autocmd FileType python       setlocal sw=4 sts=4 ts=4 et
 autocmd FileType ruby         setlocal sw=2 sts=2 ts=2 et
+autocmd FileType haml         setlocal sw=2 sts=2 ts=2 et
 autocmd FileType sh           setlocal sw=4 sts=4 ts=4 et
 autocmd FileType sql          setlocal sw=4 sts=4 ts=4 et
 autocmd FileType vb           setlocal sw=4 sts=4 ts=4 noet
@@ -212,8 +214,8 @@ nnoremap <Space>n
 "-----------------------------------------------------------------------------
 "{{{
 " https://github.com/banyan/banyan.vim
-" colorscheme molokai
 colorscheme banyan
+" colorscheme molokai
 "}}}
 
 """ misc
@@ -355,7 +357,7 @@ endfunction
 command! -nargs=1 -complete=file New call s:newFileOpen(<q-args>)
 
 " select all like as Windows
-nmap <C-a> ggVG
+nmap <Space>a ggVG
 
 "}}}
 
@@ -441,10 +443,11 @@ map <Leader>ad <Plug>NERDCommenterAltDelims
 map <Leader>al <Plug>NERDCommenterAlignLeft
 map <Leader>ab <Plug>NERDCommenterAlignBoth
 
-" AlignPlugin.vim
+" Align.vim
 let mapleader = ' h'
 vnoremap <Leader>= :Align=<CR>
-vnoremap <Leader>> :Align=><CR>
+vnoremap <Leader>> :Align =><CR>
+vnoremap <Leader>, :Align ,<CR>
 vmap     <Leader>: <Space><Space>tsp
 
 " Ctags, tablist, etc

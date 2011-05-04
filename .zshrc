@@ -155,7 +155,7 @@ alias rspec='rspec -c'
 # git
 alias g="git"
 alias ci="git commit"
-alias ci="git commit --amend"
+alias cia="git commit --amend"
 alias gl="git pull --rebase"
 alias pus="git push"
 alias c="git checkout"

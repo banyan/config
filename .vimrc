@@ -448,7 +448,8 @@ let mapleader = ' h'
 vnoremap <Leader>= :Align=<CR>
 vnoremap <Leader>> :Align =><CR>
 vnoremap <Leader>, :Align ,<CR>
-vmap     <Leader>: <Space><Space>tsp
+vnoremap <Leader>: :Align :<CR>
+" vmap     <Leader>: <Space><Space>tsp
 
 " Ctags, tablist, etc
 nmap <silent> <F4>

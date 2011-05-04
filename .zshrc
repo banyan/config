@@ -161,6 +161,12 @@ alias pus="git push"
 alias c="git checkout"
 alias b='git branch'
 alias f='git flow'
+alias ff='git flow feature'
+alias ffs='git flow feature start'
+alias fff='git flow feature finish'
+alias fr='git flow release'
+alias frs='git flow release start'
+alias frf='git flow release finish'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855

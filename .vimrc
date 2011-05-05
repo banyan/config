@@ -179,8 +179,8 @@
   set title
   set titlestring=Vim:\ %f\ %h%r%m
 
-	" set cursorline   " highlight current line
-	" set updatetime=1
+  " set cursorline   " highlight current line
+  " set updatetime=1
   " autocmd CursorHold * :match Search /^.*\%#.*$/
 
   " Indent

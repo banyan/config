@@ -424,7 +424,7 @@
 
   let mapleader = ' t'
   nmap <S-t> :tab
-  nmap <Leader>c :tabnew
+  nmap <Leader>c :tabnew<Space>
   nmap <Leader>n :tabnext<CR>
   nmap <Leader>p :tabprevious<CR>
   nmap <Leader>d :tabclose<CR>

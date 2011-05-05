@@ -118,7 +118,6 @@
 
   " search terms toward the middle of the screen
   nmap n nzz
-  nmap n nzz
   nmap N Nzz
   nmap * *zz
   nmap # #zz
@@ -361,11 +360,12 @@
   " Broken down into easily includeable segments
   set statusline=%<\ %f\                              " filename
   set statusline+=%w%h%m%r                            " options
-  set statusline+=%{fugitive#statusline()}            " get an indicator with the current branch in (surprise!) your statusline.
-  set statusline+=\ [%{&ff}/%y]                       " filetype
-  set statusline+=\ %{'['.(&fenc!=''?&fenc:&enc).']'} " encoding
-  set statusline+=\ [%{getcwd()}]                     " current dir
-  set statusline+=\ [%p%%]                            " current position
+  set statusline+=%{fugitive#statusline()}            " current git branch ;)
+  set statusline+=\[%{&ff}]                           " fileformat
+  set statusline+=\%y                                 " filetype
+  set statusline+=\%{'['.(&fenc!=''?&fenc:&enc).']'}  " encoding
+  set statusline+=\[%{getcwd()}]                      " current dir
+  set statusline+=\[%p%%]                             " current position
   " set statusline+=\ [A=\%03.3b/H=\%02.2B]           " ASCII / Hexadecimal value of char
   set statusline+=%=%-14.(%l,%c%V%)\                  " right aligned file nav info
 
@@ -540,8 +540,10 @@
     " let g:fuf_previewHeight    = 0
 
     nmap [fuf]<C-b> :FufBuffer<CR>
-    nmap [fuf]<C-j> :FufFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
-    nmap [fuf]<C-k> :FufFile **/<CR>
+    " nmap [fuf]<C-j> :FufFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
+    nmap [fuf]<C-k> :FufFile<CR>
+    nmap [fuf]<C-i> :FufFileWithCurrentBufferDir<CR>
+    nmap [fuf]<C-j> :FufFile **/<CR>
     nmap [fuf]<C-m> :FufMruFile<CR>
     nmap [fuf]<C-q> :FufQuickfix<CR>
     nmap [fuf]<C-l> :FufLine<CR>

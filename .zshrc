@@ -1,3 +1,6 @@
+# banyan's .zshrc file
+# Kohei Hasegawa <ameutau@gmail.com>
+# https://github.com/banyan/config
 
 # Complement {{{
 typeset -U fpath
@@ -150,7 +153,9 @@ alias java='java -Dfile.encoding=UTF-8'
 # rails
 alias r="rails"
 alias rr="rake routes | less"
+alias rd="rails destroy"
 alias rspec='rspec -c'
+alias rdm='rake db:migrate'
 
 # git
 alias g="git"
@@ -167,6 +172,7 @@ alias fff='git flow feature finish'
 alias fr='git flow release'
 alias frs='git flow release start'
 alias frf='git flow release finish'
+alias gw='git wtf'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855

@@ -1,0 +1,3 @@
+# 900,000 ms - 15 min
+export POW_TIMEOUT=900000
+export POW_WORKERS=3

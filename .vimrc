@@ -66,6 +66,7 @@
       Bundle 'L9'
       Bundle 'FuzzyFinder'
     " }}}
+    Bundle 'scrooloose/nerdtree'
   " }}}
   " git {{{
     Bundle 'motemen/git-vim'

@@ -71,6 +71,7 @@
   " git {{{
     Bundle 'motemen/git-vim'
     Bundle 'tpope/vim-fugitive'
+    Bundle 'mattn/gist-vim'
   " }}}
   " colours {{{
     Bundle 'thinca/vim-guicolorscheme'

@@ -1,56 +1,55 @@
 [user]
-	name  = banyan
-	email = ameutau@gmail.com
+    name         = banyan
+    email        = ameutau@gmail.com
 [core]
-	excludesfile = /Users/kohei/.gitignore
-	pager        = less -r
-	editor       = /usr/bin/vim
+    excludesfile = /Users/kohei/.gitignore
+    pager        = less -r
+    editor       = /usr/bin/vim
 [color]
-	diff        = auto
-	status      = auto
-	branch      = auto
-	interactive = auto
+    diff         = auto
+    status       = auto
+    branch       = auto
+    interactive  = auto
 [color "branch"]
-    current = yellow reverse
-    local   = yellow
-    remote  = green
+    current      = yellow reverse
+    local        = yellow
+    remote       = green
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old  = red bold
-    new  = green bold
+    meta         = yellow bold
+    frag         = magenta bold
+    old          = red bold
+    new          = green bold
 [color "status"]
-    added     = yellow
-    changed   = green
-    untracked = cyan
+    added        = yellow
+    changed      = green
+    untracked    = cyan
 [alias]
-    ci      = commit
-    co      = checkout
-    s       = status
-    st      = status
-    sti     = status --ignore-submodules
-    d       = diff
-    di      = diff
-    dii     = diff --ignore-submodules
-    dic     = diff --cached
-    dc      = diff --cached
-    dci     = diff --cached --ignore-submodules
-    difflog = log -p HEAD@{3.days.ago}
-    cob     = checkout -b
-    b       = branch
-    br      = branch
-    sh      = !git-sh
-    a       = add
-    aa      = add -A
-    sa      = stash
-    sap     = stash pop
-    r       = reset
-    svnci   = svn dcommit
-    svnre   = svn rebase
-    m       = merge
-    graph   = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date=short
-    sub     = submodule
-
+    ci           = commit
+    co           = checkout
+    s            = status
+    st           = status
+    sti          = status --ignore-submodules
+    d            = diff
+    di           = diff
+    dii          = diff --ignore-submodules
+    dic          = diff --cached
+    dc           = diff --cached
+    dci          = diff --cached --ignore-submodules
+    difflog      = log -p HEAD@{3.days.ago}
+    cob          = checkout -b
+    b            = branch
+    br           = branch
+    sh           = !git-sh
+    a            = add
+    aa           = add -A
+    sa           = stash
+    sap          = stash pop
+    r            = reset
+    svnci        = svn dcommit
+    svnre        = svn rebase
+    m            = merge
+    graph        = log --graph --date-order -C -M --pretty = format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date = short
+    sub          = submodule
 [github]
-	user  = banyan
-	token = 0276c95e63cfcf2d2009bbbda2bdcfd9
+    user         = banyan
+    token        =

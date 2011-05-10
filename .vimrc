@@ -54,6 +54,8 @@
     Bundle 'bdd/vim-scala'
     Bundle 'vim-ruby/vim-ruby'
     Bundle 'tpope/vim-haml'
+    Bundle 'jiangmiao/simple-javascript-indenter'
+    " Bundle 'pangloss/vim-javascript'
   " }}}
   " filer {{{
     " unite {{{

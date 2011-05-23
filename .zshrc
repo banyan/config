@@ -45,6 +45,11 @@ precmd () {
 if [ -f "$HOME/.zsh.d/git-flow-completion.zsh" ]; then
     source "$HOME/.zsh.d/git-flow-completion.zsh"
 fi
+
+# source Incremental completion on zsh
+if [ -f "$HOME/.zsh.d/incr-0.2.zsh" ]; then
+    source "$HOME/.zsh.d/incr-0.2.zsh"
+fi
 # }}}
 
 # Autoload zsh modules when they are referenced {{{

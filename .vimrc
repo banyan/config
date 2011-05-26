@@ -22,6 +22,7 @@
 
   " utility {{{
     Bundle 'yanktmp.vim'
+    Bundle 'yanktmp.vim'
     Bundle 'YankRing.vim'
     Bundle 'mru.vim'
     Bundle 'quickrun.vim'
@@ -637,11 +638,12 @@
     " https://github.com/mileszs/ack.vim
       nnoremap ,f :Ack -i<Space>
       nnoremap ,d :AckFromSearch -i<Space>
-      nnoremap ,s :AckFile -i<Space>
+      " nnoremap ,s :AckFile -i<Space>
   " }}}
   " vundle.vim {{{
       cmap BI  BundleInstall
       cmap BU  BundleInstall!
+      cmap BC  BundleClean
       cmap BC  BundleClean
       cmap BS  BundleSearch<Space>
   " }}}

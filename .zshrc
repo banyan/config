@@ -179,6 +179,7 @@ alias fr='git flow release'
 alias frs='git flow release start'
 alias frf='git flow release finish'
 alias gw='git wtf'
+alias gc='git clone --recursive'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855

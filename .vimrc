@@ -94,6 +94,7 @@
 " }}}
 
 " Encoding {{{
+  let mapleader = ' k'
   nnoremap <Leader>u  :set fileencoding=utf-8       <CR>
   nnoremap <Leader>6  :set fileencoding=ucs-2le     <CR>
   nnoremap <Leader>e  :set fileencoding=euc-jp      <CR>

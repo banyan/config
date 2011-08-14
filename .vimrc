@@ -455,12 +455,12 @@
   " Align.vim {{{
     let mapleader = ' h'
     let g:Align_xstrlen = 3 " for Japanese Environment
-    vnoremap <Leader>= :Align=<CR>
-    vnoremap <Leader>> :Align =><CR>
-    vnoremap <Leader>, :Align ,<CR>
-    vnoremap <Leader>: :Align :<CR>
-    vnoremap <Leader>" :Align "<CR>
-    vnoremap <Leader>' :Align '<CR>
+    vnoremap <Leader>=  :Align =<CR>
+    " vnoremap <Leader>=> :Align =><CR>
+    vnoremap <Leader>,  :Align ,<CR>
+    vnoremap <Leader>:  :Align :<CR>
+    vnoremap <Leader>"  :Align "<CR>
+    vnoremap <Leader>'  :Align '<CR>
   " }}}
   " Ctags etc {{{
     " nmap <silent> <F4>

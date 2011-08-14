@@ -22,7 +22,6 @@
 
   " utility {{{
     Bundle 'yanktmp.vim'
-    Bundle 'yanktmp.vim'
     Bundle 'YankRing.vim'
     Bundle 'mru.vim'
     Bundle 'quickrun.vim'

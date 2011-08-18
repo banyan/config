@@ -646,7 +646,6 @@
       cmap BI  BundleInstall
       cmap BU  BundleInstall!
       cmap BC  BundleClean
-      cmap BC  BundleClean
       cmap BS  BundleSearch<Space>
   " }}}
 " }}}

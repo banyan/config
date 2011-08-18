@@ -218,6 +218,7 @@
 
   set nobackup   " do not keep backup files
   set noswapfile " do not write annoying intermediate swap files,
+  set nowritebackup
 
   set clipboard=unnamed
 

@@ -116,10 +116,11 @@ export ZLS_COLORS=$LS_COLORS
 # }}}
 
 # Colours {{{
-local LIGHT_GREEN=$'%{\e[38;5;190m%}'
-local STRAWBERRY=$'%{\e[38;5;199m%}'
-local DARK_BLUE=$'%{\e[38;5;38m%}'
-local LIGHT_YELLOW=$'%{\e[38;5;230m%}'
+local HOSTNAME_COLOR=$'%{\e[38;5;190m%}'
+local USERNAME_COLOR=$'%{\e[38;5;199m%}'
+local PATH_COLOR=$'%{\e[38;5;61m%}'
+local RVM_COLOR=$'%{\e[38;5;248m%}'
+local VCS_COLOR=$'%{\e[38;5;31m%}'
 # }}}
 
 # Prompt {{{
@@ -129,11 +130,12 @@ local LIGHT_YELLOW=$'%{\e[38;5;230m%}'
 autoload colors
 colors
 
-PROMPT="%{$STRAWBERRY%}${USER}%(!.#.$)%{${reset_color}%} "
-VCS_INFO="%1(v|%{$LIGHT_YELLOW%}%1v%f|)"
-RPROMPT="${VCS_INFO}%{$DARK_BLUE%}[%~]%{${reset_color}%}"
+RVM_INFO=$'%{$VCS_COLOR%}$(rvm_prompt)%{${reset_color}%}'
+PROMPT="%{$USERNAME_COLOR%}${USER}%(!.#.$)%{${reset_color}%} "
+VCS_INFO="%1(v|%{$RVM_COLOR%}%1v%f|)"
+RPROMPT="${VCS_INFO}${RVM_INFO}%{$PATH_COLOR%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-PROMPT="%{$LIGHT_GREEN%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+PROMPT="%{$HOSTNAME_COLOR%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 
 # MySQL のプロンプト
 # export MYSQL_PS1='(^[[32m\u^[[00m@^[[33m\h^[[00m) ^[[34m[\d]^[[00m > '
@@ -349,4 +351,13 @@ function pcolor() {
     done
     echo
 }
+
+# show rvm prompt
+function rvm_prompt {
+    result=`rvm-prompt 2> /dev/null`
+    if [ "$result" ] ; then
+        echo "[$result]"
+    fi
+}
+
 # }}}

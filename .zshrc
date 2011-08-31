@@ -119,8 +119,8 @@ export ZLS_COLORS=$LS_COLORS
 local HOSTNAME_COLOR=$'%{\e[38;5;190m%}'
 local USERNAME_COLOR=$'%{\e[38;5;199m%}'
 local PATH_COLOR=$'%{\e[38;5;61m%}'
-local RVM_COLOR=$'%{\e[38;5;248m%}'
-local VCS_COLOR=$'%{\e[38;5;31m%}'
+local RVM_COLOR=$'%{\e[38;5;31m%}'
+local VCS_COLOR=$'%{\e[38;5;248m%}'
 # }}}
 
 # Prompt {{{
@@ -130,9 +130,9 @@ local VCS_COLOR=$'%{\e[38;5;31m%}'
 autoload colors
 colors
 
-RVM_INFO=$'%{$VCS_COLOR%}$(rvm_prompt)%{${reset_color}%}'
+RVM_INFO=$'%{$RVM_COLOR%}$(rvm_prompt)%{${reset_color}%}'
 PROMPT="%{$USERNAME_COLOR%}${USER}%(!.#.$)%{${reset_color}%} "
-VCS_INFO="%1(v|%{$RVM_COLOR%}%1v%f|)"
+VCS_INFO="%1(v|%{$VCS_COLOR%}%1v%f|)"
 RPROMPT="${VCS_INFO}${RVM_INFO}%{$PATH_COLOR%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
 PROMPT="%{$HOSTNAME_COLOR%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
@@ -352,9 +352,9 @@ function pcolor() {
     echo
 }
 
-# show rvm prompt
+# show rvm prompt like "1.9.2@gemset_name"
 function rvm_prompt {
-    result=`rvm-prompt 2> /dev/null`
+    result=`rvm-prompt v g 2> /dev/null`
     if [ "$result" ] ; then
         echo "[$result]"
     fi

@@ -25,6 +25,7 @@
     untracked    = cyan
 [alias]
     ci           = commit
+    cia          = commit --amend -C HEAD
     co           = checkout
     s            = status
     st           = status
@@ -36,6 +37,8 @@
     dc           = diff --cached
     dci          = diff --cached --ignore-submodules
     difflog      = log -p HEAD@{3.days.ago}
+    l            = log --pretty=format:\"%h (%an): %s\" --date=short -20
+    ls           = log --stat -p -1
     cob          = checkout -b
     b            = branch
     br           = branch
@@ -50,6 +53,8 @@
     m            = merge
     graph        = log --graph --date-order -C -M --pretty = format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date = short
     sub          = submodule
+    ft           = -n --prune
+    ftt          = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
 [github]
     user         = banyan
     token        =

@@ -62,7 +62,7 @@ set guioptions=B
 
 " mappings
 " ======================================================================
-" OSのキーバインドを再現 
+" OSのキーバインドを再現
 map  <M-c> <C-v><M-c>
 imap <C-f> <Right>
 imap <C-b> <Left>
@@ -115,7 +115,7 @@ map <C-l> :tabmove! +1<CR>
 map . :buffer<Space>
 
 " C-a で未分類のブックマークに追加/削除
-noremap <C-a> A 
+noremap <C-a> A
 
 " URL中の数字を++/--
 noremap ++ <C-a>
@@ -276,6 +276,13 @@ autocmd LocationChange ^http://b\.hatena\.ne\.jp/retlet :fmap j k o e b
 "  }
 ");
 "EOM
+
+"feedsomekeys_3
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+lazy fmaps -u='www\.google\.com/calendar/.*' a w m x c e ＜DEL＞（※1） / + q s ? A W M X C E
+lazy fmaps -u='mail\.google\.com/mail/.*' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -u='www\.google\.co\.jp/.*' j k v p o : s ? + i
+lazy fmaps -u='livedoor\.com/reader' j k s a p o v c z b < > Z <Space> <S-Space> i q w G U u
 
 " qmarks
 " ======================================================================

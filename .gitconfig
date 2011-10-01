@@ -25,7 +25,7 @@
     untracked    = cyan
 [alias]
     ci           = commit
-    cia          = commit --amend -C HEAD
+    amend        = commit --amend -C HEAD
     co           = checkout
     s            = status
     st           = status

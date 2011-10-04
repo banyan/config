@@ -89,15 +89,15 @@ setopt NO_FLOW_CONTROL        # disable C-q, C-s
 setopt PROMPT_SUBST           # PROMPT 変数に対して変数展開、コマンド置換、算術展開を施す
 setopt RM_STAR_WAIT           # rm * を実行する前に確認
 setopt SHARE_HISTORY          # 履歴の共有
+setopt AUTOPUSHD              # cd 時に自動で push
+setopt PUSHD_IGNORE_DUPS      # 同じディレクトリを pushd しない
 
-#setopt AUTOPUSHD             # cd 時に自動で push
 #setopt EQUALS                # =command を command のパス名に展開する
 #setopt HIST_VERIFY           # ヒストリを呼び出してから実行する間に一旦編集
 #setopt LIST_ROWS_FIRST       # 補完リストを水平にソートする
 #setopt LONG_LIST_JOBS        # 内部コマンド jobs の出力をデフォルトで jobs -l にする
 #setopt MAGIC_EQUAL_SUBST     # --prefix=/usr などの = 以降も補完
 #setopt PRINT_EIGHT_BIT       # 出力時8ビットを通す
-#setopt PUSHD_IGNORE_DUPS     # 同じディレクトリを pushd しない
 
 #unsetopt PROMPTCR            # 出力の文字列末尾に改行コードが無い場合でも表示
 # }}}
@@ -157,6 +157,7 @@ alias py="python"
 alias wget='wget --no-check-certificate'
 alias javac='javac -J-Dfile.encoding=UTF-8'
 alias java='java -Dfile.encoding=UTF-8'
+alias p="popd"
 
 # rails
 alias r="rails"

@@ -166,6 +166,7 @@ alias rr="rake routes | less"
 alias rd="rails destroy"
 alias rspec='rspec -c'
 alias rdm='rake db:migrate'
+alias b='bundle exec'
 
 # git
 alias g="git"
@@ -174,7 +175,7 @@ alias cia="git commit --amend"
 alias gl="git pull --rebase"
 alias pus="git push"
 alias c="git checkout"
-alias b='git branch'
+# alias b='git branch'
 alias f='git flow'
 alias ff='git flow feature'
 alias ffs='git flow feature start'

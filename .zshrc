@@ -130,10 +130,11 @@ local VCS_COLOR=$'%{\e[38;5;248m%}'
 autoload colors
 colors
 
-RVM_INFO=$'%{$RVM_COLOR%}$(rvm_prompt)%{${reset_color}%}'
+# RVM_INFO=$'%{$RVM_COLOR%}$(rvm_prompt)%{${reset_color}%}'
 PROMPT="%{$USERNAME_COLOR%}${USER}%(!.#.$)%{${reset_color}%} "
 VCS_INFO="%1(v|%{$VCS_COLOR%}%1v%f|)"
-RPROMPT="${VCS_INFO}${RVM_INFO}%{$PATH_COLOR%}[%~]%{${reset_color}%}"
+RPROMPT="${VCS_INFO}$PATH_COLOR%}[%~]%{${reset_color}%}"
+# RPROMPT="${VCS_INFO}${RVM_INFO}%{$PATH_COLOR%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
 PROMPT="%{$HOSTNAME_COLOR%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
 

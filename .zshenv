@@ -75,6 +75,13 @@ _zshenv_add_path CPATH "/opt/include"
 #export JRUBY_HOME=/usr/local/lib/jruby
 #export PATH=$JRUBY_HOME/bin:$PATH
 
+# for rbenv
+eval "$(rbenv init -)"
+if [ -f "$HOME/.rbenv/completions/rbenv.zsh" ]; then
+    source ~/.rbenv/completions/rbenv.zsh
+fi
+
+
 # load local.zshenv
 if [ -f "$HOME/.zsh/local.zshenv" ]; then
     source "$HOME/.zsh/local.zshenv"

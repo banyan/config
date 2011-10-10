@@ -39,6 +39,7 @@
     Bundle 'JavaScript-syntax'
     Bundle 'php.vim'
     Bundle 'cucumber.zip'
+    Bundle 'coffee.vim'
   " }}}
 
   """ original repos on github

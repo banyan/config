@@ -58,6 +58,7 @@
     Bundle 'tpope/vim-haml'
     Bundle 'jiangmiao/simple-javascript-indenter'
     Bundle 'tsaleh/vim-tmux'
+    Bundle 'briancollins/vim-jst'
     " Bundle 'pangloss/vim-javascript'
   " }}}
   " filer {{{

@@ -39,7 +39,6 @@
     Bundle 'JavaScript-syntax'
     Bundle 'php.vim'
     Bundle 'cucumber.zip'
-    Bundle 'coffee.vim'
   " }}}
 
   """ original repos on github
@@ -59,6 +58,7 @@
     Bundle 'jiangmiao/simple-javascript-indenter'
     Bundle 'tsaleh/vim-tmux'
     Bundle 'briancollins/vim-jst'
+    Bundle 'kchmck/vim-coffee-script'
     " Bundle 'pangloss/vim-javascript'
   " }}}
   " filer {{{

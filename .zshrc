@@ -159,6 +159,7 @@ alias wget='wget --no-check-certificate'
 alias javac='javac -J-Dfile.encoding=UTF-8'
 alias java='java -Dfile.encoding=UTF-8'
 alias p="popd"
+alias v="vi"
 
 # rails
 alias r="rails"

@@ -168,6 +168,7 @@ alias rd="rails destroy"
 alias rspec='rspec -c'
 alias rdm='rake db:migrate'
 alias b='bundle exec'
+alias plog='grc powder applog' # dependent on grc
 
 # git
 alias g="git"

@@ -51,7 +51,11 @@
     svnci        = svn dcommit
     svnre        = svn rebase
     m            = merge
-    graph        = log --graph --date-order -C -M --pretty = format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date = short
+    graph        = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date = short
+    wh           = whatchanged
+    stat         = log --stat --summary
+    logg         = log --graph --decorate --pretty=format:\"%ad [%cn] %h> %n %Cgreen%d%Creset %s %n\" --name-status
+    logs         = log --graph --decorate --pretty=format:\"%ad [%cn] %h> %n %Cgreen%d%Creset %s %n\" --stat
     sub          = submodule
     ft           = -n --prune
     ftt          = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*

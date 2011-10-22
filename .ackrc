@@ -4,3 +4,4 @@
 --type-set=scaml=.scaml
 --type-set=ini=.ini
 --type-set=htaccess=.htaccess
+--type-set=coffee=.coffee

@@ -88,6 +88,9 @@
     " to deal with Japanese language
     Bundle 'banyan/recognize_charcode.vim'
   " }}}
+  " misc {{{
+    Bundle 'banyan/Nonopaste.vim'
+  " }}}
 
   syntax on
   filetype on        " enable filetype detection

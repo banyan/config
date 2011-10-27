@@ -5,14 +5,14 @@
 # 他にも cdadd でショートカットの作成、cddel でショートカットの削除とか
 #
 # * 使い方
-# 1. 
+# 1.
 # .zshrc でなにはともあれ
 #  autoload -U compinit
 #  compinit
 #  source ~/path/cdd  # (cdd はこのファイル) する
 # を書く
 #
-# 2. 
+# 2.
 # .zshrc などで chpwd フックで _reg_pwd_screennum を呼び出す
 #  # 例
 #  function chpwd() {
@@ -23,7 +23,7 @@
 #
 # * Q&A
 # - なんで cdd という名前？
-# -- cd からの type が楽だから。  
+# -- cd からの type が楽だから。
 #
 # * FIXME/TODO: 誰か直して
 # - compctl という一世代前のコマンドで補完してる。かっこいい補完にしたい。

@@ -501,7 +501,7 @@
     au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space>
     au Filetype scheme     nnoremap <buffer><leader> :!gosh %<Space>
     au Filetype javascript nnoremap <buffer><leader> :!js %<Space>
-    au Filetype vim        nnoremap <silent><leader> :source %<Return
+    au Filetype vim        nnoremap <silent><leader> :source %<Return>
   " }}}
   " neocomplcache.vim {{{
     let g:acp_enableAtStartup                        = 0 " Disable AutoComplPop.

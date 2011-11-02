@@ -74,7 +74,7 @@ bind e command -c ENCODING
 #screen -t 'Data' 4
 #screen -t 'log' 5
 #screen -t 'mysql' 6
-#screen -t 'zsh' 7 
+#screen -t 'zsh' 7
 
 screen -t n 1
 screen -t n 2
@@ -108,7 +108,7 @@ hardstatus      alwayslastline "%{= yB}%-w%{.B}%{= WK}%n %t%{-}%+w "
 #hardstatus alwayslastline "%{= Wb}[%m/%d %02c:%s]%016=%{= WK}%-w%50>%{= bW}%n %t%{-}%+w%-0< %="
 
 # hardstatus description:
-# 
+#
 # %{= Wb} - blue on bright white
 # %m - Two-letter month number
 # %d - Two-letter day number
@@ -124,13 +124,13 @@ hardstatus      alwayslastline "%{= yB}%-w%{.B}%{= WK}%n %t%{-}%+w "
 # %t - title of current window
 # %{-} - undo last color change(so now we're back to white on bright white)
 # %+w - window list from the next window on (-)
-# %-0< - truncation/padding point. place this point zero spaces (0) 
+# %-0< - truncation/padding point. place this point zero spaces (0)
 # from the right margin (-).
-# %= - truncation/paddion point. 
+# %= - truncation/paddion point.
 
 # APPENDIX: STRING ESCAPES (make extracts from screen (1))
 #
-# The attribute set can either be specified as hexadecimal number 
+# The attribute set can either be specified as hexadecimal number
 # or a combination of the following letters:
 #
 # d dim
@@ -140,9 +140,9 @@ hardstatus      alwayslastline "%{= yB}%-w%{.B}%{= WK}%n %t%{-}%+w "
 # s standout
 # B blinking
 #
-# Colors are coded either as a hexadecimal number or two letters specifying 
-# the desired background and foreground color (in that order). 
-# The following colors are known: 
+# Colors are coded either as a hexadecimal number or two letters specifying
+# the desired background and foreground color (in that order).
+# The following colors are known:
 #
 # k black
 # r red

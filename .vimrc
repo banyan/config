@@ -31,7 +31,6 @@
     Bundle 'Align'
     Bundle 'speeddating.vim'
     Bundle 'endwise.vim'
-    Bundle 'ManPageView'
     " Bundle 'AutoComplPop'
   " }}}
   " syntax {{{

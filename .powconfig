@@ -1,3 +1,1 @@
-# 3600,000 ms - 60 min
-export POW_TIMEOUT=3600000
-export POW_WORKERS=3
+export PATH="/Users/banyan/.rbenv/shims:/Users/banyan/.rbenv/bin:$PATH"

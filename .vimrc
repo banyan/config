@@ -50,6 +50,7 @@
     " 'Caught deadly signal ABRT' is frequently occuring by vim-rails?? o_O
     " Bundle 'tpope/vim-rails'
     Bundle 'Shougo/neocomplcache'
+    Bundle 'm4i/YankRingSync'
   " }}}
   " syntax {{{
     Bundle 'bdd/vim-scala'

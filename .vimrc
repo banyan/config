@@ -50,6 +50,7 @@
     " Bundle 'tpope/vim-rails'
     Bundle 'Shougo/neocomplcache'
     Bundle 'm4i/YankRingSync'
+    " Bundle 'Shougo/vimproc'
   " }}}
   " syntax {{{
     Bundle 'bdd/vim-scala'
@@ -67,6 +68,7 @@
       " Bundle 'tsukkee/unite-help'
       " Bundle 'h1mesuke/unite-outline'
       " Bundle 'ujihisa/neco-look'
+      " Bundle 'Shougo/vimfiler'
     " }}}
     " fuf {{{
       Bundle 'L9'
@@ -96,6 +98,14 @@
   filetype on        " enable filetype detection
   filetype indent on " enable filetype-specific indenting
   filetype plugin on " enable filetype-specific plugins
+" }}}
+
+" Envelopment {{{
+  if has('win32') || has ('win64')
+      let $VIMHOME = $VIM."/vimfiles"
+  else
+      let $VIMHOME = $HOME."/.vim"
+  endif
 " }}}
 
 " Encoding {{{
@@ -491,17 +501,12 @@
   " }}}
   " quickrun.vim {{{
     let mapleader = ' e'
-    au Filetype ruby       nnoremap <buffer><leader> :!ruby %<Space>
-    au Filetype php        nnoremap <buffer><leader> :!php %<Space>
-    au Filetype perl       nnoremap <buffer><leader> :!perl %<Space>
-    au Filetype python     nnoremap <buffer><leader> :!python %<Space>
-    au Filetype sh         nnoremap <buffer><leader> :!sh %<Space>
-    au Filetype scala      nnoremap <buffer><leader> :!scala %<Space>
-    au Filetype zsh        nnoremap <buffer><leader> :!zsh %<Space>
-    au Filetype haskell    nnoremap <buffer><leader> :!runghc %<Space>
-    au Filetype scheme     nnoremap <buffer><leader> :!gosh %<Space>
-    au Filetype javascript nnoremap <buffer><leader> :!js %<Space>
-    au Filetype vim        nnoremap <silent><leader> :source %<Return>
+    let g:quickrun_config = {}
+    let g:quickrun_config._ = {'split': 'below', 'running_mark': '（ ＾ω＾）'}
+    " let g:quickrun_config._ = {'runner': 'vimproc', 'split': 'below', 'running_mark': '（ ＾ω＾）'} " vimproc is too slow
+    execute 'nnoremap <silent> <leader> :QuickRun -mode n<CR>'
+    execute 'vnoremap <silent> <leader> :QuickRun -mode v<CR>'
+
   " }}}
   " neocomplcache.vim {{{
     let g:acp_enableAtStartup                        = 0 " Disable AutoComplPop.
@@ -583,7 +588,7 @@
     vmap <silent> sr :Entity2HtmlString<cr>
   " }}}
   " ref.vim {{{
-    let g:ref_phpmanual_path        = $HOME . '/git/config/doc/phpmanual'
+    let g:ref_phpmanual_path        = $VIMHOME . '/git/config/doc/phpmanual'
     let g:ref_perldoc_complete_head = 1
     let g:ref_use_vimproc           = 0
     let g:ref_jquery_use_cache      = 1

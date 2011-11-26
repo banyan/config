@@ -15,6 +15,12 @@ svn co http://svn.php.net/repository/phpdoc/modules/doc-ja ./phpmanual
 cd ~/git/config
 git submodule update --init
 
+# Install Vim Plugins
+vim -c "BundleInstall" -c "quit"
+
+# make proc.so for vimproc
+# ./vimproc-init.sh
+
 if [ $? -eq 0 ]; then
     echo "Successfully initialized... ;)"
 else

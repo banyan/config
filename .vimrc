@@ -60,6 +60,7 @@
     Bundle 'tsaleh/vim-tmux'
     Bundle 'briancollins/vim-jst'
     Bundle 'kchmck/vim-coffee-script'
+    Bundle 'nathanaelkane/vim-indent-guides'
     " Bundle 'pangloss/vim-javascript'
   " }}}
   " filer {{{
@@ -654,6 +655,15 @@
       nnoremap ,f :Ack -i<Space>
       nnoremap ,d :AckFromSearch -i<Space>
       " nnoremap ,s :AckFile -i<Space>
+  " }}}
+  " vim-indent-guides {{{
+    " https://github.com/nathanaelkane/vim-indent-guides
+      nnoremap <Space>i  :<C-u>IndentGuidesToggle<Enter>
+      let g:indent_guides_guide_size            = 1
+      let g:indent_guides_start_level           = 2
+      let g:indent_guides_auto_colors           = 0
+      autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=60
+      autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=250
   " }}}
   " vundle.vim {{{
       cmap BI  BundleInstall

@@ -415,30 +415,52 @@
 
   " Remove trailing spaces when saving
   autocmd BufWritePre * :%s/\s\+$//ge
+
+  " move line-head or end-of-line using 0, 9
+  nmap 1 0
+  nmap 0 ^
+  nmap 9 $
 " }}}
 
 " Window {{{
-  nnoremap ss <C-W>s
-  nnoremap sc <C-W>c
-  nnoremap so <C-W>o
+  nnoremap ss <C-W>s  " split horizontally
+  nnoremap sv <C-W>v  " split vertically
+  nnoremap sn <C-W>n  " create new window
+  nnoremap sc <C-W>c  " close window
+  nnoremap sq <C-W>q  " quit current window
+  nnoremap sQ <C-W>q! " quit current window
+  nnoremap so <C-W>o  " close all window except current window
+  nnoremap sT <C-w>T  " move the current window to a new tab page
+  nnoremap sR <C-w>R  " rotate windows upwards/leftwards
 
+  " move between window using vi keys 'hjkl'
+  nnoremap sh <C-W>h
   nnoremap sj <C-W>j
   nnoremap sk <C-W>k
-  nnoremap <silent> sh <C-W>h:call <SID>good_width()<CR>
-  nnoremap <silent> sl <C-W>l:call <SID>good_width()<Cr>
+  nnoremap sl <C-W>l
+
+  " resize window using vi keys 'hjkl' with <SPACE>
+  nnoremap s<SPACE>h <C-W>18>
+  nnoremap s<SPACE>j <C-W>18+
+  nnoremap s<SPACE>k <C-W>18-
+  nnoremap s<SPACE>l <C-W>18<
+
+  " move the current window to be at vi keys 'hjkl' positon
+  nnoremap sH <C-w>H
+  nnoremap sJ <C-w>J
+  nnoremap sK <C-w>K
+  nnoremap sL <C-w>L
 
   nnoremap <silent> s<CR> :<C-u>call <SID>maximize()<CR> " maximize
-  nnoremap s0 1<C-W>_                                    " minimize
   nnoremap s. <C-W>=                                     " flat
-  map <kPlus> <C-W>+                                     " widely
-  map <kMinus> <C-W>-                                    " shirink
+  nnoremap s= <C-W>=                                     " flat
 
   " ウィンドウの幅をいい感じにする
-  function! s:good_width()
-    if winwidth(0) < 84
-      vertical resize 84
-    endif
-  endfunction
+  " function! s:good_width()
+    " if winwidth(0) < 84
+      " vertical resize 84
+    " endif
+  " endfunctio+
 
   function! s:maximize()
       wincmd _ | wincmd |

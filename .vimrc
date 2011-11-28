@@ -18,9 +18,7 @@
   set rtp+=~/.vim/vundle/
   call vundle#rc()
 
-  """ vim-scripts repos
-
-  " utility {{{
+  """ repos on vim.org {{{
     Bundle 'yanktmp.vim'
     Bundle 'YankRing.vim'
     Bundle 'mru.vim'
@@ -31,18 +29,13 @@
     Bundle 'Align'
     Bundle 'speeddating.vim'
     Bundle 'endwise.vim'
-    " Bundle 'AutoComplPop'
-  " }}}
-  " syntax {{{
     Bundle 'haml.zip'
     Bundle 'JavaScript-syntax'
     Bundle 'php.vim'
     Bundle 'cucumber.zip'
-  " }}}
+  """ }}}
 
-  """ original repos on github
-
-  " utility {{{
+  """ repos on github {{{
     Bundle 'thinca/vim-ref'
     Bundle 'h1mesuke/vim-alignta'
     Bundle 'mileszs/ack.vim'
@@ -50,9 +43,8 @@
     " Bundle 'tpope/vim-rails'
     Bundle 'Shougo/neocomplcache'
     Bundle 'm4i/YankRingSync'
+    Bundle 'thinca/vim-visualstar'
     " Bundle 'Shougo/vimproc'
-  " }}}
-  " syntax {{{
     Bundle 'bdd/vim-scala'
     Bundle 'vim-ruby/vim-ruby'
     Bundle 'tpope/vim-haml'
@@ -61,37 +53,21 @@
     Bundle 'briancollins/vim-jst'
     Bundle 'kchmck/vim-coffee-script'
     Bundle 'nathanaelkane/vim-indent-guides'
-    " Bundle 'pangloss/vim-javascript'
-  " }}}
-  " filer {{{
-    " unite {{{
-      " Bundle 'Shougo/unite.vim'
-      " Bundle 'tsukkee/unite-help'
-      " Bundle 'h1mesuke/unite-outline'
-      " Bundle 'ujihisa/neco-look'
-      " Bundle 'Shougo/vimfiler'
-    " }}}
-    " fuf {{{
-      Bundle 'L9'
-      Bundle 'FuzzyFinder'
-    " }}}
+    " Bundle 'Shougo/unite.vim'
+    " Bundle 'tsukkee/unite-help'
+    " Bundle 'h1mesuke/unite-outline'
+    " Bundle 'ujihisa/neco-look'
+    " Bundle 'Shougo/vimfiler'
+    Bundle 'L9'
+    Bundle 'FuzzyFinder'
     Bundle 'scrooloose/nerdtree'
-  " }}}
-  " git {{{
     Bundle 'motemen/git-vim'
     Bundle 'tpope/vim-fugitive'
     Bundle 'mattn/gist-vim'
-  " }}}
-  " colours {{{
     Bundle 'thinca/vim-guicolorscheme'
     Bundle 'banyan/banyan.vim'
     Bundle 'tomasr/molokai'
-  " }}}
-  " encoding {{{
-    " to deal with Japanese language
     Bundle 'banyan/recognize_charcode.vim'
-  " }}}
-  " misc {{{
     Bundle 'banyan/Nonopaste.vim'
   " }}}
 

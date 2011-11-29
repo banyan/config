@@ -275,7 +275,7 @@
 
   " yank
   nnoremap Y  y$<CR>
-  nnoremap y9 y^<CR>
+  nnoremap y1 y^<CR>
   nnoremap y0 y$<CR>
 
   " Move the line by line display
@@ -395,10 +395,9 @@
   " Remove trailing spaces when saving
   autocmd BufWritePre * :%s/\s\+$//ge
 
-  " move line-head or end-of-line using 0, 9
-  nmap 1 0
-  nmap 0 ^
-  nmap 9 $
+  " move line-head or end-of-line using 0, 1
+  nmap 1 ^
+  nmap 0 $
 " }}}
 
 " Window {{{

@@ -395,9 +395,6 @@
   " Remove trailing spaces when saving
   autocmd BufWritePre * :%s/\s\+$//ge
 
-  " move line-head or end-of-line using 0, 1
-  nmap 1 ^
-  nmap 0 $
 " }}}
 
 " Window {{{

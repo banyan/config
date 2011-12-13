@@ -33,7 +33,6 @@
     Bundle 'JavaScript-syntax'
     Bundle 'php.vim'
     Bundle 'cucumber.zip'
-    Bundle 'fakeclip'
   """ }}}
 
   """ repos on github {{{
@@ -70,6 +69,7 @@
     Bundle 'tomasr/molokai'
     Bundle 'banyan/recognize_charcode.vim'
     Bundle 'banyan/Nonopaste.vim'
+    Bundle 'vim-fakeclip'
   " }}}
 
   syntax on

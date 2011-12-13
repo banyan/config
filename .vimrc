@@ -33,6 +33,7 @@
     Bundle 'JavaScript-syntax'
     Bundle 'php.vim'
     Bundle 'cucumber.zip'
+    Bundle 'fakeclip'
   """ }}}
 
   """ repos on github {{{
@@ -215,6 +216,7 @@
   set noswapfile " do not write annoying intermediate swap files,
   set nowritebackup
 
+  " dependent on fakeclip if we use CUI vim
   set clipboard=unnamed
 
   "actionscript,mxml setting

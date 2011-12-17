@@ -30,9 +30,11 @@
     Bundle 'speeddating.vim'
     Bundle 'endwise.vim'
     Bundle 'haml.zip'
+    Bundle 'eruby.vim'
     Bundle 'JavaScript-syntax'
     Bundle 'php.vim'
     Bundle 'cucumber.zip'
+    Bundle 'fakeclip'
   """ }}}
 
   """ repos on github {{{
@@ -69,7 +71,6 @@
     Bundle 'tomasr/molokai'
     Bundle 'banyan/recognize_charcode.vim'
     Bundle 'banyan/Nonopaste.vim'
-    Bundle 'vim-fakeclip'
   " }}}
 
   syntax on
@@ -220,8 +221,9 @@
   set clipboard=unnamed
 
   "actionscript,mxml setting
-  autocmd BufNewFile,BufRead *.as set filetype=actionscript
+  autocmd BufNewFile,BufRead *.as   set filetype=actionscript
   autocmd BufNewFile,BufRead *.mxml set filetype=mxml
+  autocmd BufNewFile,BufRead *.erb  set filetype=eruby
 
   " Cease to automatically insert a comment into a new line http://vimwiki.net/?faq/9
   autocmd FileType * set formatoptions-=ro"

@@ -163,7 +163,9 @@ alias v="vi"
 
 # rails
 alias r="rails"
-alias rr="rake routes | less"
+alias rr="routes_cache | less"
+alias rrg="routes_cache | grep"
+alias rrr="routes_cache --force | less"
 alias rd="rails destroy"
 alias rspec='rspec -c'
 alias rdm='rake db:migrate'
@@ -364,6 +366,18 @@ function rvm_prompt {
     if [ "$result" ] ; then
         echo "[$result]"
     fi
+}
+
+# cache for rake routes
+function routes_cache {
+    local routes_cache; routes_cache="./tmp/routes_cache"
+    if [ "$1" = "--force" ]; then
+        rm $routes_cache;
+    fi
+    if ! [ -e $routes_cache ]; then
+        rake routes > $routes_cache
+    fi
+    cat $routes_cache
 }
 
 # }}}

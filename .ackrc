@@ -5,3 +5,4 @@
 --type-set=ini=.ini
 --type-set=htaccess=.htaccess
 --type-set=coffee=.coffee
+--type-set=scss=.scss

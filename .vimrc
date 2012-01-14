@@ -656,6 +656,9 @@
       cmap BC  BundleClean
       cmap BS  BundleSearch<Space>
   " }}}
+  " vim-powerline {{{
+      let g:Powerline_symbols='fancy'
+  " }}}
 " }}}
 
 " Local {{{

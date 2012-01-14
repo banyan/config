@@ -71,6 +71,7 @@
     Bundle 'tomasr/molokai'
     Bundle 'banyan/recognize_charcode.vim'
     Bundle 'banyan/Nonopaste.vim'
+    Bundle 'Lokaltog/vim-powerline'
   " }}}
 
   syntax on
@@ -246,13 +247,6 @@
   highlight TabLineSel  term=bold    cterm=bold ctermfg=15 ctermbg=38
   highlight TabLineFill term=reverse cterm=reverse ctermfg=162 ctermbg=162
 
-  " While Input mode, change the color of the status line
-  augroup InsertHook
-  autocmd!
-  autocmd InsertEnter * highlight StatusLine ctermfg=15 ctermbg=39
-  autocmd InsertLeave * highlight StatusLine ctermfg=37 ctermbg=235
-  augroup END
-
   " Highlight the line containing the cursor
   " http://peace-pipe.blogspot.com/2006/05/vimrc-vim.html
   nnoremap <silent> ,ha :HighlightCurrentLine Search<cr>
@@ -365,19 +359,6 @@
       execute 'edit ' . a:file
   endfunction
   command! -nargs=1 -complete=file New call s:newFileOpen(<q-args>)
-
-  " Statusline based from https://github.com/spf13/spf13-vim/blob/master/.vimrc thanx!
-  " Broken down into easily includeable segments
-  set statusline=%<\ %f\                              " filename
-  set statusline+=%w%h%m%r                            " options
-  set statusline+=%{fugitive#statusline()}            " current git branch ;)
-  set statusline+=\[%{&ff}]                           " fileformat
-  set statusline+=\%y                                 " filetype
-  set statusline+=\%{'['.(&fenc!=''?&fenc:&enc).']'}  " encoding
-  set statusline+=\[%{getcwd()}]                      " current dir
-  set statusline+=\[%p%%]                             " current position
-  " set statusline+=\ [A=\%03.3b/H=\%02.2B]           " ASCII / Hexadecimal value of char
-  set statusline+=%=%-14.(%l,%c%V%)\                  " right aligned file nav info
 
   " sudo
   cmap w!! w !sudo tee % >/dev/null

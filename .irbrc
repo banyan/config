@@ -1,12 +1,16 @@
 IRB.conf[:AUTO_INDENT]  = true
-IRB.conf[:SAVE_HISTORY] = 100
+IRB.conf[:SAVE_HISTORY] = 1000
 
 require 'irb/completion'
 require 'date'
 require 'pathname'
 require 'pp'
 require 'rubygems'
-gem 'wirble'; require 'wirble'
 
+if defined?(Hirb) == 'constant'
+  Hirb.enable
+end
+
+gem 'wirble'; require 'wirble'
 Wirble.init
 Wirble.colorize

@@ -376,7 +376,7 @@ function routes_cache {
         rm $routes_cache;
     fi
     if ! [ -e $routes_cache ]; then
-        rake routes > $routes_cache
+        bundle exec rake routes > $routes_cache
     fi
     cat $routes_cache
 }

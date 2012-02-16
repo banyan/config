@@ -23,6 +23,9 @@
     added        = yellow
     changed      = green
     untracked    = cyan
+[tig "bind"]
+    generic      = g move-first-line
+    generic      = G move-last-line
 [alias]
     ci           = commit
     amend        = commit --amend -C HEAD

@@ -63,6 +63,8 @@ _zshenv_add_path PATH "/usr/*/sbin"
 _zshenv_add_path PATH "/usr/local/lib/flex3/bin"
 _zshenv_add_path PATH "/usr/local/src/apache-maven-2.2.1/bin"
 _zshenv_add_path PATH "/usr/local/ImageMagick-6.5.8-5/lib"
+_zshenv_add_path PATH "$HOME/.rbenv/bin"
+_zshenv_add_path PATH "$HOME/.rbenv/shims"
 
 export CPATH=
 _zshenv_add_path CPATH "/usr/local/include"

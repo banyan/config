@@ -6,3 +6,5 @@
 --type-set=htaccess=.htaccess
 --type-set=coffee=.coffee
 --type-set=scss=.scss
+--type-set=yaml=.yaml
+--type-set=yaml=.yml

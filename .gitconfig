@@ -30,7 +30,7 @@
     ci           = commit
     amend        = commit --amend -C HEAD
     co           = checkout
-    s            = status
+    s            = status -sb
     st           = status
     sti          = status --ignore-submodules
     d            = diff
@@ -62,6 +62,12 @@
     sub          = submodule
     ft           = -n --prune
     ftt          = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
+    pl           = pull --rebase
+    lg           = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
+    fo           = fetch origin
+    ro           = rebase origin
+    rc           = rebase --continue
+    wd           = diff --word-diff
 [github]
     user         = banyan
     token        =

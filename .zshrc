@@ -169,6 +169,7 @@ alias rrg="routes_cache | grep"
 alias rrr="routes_cache --force | less"
 alias rd="rails destroy"
 alias rspec='rspec -c'
+alias br='bundle exec rspec -c'
 alias rdm='rake db:migrate'
 alias b='bundle exec'
 alias plog='grc powder applog' # dependent on grc

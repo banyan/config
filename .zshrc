@@ -161,6 +161,7 @@ alias javac='javac -J-Dfile.encoding=UTF-8'
 alias java='java -Dfile.encoding=UTF-8'
 alias p="popd"
 alias v="vi"
+alias wcd="ls -Ap . | grep -v -e \/$ | xargs wc -l"
 
 # rails
 alias r="rails"

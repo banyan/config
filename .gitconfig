@@ -31,7 +31,7 @@
     amend        = commit --amend -C HEAD
     co           = checkout
     s            = status -sb
-    st           = status
+    st           = status -sb
     sti          = status --ignore-submodules
     d            = diff
     di           = diff

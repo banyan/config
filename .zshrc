@@ -173,6 +173,7 @@ alias rspec='rspec -c'
 alias br='bundle exec rspec -c'
 alias rdm='rake db:migrate'
 alias b='bundle exec'
+alias bundle-init='bundle install --path .bundle/gems'
 alias plog='grc powder applog' # dependent on grc
 alias powlog='grc powder applog' # dependent on grc
 

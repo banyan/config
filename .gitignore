@@ -17,5 +17,4 @@ tags
 .zsh/cdd_pwd_list*
 .zsh/local.zshenv
 .vim/bundle/*
-.vimperator/info/default/local-marks
-.vimperator/info/default/macros
+.vimperator/info/default/*

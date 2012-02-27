@@ -174,6 +174,7 @@ alias fu='bundle exec rspec --format Fuubar --color spec'
 alias br='bundle exec rake spec'
 alias rdm='rake db:migrate'
 alias b='bundle exec'
+alias bundle-init='bundle install --path .bundle/gems'
 alias plog='grc powder applog' # dependent on grc
 alias powlog='grc powder applog' # dependent on grc
 alias rails-init='bundle install --path .bundle/gems && rake db:create db:migrate && powder link'

@@ -169,7 +169,6 @@ alias rr="routes_cache | less"
 alias rrg="routes_cache | grep"
 alias rrr="routes_cache --force"
 alias rrrg="routes_cache --force | grep"
-alias rd="rails destroy"
 alias rspec='rspec -c'
 alias fu='bundle exec rspec --format Fuubar --color spec'
 alias nyan='bundle exec rspec --format NyanCatFormatter --color spec'

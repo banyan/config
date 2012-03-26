@@ -72,6 +72,7 @@
     Bundle 'banyan/recognize_charcode.vim'
     Bundle 'banyan/Nonopaste.vim'
     Bundle 'Lokaltog/vim-powerline'
+    Bundle 'glidenote/memolist.vim'
   " }}}
 
   syntax on

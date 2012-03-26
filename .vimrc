@@ -660,6 +660,9 @@
   " vim-powerline {{{
       let g:Powerline_symbols='fancy'
   " }}}
+  " memolist {{{
+      let g:memolist_path = "~/Dropbox/my/memo"
+  " }}}
 " }}}
 
 " Local {{{

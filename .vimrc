@@ -661,7 +661,7 @@
       let g:Powerline_symbols='fancy'
   " }}}
   " memolist {{{
-      let g:memolist_path = "~/Dropbox/my/memo"
+      let g:memolist_path = $HOME . "/Dropbox/my/memo"
   " }}}
 " }}}
 

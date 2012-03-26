@@ -68,6 +68,3 @@
     ro           = rebase origin
     rc           = rebase --continue
     wd           = diff --word-diff
-[github]
-    user         = banyan
-    token        = 0276c95e63cfcf2d2009bbbda2bdcfd9

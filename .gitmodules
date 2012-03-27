@@ -7,3 +7,7 @@
 [submodule ".zsh.d/oh-my-zsh"]
 	path = .zsh.d/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule ".zsh.d/zaw"]
+	path = .zsh.d/zaw
+	url = https://github.com/zsh-users/zaw.git
+

@@ -46,6 +46,11 @@ if [ -f "$HOME/.zsh.d/git-flow-completion.zsh" ]; then
     source "$HOME/.zsh.d/git-flow-completion.zsh"
 fi
 
+# source zaw
+if [ -f "$HOME/.zsh.d/zaw/zaw.zsh" ]; then
+    source "$HOME/.zsh.d/zaw/zaw.zsh"
+fi
+
 # source Incremental completion on zsh
 # it's too heavy..o_O
 # if [ -f "$HOME/.zsh.d/incr-0.2.zsh" ]; then

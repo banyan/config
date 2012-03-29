@@ -51,6 +51,17 @@ if [ -f "$HOME/.zsh.d/zaw/zaw.zsh" ]; then
     source "$HOME/.zsh.d/zaw/zaw.zsh"
 fi
 
+# http://d.hatena.ne.jp/shiba_yu36/20120130/1327937835
+# cdr
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':chpwd:*' recent-dirs-max 5000
+zstyle ':chpwd:*' recent-dirs-default yes
+zstyle ':completion:*' recent-dirs-insert both
+# zaw-src-cdr
+zstyle ':filter-select' case-insensitive yes # 絞り込みをcase-insensitiveに
+bindkey '^@' zaw-cdr # zaw-cdrをbindkey
+
 # source Incremental completion on zsh
 # it's too heavy..o_O
 # if [ -f "$HOME/.zsh.d/incr-0.2.zsh" ]; then
@@ -218,6 +229,7 @@ bindkey -e       # emacs 風
 # カーソル位置から前方削除
 # override kill-whole-line
 bindkey '^U' backward-kill-line
+bindkey '^R' zaw-history
 # }}}
 
 # Misc {{{

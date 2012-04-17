@@ -73,6 +73,7 @@
     Bundle 'banyan/Nonopaste.vim'
     Bundle 'Lokaltog/vim-powerline'
     Bundle 'glidenote/memolist.vim'
+    Bundle 'ajf/puppet-vim'
   " }}}
 
   syntax on

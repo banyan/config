@@ -10,3 +10,4 @@
 --type-set=yaml=.yml
 --ignore-dir=.bundle
 --ignore-dir=vendor
+--ignore-dir=coverage

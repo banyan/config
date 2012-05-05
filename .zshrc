@@ -188,6 +188,7 @@ alias rrrg="routes_cache --force | grep"
 alias rspec='rspec -c'
 alias fu='bundle exec rspec --format Fuubar --color spec'
 alias nyan='bundle exec rspec --format NyanCatFormatter --color spec'
+alias five='bundle exec rspec --format Fivemat --color spec'
 alias br='bundle exec rake spec'
 alias rdm='rake db:migrate'
 alias b='bundle exec'

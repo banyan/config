@@ -11,3 +11,4 @@
 --ignore-dir=.bundle
 --ignore-dir=vendor
 --ignore-dir=coverage
+--ignore-dir=.rsync_cache

@@ -148,9 +148,10 @@ autoload colors
 colors
 
 # RVM_INFO=$'%{$RVM_COLOR%}$(rvm_prompt)%{${reset_color}%}'
+SPORK_INFO=$'%{$RVM_COLOR%}$(spork_process)%{${reset_color}%}'
 PROMPT="%{$USERNAME_COLOR%}${USER}%(!.#.$)%{${reset_color}%} "
 VCS_INFO="%1(v|%{$VCS_COLOR%}%1v%f|)"
-RPROMPT="${VCS_INFO}$PATH_COLOR%}[%~]%{${reset_color}%}"
+RPROMPT="${SPORK_INFO}${VCS_INFO}$PATH_COLOR%}[%~]%{${reset_color}%}"
 # RPROMPT="${VCS_INFO}${RVM_INFO}%{$PATH_COLOR%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
 PROMPT="%{$HOSTNAME_COLOR%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
@@ -214,6 +215,7 @@ alias frs='git flow release start'
 alias frf='git flow release finish'
 alias gw='git wtf'
 alias gc='git clone --recursive'
+
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
@@ -403,6 +405,13 @@ function routes_cache {
         bundle exec rake routes > $routes_cache
     fi
     cat $routes_cache
+}
+
+function spork_process {
+    result=`ps | grep spork | grep -v grep`
+    if [ "$result" ] ; then
+        echo "⚡ "
+    fi
 }
 
 # }}}

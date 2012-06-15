@@ -215,6 +215,7 @@ alias frs='git flow release start'
 alias frf='git flow release finish'
 alias gw='git wtf'
 alias gc='git clone --recursive'
+alias dic='dc'
 
 
 # grep や ack で絞り込んだ結果を vim で開く

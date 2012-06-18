@@ -30,15 +30,27 @@ if [ -f "$HOME/.zsh/debug.zshrc" ]; then
 fi
 
 # vcs_info
+autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
+
 zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:*' enable git svn hg bzr
 zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
 zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
-precmd () {
+zstyle ':vcs_info:bzr:*' use-simple true
+
+function _update_vcs_info_msg() {
     psvar=()
     LANG=en_US.UTF-8 vcs_info
     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+
+    # http://stnard.jp/2010/10/25/402/
+    if [[ -e $PWD/.git/refs/stash ]]; then
+        stashes=$(git stash list 2>/dev/null | wc -l)
+        psvar[2]="[@${stashes// /}]"
+    fi
 }
+add-zsh-hook precmd _update_vcs_info_msg
 
 # source git-flow-completion
 # https://github.com/bobthecow/git-flow-completion
@@ -138,6 +150,7 @@ local USERNAME_COLOR=$'%{\e[38;5;199m%}'
 local PATH_COLOR=$'%{\e[38;5;61m%}'
 local RVM_COLOR=$'%{\e[38;5;31m%}'
 local VCS_COLOR=$'%{\e[38;5;248m%}'
+local STASH_COLOR=$'%{\e[38;5;148m%}'
 # }}}
 
 # Prompt {{{
@@ -150,7 +163,7 @@ colors
 # RVM_INFO=$'%{$RVM_COLOR%}$(rvm_prompt)%{${reset_color}%}'
 SPORK_INFO=$'%{$RVM_COLOR%}$(spork_process)%{${reset_color}%}'
 PROMPT="%{$USERNAME_COLOR%}${USER}%(!.#.$)%{${reset_color}%} "
-VCS_INFO="%1(v|%{$VCS_COLOR%}%1v%f|)"
+VCS_INFO="%1(v|%{$VCS_COLOR%}%1v%f%F{$STASH_COLOR%}%2v%f|)"
 RPROMPT="${SPORK_INFO}${VCS_INFO}$PATH_COLOR%}[%~]%{${reset_color}%}"
 # RPROMPT="${VCS_INFO}${RVM_INFO}%{$PATH_COLOR%}[%~]%{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "

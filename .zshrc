@@ -228,6 +228,7 @@ alias frs='git flow release start'
 alias frf='git flow release finish'
 alias gw='git wtf'
 alias gc='git clone --recursive'
+alias dic='dc'
 
 
 # grep や ack で絞り込んだ結果を vim で開く
@@ -425,6 +426,12 @@ function spork_process {
     if [ "$result" ] ; then
         echo "⚡ "
     fi
+}
+
+# https://gist.github.com/2887411
+# $ nyann にゃ ん
+function nyann() {
+  echo "$1ーーー$2！！$1$2$1ーーーーーー$2！！！！$1$2$1$1ーー$2$1$2！！！$1$2$1ー$2！！！！$1$1$1$1$1$1$1$1$1$1$1$1ーーーー$2！！！！！"
 }
 
 # }}}

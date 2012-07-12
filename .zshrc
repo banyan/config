@@ -182,7 +182,7 @@ case "$OSTYPE" in
         alias ls='ls --color=auto'
     ;;
 esac
-alias ll='ls -alF'
+alias ll='ls -la'
 alias lla='ls -A'
 alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 alias py="python"

@@ -74,6 +74,8 @@
     Bundle 'Lokaltog/vim-powerline'
     Bundle 'glidenote/memolist.vim'
     Bundle 'ajf/puppet-vim'
+    Bundle 'scrooloose/syntastic'
+    Bundle 'hallison/vim-markdown'
   " }}}
 
   syntax on

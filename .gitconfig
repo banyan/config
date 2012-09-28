@@ -5,6 +5,7 @@
     excludesfile  = /Users/kohei/.gitignore
     pager         = less -r
     editor        = /usr/bin/vim
+	precomposeunicode = true
 [color]
     diff          = auto
     status        = auto

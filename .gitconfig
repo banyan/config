@@ -1,74 +1,74 @@
 [user]
-    name          = Kohei Hasegawa
-    email         = ameutau@gmail.com
+    name              = Kohei Hasegawa
+    email             = ameutau@gmail.com
 [core]
-    excludesfile  = /Users/kohei/.gitignore
-    pager         = less -r
-    editor        = /usr/bin/vim
+    excludesfile      = /Users/kohei/.gitignore
+    pager             = less -r
+    editor            = /usr/bin/vim
 	precomposeunicode = true
 [color]
-    diff          = auto
-    status        = auto
-    branch        = auto
-    interactive   = auto
+    diff              = auto
+    status            = auto
+    branch            = auto
+    interactive       = auto
 [color "branch"]
-    current       = yellow reverse
-    local         = yellow
-    remote        = green
+    current           = yellow reverse
+    local             = yellow
+    remote            = green
 [color "diff"]
-    meta          = yellow bold
-    frag          = magenta bold
-    old           = red bold
-    new           = green bold
+    meta              = yellow bold
+    frag              = magenta bold
+    old               = red bold
+    new               = green bold
 [color "status"]
-    added         = yellow
-    changed       = green
-    untracked     = cyan
+    added             = yellow
+    changed           = green
+    untracked         = cyan
 [tig "bind"]
-    generic       = g move-first-line
-    generic       = G move-last-line
+    generic           = g move-first-line
+    generic           = G move-last-line
 [alias]
-    ci            = commit
-    amend         = commit --amend -C HEAD
-    co            = checkout
-    s             = status -sb
-    st            = status -sb
-    sti           = status --ignore-submodules
-    d             = diff
-    di            = diff
-    dii           = diff --ignore-submodules
-    dic           = diff --cached
-    dc            = diff --cached
-    dci           = diff --cached --ignore-submodules
-    difflog       = log -p HEAD@{3.days.ago}
-    l             = log --pretty=format:\"%h (%an): %s\" --date=short -20
-    ls            = log --stat -p -1
-    cob           = checkout -b
-    b             = branch
-    br            = branch
-    sh            = !git-sh
-    a             = add
-    aa            = add -A
-    sa            = stash
-    sap           = stash pop
-    r             = reset
-    svnci         = svn dcommit
-    svnre         = svn rebase
-    m             = merge
-    graph         = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date = short
-    wh            = whatchanged
-    stat          = log --stat --summary
-    logg          = log --graph --decorate --pretty=format:\"%ad [%cn] %h> %n %Cgreen%d%Creset %s %n\" --name-status
-    logs          = log --graph --decorate --pretty=format:\"%ad [%cn] %h> %n %Cgreen%d%Creset %s %n\" --stat
-    sub           = submodule
-    ft            = -n --prune
-    ftt           = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
-    pl            = pull --rebase
-    lg            = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
-    fo            = fetch origin
-    ro            = rebase origin
-    rc            = rebase --continue
-    wd            = diff --word-diff
+    ci                = commit
+    amend             = commit --amend -C HEAD
+    co                = checkout
+    s                 = status -sb
+    st                = status -sb
+    sti               = status --ignore-submodules
+    d                 = diff
+    di                = diff
+    dii               = diff --ignore-submodules
+    dic               = diff --cached
+    dc                = diff --cached
+    dci               = diff --cached --ignore-submodules
+    difflog           = log -p HEAD@{3.days.ago}
+    l                 = log --pretty=format:\"%h (%an): %s\" --date=short -20
+    ls                = log --stat -p -1
+    cob               = checkout -b
+    b                 = branch
+    br                = branch
+    sh                = !git-sh
+    a                 = add
+    aa                = add -A
+    sa                = stash
+    sap               = stash pop
+    r                 = reset
+    svnci             = svn dcommit
+    svnre             = svn rebase
+    m                 = merge
+    graph             = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date = short
+    wh                = whatchanged
+    stat              = log --stat --summary
+    logg              = log --graph --decorate --pretty=format:\"%ad [%cn] %h> %n %Cgreen%d%Creset %s %n\" --name-status
+    logs              = log --graph --decorate --pretty=format:\"%ad [%cn] %h> %n %Cgreen%d%Creset %s %n\" --stat
+    sub               = submodule
+    ft                = -n --prune
+    ftt               = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
+    pl                = pull --rebase
+    lg                = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
+    fo                = fetch origin
+    ro                = rebase origin
+    rc                = rebase --continue
+    wd                = diff --word-diff
 [url "git@github.com:"]
-    pushinsteadof = "https://github.com/"
-    pushinsteadof = "git://github.com/"
+    pushinsteadof     = "https://github.com/"
+    pushinsteadof     = "git://github.com/"

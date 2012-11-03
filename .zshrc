@@ -63,6 +63,13 @@ if [ -f "$HOME/.zsh.d/zaw/zaw.zsh" ]; then
     source "$HOME/.zsh.d/zaw/zaw.zsh"
 fi
 
+# source git-escape-magic
+if [ -f "$HOME/.zsh.d/git-escape-magic" ]; then
+    source "$HOME/.zsh.d/git-escape-magic"
+    autoload -Uz git-escape-magic
+    git-escape-magic
+fi
+
 # http://d.hatena.ne.jp/shiba_yu36/20120130/1327937835
 # cdr
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook

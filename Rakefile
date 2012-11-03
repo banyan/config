@@ -7,7 +7,7 @@ IGNORE_FILES = %w(
   .
   ..
   .git
-  README
+  README.md
   Rakefile
   bin
 )

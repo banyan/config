@@ -9,6 +9,7 @@ IGNORE_FILES = %w(
   .git
   README
   Rakefile
+  bin
 )
 
 BASE_PATH = File.dirname(__FILE__)
@@ -22,18 +23,19 @@ task :install do
   force = ENV['force'] == "true"
   noop  = ENV['noop']  == "true"
 
+  options = { noop: noop, verbose: verbose, force: force }
+
   # Create a Symbolic Link
   Dir.new(BASE_PATH).entries.reject{ |file| IGNORE_FILES.include?(file) }.each do |file|
-    options = { noop: noop, verbose: verbose, force: force }
-    symlink("#{BASE_PATH}/#{file}", "~/", options)
+    src  = File.join(BASE_PATH, file)
+    dest = File.join(Dir.home, file)
+
+    # dest がすでに存在しディレクトリであるときは dest/src が作られるので飛ばす
+    next if File.exists?(dest) && Dir.exist?(src)
+
+    symlink(src, dest, options)
   end
 
   # Install Vim Plugins
   system('vim -c "BundleInstall" -c "quit"') unless noop
-
-  if $?
-    puts "Successfully initialized... ;)"
-  else
-    puts "Oops! O_o"
-  end
 end

@@ -20,8 +20,8 @@ BASE_PATH = File.dirname(__FILE__)
 namespace :dotfiles do
   desc "install and setup dotfiles"
   task :setup do
-    Rake::Task["symlink"].invoke
-    Rake::Task["vim_initialize"].invoke
+    Rake::Task["dotfiles:symlink"].invoke
+    Rake::Task["dotfiles:vim:install_plugins"].invoke
   end
 end
 

@@ -5,6 +5,6 @@
 $ mkdir ~/git
 $ git clone --recursive git://github.com/banyan/config ~/git/config
 $ cd ~/git/config
-$ rake install -v noop=true # run as dry-run
-$ rake install -v force=true
+$ rake dotfiles:setup -v noop=true # run as dry-run
+$ rake dotfiles:setup -v force=true
 ```

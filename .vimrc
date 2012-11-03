@@ -53,6 +53,7 @@
     Bundle 'tsaleh/vim-tmux'
     Bundle 'briancollins/vim-jst'
     Bundle 'kchmck/vim-coffee-script'
+    Bundle 'skwp/vim-rspec'
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'banyan/eruby.vim'
     " Bundle 'Shougo/unite.vim'

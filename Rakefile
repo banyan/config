@@ -11,12 +11,16 @@ IGNORE_FILES = %w(
   bin
 )
 
-BASE_PATH = File.dirname(__FILE__)
+BASE_PATH  = File.dirname(__FILE__)
+BACKUP_DIR = "/tmp/dotfiles_#{Time.now.strftime("%Y%m%d%H%M%S")}"
 
 # rake dotfiles:setup [-v|--verbose] [noop=true|false] [force=true|false]
-# サーバセットアップ後、一番はじめに行う
-# $ rake dotfiles:setup -v noop=true
-# $ rake dotfiles:setup -v force=true
+#
+# When the server has been set up, run for the first
+#
+# Usage:
+#   $ rake dotfiles:setup -v noop=true
+#   $ rake dotfiles:setup -v force=true
 namespace :dotfiles do
   desc "install and setup dotfiles"
   task :setup do
@@ -32,17 +36,29 @@ namespace :dotfiles do
     force = ENV['force'] == "true"
     noop  = ENV['noop']  == "true"
 
-    options = { noop: noop, verbose: verbose, force: force }
+    mkdir(BACKUP_DIR)
 
     # Create a Symbolic Link
     Dir.new(BASE_PATH).entries.reject{ |file| IGNORE_FILES.include?(file) }.each do |file|
       src  = File.join(BASE_PATH, file)
       dest = File.join(Dir.home, file)
 
-      # dest がすでに存在しディレクトリであるときは dest/src が作られるので飛ばす
-      next if File.exists?(dest) && Dir.exist?(src)
+      unless File.identical?(src, dest)
+        options = { noop: noop, verbose: verbose }
+        cp_r(src, BACKUP_DIR, options)
+      end
 
+      # otherwize it will be created dest/src
+      next if File.exists?(dest) && Dir.exist?(src) && File.identical?(src, dest)
+
+      options = { noop: noop, verbose: verbose, force: force }
       symlink(src, dest, options)
+    end
+
+    if Dir.empty?(BACKUP_DIR)
+      Dir.rmdir(BACKUP_DIR)
+    else
+      puts "backuped at #{BACKUP_DIR}"
     end
   end
 end
@@ -55,11 +71,18 @@ namespace :dotfiles do
     task :install_plugins do
       noop  = ENV['noop']  == "true"
       command = 'vim -c "BundleInstall" -c "quit"'
+
       if noop
         puts command
       else
         system(command)
       end
     end
+  end
+end
+
+class Dir
+  def Dir.empty?(path)
+    Dir.entries(path) == %w(. ..)
   end
 end

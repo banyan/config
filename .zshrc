@@ -126,6 +126,7 @@ setopt RM_STAR_WAIT           # rm * を実行する前に確認
 setopt SHARE_HISTORY          # 履歴の共有
 setopt AUTOPUSHD              # cd 時に自動で push
 setopt PUSHD_IGNORE_DUPS      # 同じディレクトリを pushd しない
+setopt TRANSIENT_RPROMPT      # 現在のステータスの RPROMPT だけを表示する
 
 #setopt EQUALS                # =command を command のパス名に展開する
 #setopt HIST_VERIFY           # ヒストリを呼び出してから実行する間に一旦編集

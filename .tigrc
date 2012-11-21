@@ -1,0 +1,19 @@
+set show-rev-graph       = yes
+set show-refs            = yes
+set show-line-numbers    = yes
+
+set horizontal-scroll    = 33%
+set split-view-height    = 70%
+set line-graphics        = "UTF-8"
+set tab-size             = 4
+
+# bind
+bind generic g move-first-line
+bind generic G move-last-line
+bind generic r refresh
+
+# http://blog.kyanny.me/entry/2012/07/22/033134
+# open commit at github
+bind main o !@hub browse -- commit/%(commit)
+bind diff o !@hub browse -- commit/%(commit)
+bind log  o !@hub browse -- commit/%(commit)

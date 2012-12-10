@@ -1,6 +1,7 @@
 set show-rev-graph       = yes
 set show-refs            = yes
 set show-line-numbers    = yes
+set vertical-split       = yes
 
 set horizontal-scroll    = 33%
 set split-view-height    = 70%

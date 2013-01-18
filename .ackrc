@@ -8,6 +8,7 @@
 --type-set=scss=.scss
 --type-set=yaml=.yaml
 --type-set=yaml=.yml
+--type-set=ruby=.thor
 --ignore-dir=.bundle
 --ignore-dir=vendor
 --ignore-dir=coverage

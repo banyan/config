@@ -13,3 +13,4 @@
 --ignore-dir=vendor
 --ignore-dir=coverage
 --ignore-dir=.rsync_cache
+--ignore-dir=tmp

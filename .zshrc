@@ -63,6 +63,12 @@ if [ -f "$HOME/.zsh.d/zaw/zaw.zsh" ]; then
     source "$HOME/.zsh.d/zaw/zaw.zsh"
 fi
 
+# z
+. `brew --prefix`/etc/profile.d/z.sh
+function precmd () {
+   z --add "$(pwd -P)"
+}
+
 # source git-escape-magic
 if [ -f "$HOME/.zsh.d/git-escape-magic" ]; then
     source "$HOME/.zsh.d/git-escape-magic"

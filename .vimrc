@@ -667,6 +667,9 @@
   " memolist {{{
       let g:memolist_path = $HOME . "/Dropbox/my/memo"
   " }}}
+  " Nonopaste {{{
+      let g:nonopaste_open_browser_after_post = 1
+  " }}}
 " }}}
 
 " Local {{{

@@ -77,6 +77,7 @@
     Bundle 'ajf/puppet-vim'
     Bundle 'scrooloose/syntastic'
     Bundle 'hallison/vim-markdown'
+    Bundle 'rhysd/clever-f.vim'
   " }}}
 
   syntax on

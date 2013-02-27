@@ -443,6 +443,10 @@ function spork_process {
     fi
 }
 
+function pr {
+    git push -u $GITHUB_USER `git rev-parse --abbrev-ref HEAD`
+    url=`hub pull-request`
+    open $url
 }
 
 # }}}

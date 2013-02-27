@@ -10,6 +10,7 @@
 	default           = simple
 [pull]
 	default           = simple
+	rebase            = true
 [color]
     diff              = auto
     status            = auto

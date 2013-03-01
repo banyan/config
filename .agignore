@@ -1,0 +1,5 @@
+.bundle
+vendor
+coverage
+.rsync_cache
+tmp

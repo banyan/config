@@ -11,6 +11,8 @@
 [pull]
 	default           = simple
 	rebase            = true
+[merge]
+	log               = true
 [color]
     diff              = auto
     status            = auto

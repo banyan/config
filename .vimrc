@@ -63,6 +63,7 @@
     Bundle 'scrooloose/nerdtree'
     Bundle 'motemen/git-vim'
     Bundle 'tpope/vim-fugitive'
+    Bundle 'mattn/webapi-vim'
     Bundle 'mattn/gist-vim'
     Bundle 'thinca/vim-guicolorscheme'
     Bundle 'banyan/banyan.vim'

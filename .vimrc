@@ -27,19 +27,16 @@
     Bundle 'The-NERD-Commenter'
     Bundle 'eregex.vim'
     Bundle 'Align'
-    Bundle 'speeddating.vim'
     Bundle 'endwise.vim'
     Bundle 'haml.zip'
     Bundle 'JavaScript-syntax'
     Bundle 'php.vim'
-    Bundle 'cucumber.zip'
     Bundle 'fakeclip'
   """ }}}
 
   """ repos on github {{{
     Bundle 'thinca/vim-ref'
     Bundle 'h1mesuke/vim-alignta'
-    Bundle 'mileszs/ack.vim'
     " 'Caught deadly signal ABRT' is frequently occuring by vim-rails?? o_O
     " Bundle 'tpope/vim-rails'
     Bundle 'Shougo/neocomplcache'

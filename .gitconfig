@@ -76,6 +76,7 @@
     ro                = rebase origin
     rc                = rebase --continue
     wd                = diff --word-diff
+    dmb               = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
 [url "git@github.com:"]
     pushinsteadof     = "https://github.com/"
     pushinsteadof     = "git://github.com/"

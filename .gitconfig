@@ -78,6 +78,7 @@
     wd                = diff --word-diff
     dm                = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
     db                = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
+    pr                = !hub pull-request -h `git config pr.head-owner`:`git rev-parse --abbrev-ref HEAD` -b `git config pr.base-owner`:`git config pr.base-branch`
 [url "git@github.com:"]
     pushinsteadof     = "https://github.com/"
     pushinsteadof     = "git://github.com/"

@@ -75,7 +75,6 @@
     Bundle 'ajf/puppet-vim'
     Bundle 'scrooloose/syntastic'
     Bundle 'hallison/vim-markdown'
-    Bundle 'airblade/vim-gitgutter'
   " }}}
 
   syntax on

@@ -421,14 +421,6 @@ function pcolor() {
     echo
 }
 
-# show rvm prompt like "1.9.2@gemset_name"
-function rvm_prompt {
-    result=`rvm-prompt v g 2> /dev/null`
-    if [ "$result" ] ; then
-        echo "[$result]"
-    fi
-}
-
 # cache for rake routes
 function routes_cache {
     local routes_cache; routes_cache="./tmp/routes_cache"

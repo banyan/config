@@ -100,6 +100,18 @@ zmodload -a zsh/zprof zprof
 zmodload -ap zsh/mapfile mapfile
 # }}}
 
+# Settings for antigen {{{
+# antigen use oh-my-zsh
+
+antigen bundle git
+antigen bundle command-not-found
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+antigen theme banyan/oh-my-zsh themes/banyan
+
+antigen apply
+# }}}
+
 # Setup options {{{
 setopt APPEND_HISTORY         # .zsh-history を上書きではなく追加
 setopt AUTO_CD                # ディレクトリ名だけを入力した時にそこに cd する
@@ -155,35 +167,6 @@ REPORTTIME=3
 # Use dircolors where available
 export LS_COLORS='no=00:di=00;38;05;44:ln=01;35:pi=33:so=01;32:bd=00;38;05;44:cd=00;38;05;44:ex=01;32:*.c=36:*.cc=36:*.h=33:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.app=01;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.sit=00;31:*.sitX=00;31:*.zip=00;31:*.bin=00;31:*.hqx=00;31:*.jpg=00;35:*.jpeg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.tif=00;35:*.tiff=00;35:*.pdf=00;35:*.avi=00;35:*.mov=00;35:*.mpg=00;35:*.mpeg=00;35:*.asf=00;35:*.wmv=00;35:*.rm=00;35:*.swf=00;35:*.mp3=00;35:*.aiff=00;35:*.aif=00;35:*.snd=00;35:*.wav=00;35:';
 export ZLS_COLORS=$LS_COLORS
-# }}}
-
-# Colours {{{
-local HOSTNAME_COLOR=$'%{\e[38;5;190m%}'
-local USERNAME_COLOR=$'%{\e[38;5;199m%}'
-local PATH_COLOR=$'%{\e[38;5;61m%}'
-local RVM_COLOR=$'%{\e[38;5;31m%}'
-local VCS_COLOR=$'%{\e[38;5;248m%}'
-local STASH_COLOR=$'%{\e[38;5;148m%}'
-# }}}
-
-# Prompt {{{
-# colors#  → 色指定  $fg[色名]/$bg[色名]/$reset_color (${, $} で囲む必要がある)
-# 30黒 31赤 32緑 33黄 34青 35紫 36水 37白
-# http://coderepos.org/share/export/9486/dotfiles/zsh/mobcov/.zsh/.zshrc
-autoload colors
-colors
-
-# RVM_INFO=$'%{$RVM_COLOR%}$(rvm_prompt)%{${reset_color}%}'
-SPORK_INFO=$'%{$RVM_COLOR%}$(spork_process)%{${reset_color}%}'
-PROMPT="%{$USERNAME_COLOR%}${USER}%(!.#.$)%{${reset_color}%} "
-VCS_INFO="%1(v|%{$VCS_COLOR%}%1v%f%F{$STASH_COLOR%}%2v%f|)"
-RPROMPT="${SPORK_INFO}${VCS_INFO}$PATH_COLOR%}[%~]%{${reset_color}%}"
-# RPROMPT="${VCS_INFO}${RVM_INFO}%{$PATH_COLOR%}[%~]%{${reset_color}%}"
-SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-PROMPT="%{$HOSTNAME_COLOR%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-
-# MySQL のプロンプト
-# export MYSQL_PS1='(^[[32m\u^[[00m@^[[33m\h^[[00m) ^[[34m[\d]^[[00m > '
 # }}}
 
 # Aliases {{{

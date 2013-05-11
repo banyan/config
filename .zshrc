@@ -76,6 +76,11 @@ if [ -f "$HOME/.zsh.d/git-escape-magic" ]; then
     git-escape-magic
 fi
 
+# load antigen
+if [ -f "$HOME/.zsh.d/antigen/antigen.zsh" ]; then
+    source "$HOME/.zsh.d/antigen/antigen.zsh"
+fi
+
 # http://d.hatena.ne.jp/shiba_yu36/20120130/1327937835
 # cdr
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook

@@ -91,12 +91,6 @@ zstyle ':completion:*' recent-dirs-insert both
 # zaw-src-cdr
 zstyle ':filter-select' case-insensitive yes # 絞り込みをcase-insensitiveに
 bindkey '^@' zaw-cdr # zaw-cdrをbindkey
-
-# source Incremental completion on zsh
-# it's too heavy..o_O
-# if [ -f "$HOME/.zsh.d/incr-0.2.zsh" ]; then
-    # source "$HOME/.zsh.d/incr-0.2.zsh"
-# fi
 # }}}
 
 # Autoload zsh modules when they are referenced {{{

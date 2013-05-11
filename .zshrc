@@ -25,9 +25,9 @@ bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
 
 # 補完関数を作成する時のデバッグ用関数
-if [ -f "$HOME/.zsh/debug.zshrc" ]; then
+# if [ -f "$HOME/.zsh/debug.zshrc" ]; then
     # source "$HOME/.zsh/debug.zshrc"
-fi
+# fi
 
 # vcs_info
 autoload -Uz add-zsh-hook

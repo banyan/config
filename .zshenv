@@ -89,6 +89,6 @@ _zshenv_add_path CPATH "/opt/include"
 #export PATH=$JRUBY_HOME/bin:$PATH
 
 # load local.zshenv
-if [ -f "$HOME/.zsh/local.zshenv" ]; then
-    source "$HOME/.zsh/local.zshenv"
+if [ -f "$HOME/.zsh.d/local.zshenv" ]; then
+    source "$HOME/.zsh.d/local.zshenv"
 fi

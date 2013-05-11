@@ -4,7 +4,6 @@
 
 # Complement {{{
 typeset -U fpath
-fpath=($fpath ~/.zsh/myfunc)
 
 autoload -U compinit
 compinit -u

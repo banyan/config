@@ -14,7 +14,7 @@
 tags
 *.html.php
 *.svn/
-.zsh/cdd_pwd_list*
-.zsh/local.zshenv
+.zsh.d/cdd_pwd_list*
+.zsh.d/local.zshenv
 .vim/bundle/*
 .vimperator/info/default/*

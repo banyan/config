@@ -214,7 +214,6 @@ alias cia="git commit --amend"
 alias gl="git pull --rebase"
 alias pus="git push"
 alias c="git checkout"
-# alias b='git branch'
 alias f='git flow'
 alias ff='git flow feature'
 alias ffs='git flow feature start'

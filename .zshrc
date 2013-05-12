@@ -103,6 +103,10 @@ zmodload -ap zsh/mapfile mapfile
 # antigen use oh-my-zsh
 
 antigen bundle git
+antigen bundle bundler
+antigen bundle brew
+antigen bundle gem
+antigen bundle git-hubflow
 antigen bundle command-not-found
 antigen bundle zsh-users/zsh-syntax-highlighting
 

@@ -46,6 +46,7 @@
     Bundle 'bdd/vim-scala'
     Bundle 'vim-ruby/vim-ruby'
     Bundle 'tpope/vim-haml'
+    Bundle 'slim-template/vim-slim'
     Bundle 'jiangmiao/simple-javascript-indenter'
     Bundle 'tsaleh/vim-tmux'
     Bundle 'briancollins/vim-jst'

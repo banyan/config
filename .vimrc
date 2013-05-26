@@ -287,12 +287,6 @@
 
   " select all like as Windows
   nmap <Space>a ggVG
-
-  " this is a real optimization for almost all Vim commands
-  " is it?
-  " nnoremap pt :set paste
-  " nnoremap ; :
-  " nnoremap : ;
 " }}}
 
 " Misc {{{

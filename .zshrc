@@ -190,6 +190,8 @@ alias java='java -Dfile.encoding=UTF-8'
 alias p="popd"
 alias v="vi"
 alias wcd="find ./ -type f | xargs wc -l"
+alias diff='colordiff'
+alias less='less -R'
 
 # rails
 alias r="rails"

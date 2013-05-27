@@ -81,9 +81,10 @@ if [ -f "$HOME/.zsh.d/antigen/antigen.zsh" ]; then
 fi
 
 # source chruby
-if [ -f "/usr/local/share/chruby/chruby.sh" ]; then
+if [ -d /usr/local/share/chruby ]; then
     source /usr/local/share/chruby/chruby.sh
     source /usr/local/share/chruby/auto.sh
+    source "$HOME/.zsh.d/default-chruby.sh"
 fi
 
 # http://d.hatena.ne.jp/shiba_yu36/20120130/1327937835

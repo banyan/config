@@ -80,13 +80,6 @@ if [ -f "$HOME/.zsh.d/antigen/antigen.zsh" ]; then
     source "$HOME/.zsh.d/antigen/antigen.zsh"
 fi
 
-# source chruby
-if [ -d /usr/local/share/chruby ]; then
-    source /usr/local/share/chruby/chruby.sh
-    source /usr/local/share/chruby/auto.sh
-    source "$HOME/.zsh.d/default-chruby.sh"
-fi
-
 # http://d.hatena.ne.jp/shiba_yu36/20120130/1327937835
 # cdr
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook

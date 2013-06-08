@@ -71,8 +71,7 @@ _zshenv_add_path PATH "/usr/local/lib/flex3/bin"
 _zshenv_add_path PATH "/usr/local/src/apache-maven-2.2.1/bin"
 _zshenv_add_path PATH "/usr/local/ImageMagick-6.5.8-5/lib"
 _zshenv_add_path PATH "$HOME/perl5/lib/perl5"
-_zshenv_add_path PATH "$HOME/.phpenv/bin"
-_zshenv_add_path PATH "$HOME/.phpenv/shims"
+_zshenv_add_path PATH "/usr/local/share/npm/bin"
 
 export CPATH=
 _zshenv_add_path CPATH "/usr/local/include"

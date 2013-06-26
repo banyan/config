@@ -234,6 +234,7 @@ alias frf='git flow release finish'
 alias gw='git wtf'
 alias gc='git clone --recursive'
 alias dic='dc'
+alias m="git co master"
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855

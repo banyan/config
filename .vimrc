@@ -279,6 +279,9 @@
   nmap <Space>w :w<CR>
   nmap <Space>c :q<CR>
 
+  nmap 0 ^
+  nmap 9 $
+
   " yank
   nnoremap Y  y$<CR>
   nnoremap y1 y^<CR>

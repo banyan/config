@@ -77,6 +77,7 @@
     Bundle 'scrooloose/syntastic'
     Bundle 'hallison/vim-markdown'
     Bundle 'nono/vim-handlebars'
+    Bundle 'elzr/vim-json'
   " }}}
 
   syntax on

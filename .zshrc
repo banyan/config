@@ -198,6 +198,7 @@ alias v="vi"
 alias wcd="find ./ -type f | xargs wc -l"
 alias diff='colordiff'
 alias less='less -R'
+alias sed='gsed'
 
 # rails
 alias r="rails"

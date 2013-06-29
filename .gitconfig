@@ -49,7 +49,7 @@
     dci               = diff --cached --ignore-submodules
     difflog           = log -p HEAD@{3.days.ago}
     l                 = log --pretty=format:\"%h (%an): %s\" --date=short -20
-    ls                = log --stat -p -1
+    ls                = ls-files
     cob               = checkout -b
     b                 = branch
     br                = branch

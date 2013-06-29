@@ -188,6 +188,7 @@ case "$OSTYPE" in
 esac
 alias ll='ls -la'
 alias lla='ls -A'
+alias l='ll'
 alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 alias py="python"
 alias wget='wget --no-check-certificate'

@@ -186,6 +186,7 @@ case "$OSTYPE" in
         alias ls='ls --color=auto'
     ;;
 esac
+
 alias ll='ls -la'
 alias lla='ls -A'
 alias l='ll'
@@ -200,6 +201,7 @@ alias wcd="find ./ -type f | xargs wc -l"
 alias diff='colordiff'
 alias less='less -R'
 alias sed='gsed'
+alias t='tmux'
 
 # rails
 alias r="rails"

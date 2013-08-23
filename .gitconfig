@@ -80,6 +80,7 @@
     db                = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
     pr                = !hub pull-request -h `git config pr.head-owner`:`git rev-parse --abbrev-ref HEAD` -b `git config pr.base-owner`:`git config pr.base-branch`
     gsub              = "!sh -c 'git grep -l $0 $2 | xargs gsed -i \"s/$0/$1/g\"'"
+    rebase-master     = "!sh -c 'git checkout master && git pull origin master && git checkout @{-1} && git rebase master'"
 [url "https://"]
 	insteadOf = git://
 [url "git@github.com:"]

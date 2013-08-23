@@ -220,6 +220,10 @@ alias plog='grc powder applog' # dependent on grc
 alias powlog='grc powder applog' # dependent on grc
 alias rails-init='bundle install --path .bundle/gems && rake db:create db:migrate && powder link'
 
+# brunch
+alias bb='brunch build'
+alias bbm='brunch build && mocha-phantomjs public/test/index.html'
+
 # git
 alias g="git"
 alias ci="git commit"

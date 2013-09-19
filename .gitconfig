@@ -36,6 +36,7 @@
     generic           = G move-last-line
 [alias]
     ci                = commit -v
+    reward            = commit --amend
     amend             = commit --amend -C HEAD
     co                = checkout
     s                 = status -sb

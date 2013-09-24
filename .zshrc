@@ -201,6 +201,7 @@ alias diff='colordiff'
 alias less='less -R'
 alias sed='gsed'
 alias t='tmux'
+alias pp='pending-pr'
 
 # rails
 alias r="rails"

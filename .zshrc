@@ -215,7 +215,7 @@ alias nyan='bundle exec rspec --format NyanCatFormatter --color spec'
 alias five='bundle exec rspec --format Fivemat --color spec'
 alias br='bundle exec rake spec'
 alias rdm='rake db:migrate'
-alias b='bundle exec'
+alias be='bundle exec'
 alias bundle-init='bundle install --path .bundle/gems'
 alias plog='grc powder applog' # dependent on grc
 alias powlog='grc powder applog' # dependent on grc
@@ -229,13 +229,15 @@ alias bbm='brunch build && mocha-phantomjs public/test/index.html'
 alias g="git"
 alias ci="git commit"
 alias cia="git commit --amend"
-alias gl="git pull --rebase"
+alias gl="git pull origin master"
 alias pus="git push"
 alias c="git checkout"
 alias gw='git wtf'
 alias gc='git clone --recursive'
+alias ga="git add -p"
 alias dic='dc'
 alias m="git co master"
+alias b='git branch'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855

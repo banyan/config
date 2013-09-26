@@ -1,6 +1,8 @@
 tap 'phinze/cask'
 
 cask 'google-chrome'
+cask 'keyremap4macbook'
+cask 'xtra-finder'
 
 brew 'mysql'
 brew 'redis'
@@ -17,10 +19,12 @@ brew 'ruby-install'
 brew 'zsh'
 brew 'tmux'
 brew 'vim'
+brew 'git'
 
 brew 'haskell-platform'
 
 brew 'z'
+brew 'ag'
 brew 'grc'
 brew 'nkf'
 brew 'hub'
@@ -33,4 +37,3 @@ brew 'git-now'
 brew 'gnu-sed'
 brew 'readline'
 brew 'autoconf'
-brew 'the_silver_searcher'

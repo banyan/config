@@ -82,6 +82,7 @@
     pr                = !hub pull-request -h `git config pr.head-owner`:`git rev-parse --abbrev-ref HEAD` -b `git config pr.base-owner`:`git config pr.base-branch`
     gsub              = "!sh -c 'git grep -l $0 $2 | xargs gsed -i \"s/$0/$1/g\"'"
     rebase-master     = "!sh -c 'branch=`git rev-parse --abbrev-ref HEAD` && git checkout master && git pull origin master && git checkout $branch && git rebase master'"
+    cib               = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
     rmm               = !git rebase-master
     rrm               = !git rebase-master
 [url "https://"]

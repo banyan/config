@@ -86,6 +86,7 @@
     cib               = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
     rmm               = !git rebase-master
     rrm               = !git rebase-master
+    sha               = !git log --pretty=format:'%h' -n 1
 [url "https://"]
 	insteadOf = git://
 [url "git@github.com:"]

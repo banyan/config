@@ -1,0 +1,10 @@
+#!/bin/sh
+
+systemsetup -getusingnetworktime | grep On >/dev/null 2>&1
+
+if [ $? -ne 0 ]; then
+    systemsetup -setusingnetworktime on
+    echo "Hi, bring back to now from a future."
+    sleep 1
+    git commit -C HEAD --amend --date="`LANG=en date`"
+fi

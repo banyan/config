@@ -6,6 +6,7 @@
     pager             = less -r
     editor            = /usr/bin/vim
 	precomposeunicode = true
+    attributesfile    = ~/.gitattributes
 [push]
 	default           = simple
 [pull]

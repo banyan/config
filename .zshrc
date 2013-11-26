@@ -220,6 +220,7 @@ alias bundle-init='bundle install --path .bundle/gems'
 alias plog='grc powder applog' # dependent on grc
 alias powlog='grc powder applog' # dependent on grc
 alias rails-init='bundle install --path .bundle/gems && rake db:create db:migrate && powder link'
+alias dbundle='ruby -I ~/git/bundler/lib ~/git/bundler/bin/bundle'
 
 # brunch
 alias bb='brunch build'

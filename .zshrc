@@ -239,6 +239,7 @@ alias ga="git add -p"
 alias dic='dc'
 alias m="git co master"
 alias b='git branch'
+alias vs='vim `show_modified_files`'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
@@ -382,6 +383,14 @@ function cdrake () {
 
 function cdcat () {
     cdf "Makefile.PL"
+}
+
+function show_modified_files() {
+    result=`git status --porcelain`
+    for line in $result
+    do
+        echo $line | cut -c 4-${#line}
+    done
 }
 
 # 256色を確かめる

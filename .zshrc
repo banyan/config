@@ -51,12 +51,6 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-# source git-flow-completion
-# https://github.com/bobthecow/git-flow-completion
-if [ -f "$HOME/.zsh.d/git-flow-completion.zsh" ]; then
-    source "$HOME/.zsh.d/git-flow-completion.zsh"
-fi
-
 # source zaw
 if [ -f "$HOME/.zsh.d/zaw/zaw.zsh" ]; then
     source "$HOME/.zsh.d/zaw/zaw.zsh"
@@ -64,6 +58,7 @@ fi
 
 # z
 . `brew --prefix`/etc/profile.d/z.sh
+
 function precmd () {
    z --add "$(pwd -P)"
 }
@@ -312,27 +307,11 @@ function a() {
     svn status | grep '^?' | awk '{print $2}' | xargs svn add
 }
 
-# svn up, git pull origin master
-function u() {
-    result=`git status 2> /dev/null`
-    if [ "$result" ] ; then
-        git pull origin master
-        return
-    fi
-    svn up
-}
-
 # git diff --cached
 function dc() {
     local opt
     opt=$*
     git diff --cached $opt
-}
-
-# start screen from given directory
-function sc(){
-    cd $1
-    screen
 }
 
 # find out what's new in a directory:

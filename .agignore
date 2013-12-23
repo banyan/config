@@ -3,3 +3,4 @@ vendor
 coverage
 .rsync_cache
 tmp
+log

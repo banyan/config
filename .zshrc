@@ -368,7 +368,7 @@ function show_modified_files() {
     result=`git status --porcelain`
     for line in $result
     do
-        echo $line | cut -c 4-${#line}
+        printf $line | cut -c 4-${#line}
     done
 }
 

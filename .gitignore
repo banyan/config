@@ -18,4 +18,3 @@ tags
 .zsh.d/local.zshenv
 .vim/bundle/*
 .vimperator/info/default/*
-.ruby-version

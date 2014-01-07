@@ -153,20 +153,33 @@ TERM_TOKEN_COLORS = {
         :type => '1;34',
         :value => '36',
         :variable => '34',
-        
+
         :insert => '42',
         :delete => '41',
         :change => '44',
         :head => '45'
 }
 
+# In CodeRay >= 1.1.0 token colors are defined as pre-escaped ANSI codes
+if Gem::Version.new(CodeRay::VERSION) >= Gem::Version.new('1.1.0')
+  begin
+    require "escaped_colors"
+  rescue LoadError
+  end
+else
+  begin
+    require "unescaped_colors"
+  rescue LoadError
+  end
+end
+
 module CodeRay
-    module Encoders
-        class Terminal < Encoder
-            # override old colors
-            TERM_TOKEN_COLORS.each_pair do |key, value|
-                TOKEN_COLORS[key] = value
-            end
-        end
+  module Encoders
+    class Terminal < Encoder
+      # override old colors
+      TERM_TOKEN_COLORS.each_pair do |key, value|
+        TOKEN_COLORS[key] = value
+      end
     end
+  end
 end

@@ -71,13 +71,15 @@
     Bundle 'tomasr/molokai'
     Bundle 'banyan/recognize_charcode.vim'
     Bundle 'banyan/Nonopaste.vim'
-    Bundle 'Lokaltog/vim-powerline'
     Bundle 'glidenote/memolist.vim'
     Bundle 'ajf/puppet-vim'
     Bundle 'scrooloose/syntastic'
     Bundle 'hallison/vim-markdown'
     Bundle 'nono/vim-handlebars'
     Bundle 'elzr/vim-json'
+    Bundle 'bling/vim-airline'
+    Bundle 'rking/ag.vim'
+    Bundle 'digitaltoad/vim-jade'
   " }}}
 
   syntax on
@@ -206,6 +208,7 @@
   autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType scss       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType slim       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType handlebars setlocal sw=2 sts=2 ts=2 et
   autocmd FileType hbs        setlocal sw=2 sts=2 ts=2 et
@@ -660,11 +663,11 @@
       cmap BU  BundleInstall!
       cmap BC  BundleClean
       cmap BS  BundleSearch<Space>
-  " }}}
-  " vim-powerline {{{
-      let g:Powerline_symbols='fancy'
-  " }}}
-  " memolist {{{
+  "
+  " vim-airline
+      let g:airline_theme='solarized'
+  "
+  " memolist
       let g:memolist_path = $HOME . "/Dropbox/my/memo"
   " }}}
   " Nonopaste {{{

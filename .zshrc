@@ -212,6 +212,7 @@ alias br='bundle exec rake spec'
 alias bi='bundle install --jobs 4'
 alias rdm='rake db:migrate'
 alias be='bundle exec'
+alias bi='bundle install --jobs 4'
 alias bundle-init='bundle install --path .bundle/gems'
 alias plog='grc powder applog' # dependent on grc
 alias powlog='grc powder applog' # dependent on grc
@@ -220,6 +221,7 @@ alias dbundle='ruby -I ~/git/bundler/lib ~/git/bundler/bin/bundle'
 
 # brunch
 alias bb='brunch build'
+alias bbs='brunch watch --server'
 alias bbm='brunch build && mocha-phantomjs public/test/index.html'
 
 # git

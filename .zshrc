@@ -197,6 +197,7 @@ alias less='less -R'
 alias sed='gsed'
 alias t='tmux'
 alias pp='pending-pr'
+alias pst='pstree'
 
 # rails
 alias r="rails"

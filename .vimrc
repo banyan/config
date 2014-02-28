@@ -78,8 +78,8 @@
     Bundle 'nono/vim-handlebars'
     Bundle 'elzr/vim-json'
     Bundle 'bling/vim-airline'
-    Bundle 'rking/ag.vim'
     Bundle 'digitaltoad/vim-jade'
+    Bundle 'dyng/ctrlsf.vim'
   " }}}
 
   syntax on
@@ -582,22 +582,6 @@
     vmap <silent> sx :Str2HtmlEntity<cr>
     vmap <silent> sr :Entity2HtmlString<cr>
   " }}}
-  " ref.vim {{{
-    let g:ref_phpmanual_path        = $VIMHOME . '/git/config/doc/phpmanual'
-    let g:ref_perldoc_complete_head = 1
-    let g:ref_use_vimproc           = 0
-    let g:ref_jquery_use_cache      = 1
-    let g:ref_alc_use_cache         = 1
-    nnoremap <silent> <Space>ra :<C-u>call ref#jump('normal', 'alc')<CR>
-    vnoremap <silent> <Space>ra :<C-u>call ref#jump('visual', 'alc')<CR>
-    nnoremap <silent> <Space>rp :<C-u>call ref#jump('normal', 'phpmanual')<CR>
-    vnoremap <silent> <Space>rp :<C-u>call ref#jump('visual', 'phpmanual')<CR>
-    nnoremap <C-f><C-f> :<C-u>Ref<Space>
-    nnoremap <C-f><C-p> :<C-u>Ref perldoc<Space>
-    nnoremap <C-f><C-l> :<C-u>Ref alc<Space>
-    nnoremap <C-f><C-h> :<C-u>Ref phpmanual<Space>
-    nnoremap <C-f><C-j> :<C-u>Ref jquery<Space>
-  " }}}
   " unite.vim {{{
     " nnoremap          [unite]   <Nop>
     " nmap      <C-j>   [unite]
@@ -678,6 +662,9 @@
       let g:syntastic_mode_map={ 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['html'] }
+  " }}}
+  " ctrlsf.vim {{{
+    nnoremap <C-f><C-f> :<C-u>CtrlSF<Space>
   " }}}
 " }}}
 

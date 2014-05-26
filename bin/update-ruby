@@ -1,0 +1,14 @@
+#!/bin/sh -xe
+
+if [ $# -ne 1 ]; then
+    echo "Usage: update-ruby <version>"
+    echo "should require minor version: e.g. 2.1.2"
+    exit 1
+fi
+
+brew update
+brew uninstall ruby-install
+brew install ruby-install --HEAD
+ruby-install ruby $1
+
+ln -s ~/.rubies/ruby-$1 ~/.rubies/$1

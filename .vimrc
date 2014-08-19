@@ -80,6 +80,7 @@
     Bundle 'bling/vim-airline'
     Bundle 'digitaltoad/vim-jade'
     Bundle 'dyng/ctrlsf.vim'
+    Bundle 'mtscout6/vim-cjsx'
   " }}}
 
   syntax on

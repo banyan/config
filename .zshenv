@@ -36,18 +36,13 @@ function _zshenv_add_path() {
     eval $1=$_path
 }
 
-export RUBY_HEAP_MIN_SLOTS=1000000
-export RUBY_HEAP_SLOTS_INCREMENT=1000000
-export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
-export RUBY_GC_MALLOC_LIMIT=100000000
-export RUBY_HEAP_FREE_MIN=500000
-
 export GIT_MERGE_AUTOEDIT=no
 
 export PATH=
 _zshenv_add_path PATH "$HOME/bin"
 _zshenv_add_path PATH "$HOME/git/config/bin/*" # git で管理する bin
 _zshenv_add_path PATH "$HOME/sbin"
+_zshenv_add_path PATH "/usr/local/share/npm/bin/"
 _zshenv_add_path PATH "$HOME/node_modules/.bin"
 _zshenv_add_path PATH "/usr/local/bin"
 _zshenv_add_path PATH "/usr/local/sbin"
@@ -71,12 +66,24 @@ _zshenv_add_path PATH "/usr/local/lib/flex3/bin"
 _zshenv_add_path PATH "/usr/local/src/apache-maven-2.2.1/bin"
 _zshenv_add_path PATH "/usr/local/ImageMagick-6.5.8-5/lib"
 _zshenv_add_path PATH "$HOME/perl5/lib/perl5"
+_zshenv_add_path PATH "./node_modules/.bin"
 _zshenv_add_path PATH "/usr/local/share/npm/bin"
+_zshenv_add_path PATH "$HOME/.nodebrew/current/bin"
+_zshenv_add_path PATH "$HOME/.cabal/bin"
+_zshenv_add_path PATH "$HOME/perl5/lib/perl5"
+_zshenv_add_path PATH "/usr/local/heroku/bin"
 
 export CPATH=
 _zshenv_add_path CPATH "/usr/local/include"
 _zshenv_add_path CPATH "/opt/local/include"
 _zshenv_add_path CPATH "/opt/include"
+
+export NODE_PATH='/usr/local/share/npm/lib/node_modules'
+
+if [ -x "`which go`" ]; then
+  export GOPATH=$HOME/go
+  export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+fi
 
 #export JAVA_HOME=/usr/java/default
 #export PATH=$PATH:$JAVA_HOME/bin
@@ -84,6 +91,8 @@ _zshenv_add_path CPATH "/opt/include"
 
 #export JRUBY_HOME=/usr/local/lib/jruby
 #export PATH=$JRUBY_HOME/bin:$PATH
+
+export _JAVA_OPTIONS="-Djava.io.tmpdir=$HOME/tmp"
 
 # load local.zshenv
 if [ -f "$HOME/.zsh.d/local.zshenv" ]; then

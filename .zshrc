@@ -51,11 +51,6 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-# source zaw
-if [ -f "$HOME/.zsh.d/zaw/zaw.zsh" ]; then
-    source "$HOME/.zsh.d/zaw/zaw.zsh"
-fi
-
 # z
 . `brew --prefix`/etc/profile.d/z.sh
 
@@ -82,9 +77,7 @@ add-zsh-hook chpwd chpwd_recent_dirs
 zstyle ':chpwd:*' recent-dirs-max 5000
 zstyle ':chpwd:*' recent-dirs-default yes
 zstyle ':completion:*' recent-dirs-insert both
-# zaw-src-cdr
-zstyle ':filter-select' case-insensitive yes # 絞り込みをcase-insensitiveに
-bindkey '^@' zaw-cdr # zaw-cdrをbindkey
+
 # }}}
 
 # Autoload zsh modules when they are referenced {{{
@@ -201,10 +194,9 @@ alias pst='pstree'
 
 # rails
 alias r="rails"
-alias rr="routes_cache | less"
+alias rr="routes_cache | peco"
 alias rrg="routes_cache | grep"
-alias rrr="routes_cache --force"
-alias rrrg="routes_cache --force | grep"
+alias rrr="routes_cache --force | peco"
 alias rspec='rspec -c'
 alias fu='bundle exec rspec --format Fuubar --color spec'
 alias nyan='bundle exec rspec --format NyanCatFormatter --color spec'
@@ -255,7 +247,6 @@ bindkey -e       # emacs 風
 # カーソル位置から前方削除
 # override kill-whole-line
 bindkey '^U' backward-kill-line
-bindkey '^R' zaw-history
 # }}}
 
 # Misc {{{
@@ -405,4 +396,14 @@ function spork_process {
         echo "⚡ "
     fi
 }
+
+# Peco
+if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
+  for f ($HOME/.zsh.d/peco-sources/*.zsh) source "${f}"
+
+  bindkey '^r' peco-select-history
+  bindkey '^g' peco-git-recent-branches
+  bindkey '^s' peco-src
+  # bindkey '^t' peco-rake-tasks
+fi
 # }}}

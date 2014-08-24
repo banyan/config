@@ -17,3 +17,7 @@ bind generic r refresh
 bind main o !@hub browse -- commit/%(commit)
 bind diff o !@hub browse -- commit/%(commit)
 bind log  o !@hub browse -- commit/%(commit)
+
+http://sue445.hatenablog.com/entry/2014/08/07/015811
+bind main R !git rebase -i %(commit)
+bind diff R !git rebase -i %(commit)

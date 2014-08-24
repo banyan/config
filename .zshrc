@@ -180,8 +180,8 @@ alias l='ll'
 alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
 alias py="python"
 alias wget='wget --no-check-certificate'
-alias javac='javac -J-Dfile.encoding=UTF-8'
-alias java='java -Dfile.encoding=UTF-8'
+alias javac="`which javac` -Dwhatever"
+alias java="`which java` -Dwhatever"
 alias p="popd"
 alias v="vi"
 alias wcd="find ./ -type f | xargs wc -l"
@@ -190,7 +190,7 @@ alias less='less -R'
 alias sed='gsed'
 alias t='tmux'
 alias pp='pending-pr'
-alias pst='pstree'
+alias node='node --harmony'
 
 # rails
 alias r="rails"
@@ -202,7 +202,6 @@ alias fu='bundle exec rspec --format Fuubar --color spec'
 alias nyan='bundle exec rspec --format NyanCatFormatter --color spec'
 alias five='bundle exec rspec --format Fivemat --color spec'
 alias br='bundle exec rake spec'
-alias bi='bundle install --jobs 4'
 alias rdm='rake db:migrate'
 alias be='bundle exec'
 alias bi='bundle install --jobs 4'
@@ -211,6 +210,9 @@ alias plog='grc powder applog' # dependent on grc
 alias powlog='grc powder applog' # dependent on grc
 alias rails-init='bundle install --path .bundle/gems && rake db:create db:migrate && powder link'
 alias dbundle='ruby -I ~/git/bundler/lib ~/git/bundler/bin/bundle'
+
+# Vagrant
+alias vg="vagrant"
 
 # brunch
 alias bb='brunch build'
@@ -263,6 +265,9 @@ source ~/.zsh.d/cdd
 function chpwd() {
     _cdd_chpwd
 }
+
+# added by travis gem
+[ -f /Users/banyan/.travis/travis.sh ] && source /Users/banyan/.travis/travis.sh
 # }}}
 
 # Functions {{{

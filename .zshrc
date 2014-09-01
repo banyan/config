@@ -112,7 +112,6 @@ setopt AUTO_PARAM_KEYS        # カッコの対応などを自動的に補完
 setopt AUTO_RESUME            # サスペンド中のプロセスと同じコマンド名を実行した場合はリジューム
 setopt CHECK_JOBS             # シェルを抜ける (exit) 時に、zsh: you have runnning jobs と警告を出す
 setopt CORRECT                # コマンドのスペルチェック
-setopt CORRECT_ALL            # 対象のファイルもスペルチェックをする
 setopt EXTENDED_GLOB          # ファイル名で #, ~, ^ の 3 文字を正規表現として扱う
 setopt EXTENDED_HISTORY       # zsh の開始, 終了時刻をヒストリファイルに書き込む
 setopt GLOB_DOTS              # . で開始するファイル名にマッチさせるとき、先頭に明示的に . を指定する必要がなくなる。
@@ -134,6 +133,7 @@ setopt SHARE_HISTORY          # 履歴の共有
 setopt AUTOPUSHD              # cd 時に自動で push
 setopt PUSHD_IGNORE_DUPS      # 同じディレクトリを pushd しない
 setopt TRANSIENT_RPROMPT      # 現在のステータスの RPROMPT だけを表示する
+unsetopt CORRECT_ALL          # 対象のファイルもスペルチェックをする
 
 #setopt EQUALS                # =command を command のパス名に展開する
 #setopt HIST_VERIFY           # ヒストリを呼び出してから実行する間に一旦編集
@@ -233,6 +233,8 @@ alias dic='dc'
 alias m="git co master"
 alias b='git branch'
 alias vs='vim `show_modified_files`'
+
+alias get='ghq get'
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
@@ -395,11 +397,28 @@ function routes_cache {
     cat $routes_cache
 }
 
-function spork_process {
-    result=`ps | grep spork | grep -v grep`
-    if [ "$result" ] ; then
-        echo "⚡ "
+function rake_tasks_cache {
+    local rake_tasks_cache; rake_tasks_cache="./tmp/rake_tasks_cache"
+    if [ "$1" = "--force" ]; then
+        rm $rake_tasks_cache;
     fi
+    if ! [ -e $rake_tasks_cache ]; then
+        bundle exec rake -AT > $rake_tasks_cache
+    fi
+    # cat $rake_taskes_cache
+
+    task=$(cat $rake_tasks_cache | peco --query "$LBUFFER" )
+    task_split=("${(s/ /)task}")
+    BUFFER=$task_split[1,2]
+    CURSOR=$#BUFFER
+    zle -R -c
+}
+
+function agv () {
+  vim $(ag $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
+}
+
+function spork_process {
 }
 
 # Peco
@@ -409,6 +428,10 @@ if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
   bindkey '^r' peco-select-history
   bindkey '^g' peco-git-recent-branches
   bindkey '^s' peco-src
-  # bindkey '^t' peco-rake-tasks
+
+  alias T='peco-rake-tasks'
+  alias R='peco-rake-routes'
+  alias H='hk apps | cut -d " " -f 1 | peco --prompt "Heroku Apps"'
+  alias -g B='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
 fi
 # }}}

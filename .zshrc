@@ -431,7 +431,7 @@ if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
 
   alias T='peco-rake-tasks'
   alias R='peco-rake-routes'
-  alias H='hk apps | cut -d " " -f 1 | peco --prompt "Heroku Apps"'
+  alias -g H='$(hk apps | cut -d " " -f 1 | peco)'
   alias -g B='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
 fi
 # }}}

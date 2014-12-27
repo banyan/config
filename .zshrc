@@ -191,6 +191,7 @@ alias sed='gsed'
 alias t='tmux'
 alias pp='pending-pr'
 alias node='node --harmony'
+alias ocaml='rlwrap ocaml'
 
 # rails
 alias r="rails"

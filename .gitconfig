@@ -92,10 +92,11 @@
     pr                = !hub pull-request -h `git config pr.head-owner`:`git rev-parse --abbrev-ref HEAD` -b `git config pr.base-owner`:`git config pr.base-branch`
     gsub              = "!sh -c 'git grep -l $0 $2 | xargs gsed -i \"s/$0/$1/g\"'"
     rebase-master     = "!sh -c 'branch=`git rev-parse --abbrev-ref HEAD` && git checkout master && git pull origin master && git checkout $branch && git rebase master'"
+    rebase-develop    = "!sh -c 'branch=`git rev-parse --abbrev-ref HEAD` && git checkout develop && git pull origin develop && git checkout $branch && git rebase develop'"
     tb                =  "!sh -c \"git checkout -b `git log --pretty=\"%s\" -1 | ruby -e \"print STDIN.read.strip.gsub(/[^a-zA-Z0-9]/, '-').downcase\"`\""
     cib               = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
     rmm               = !git rebase-master
-    rrm               = !git rebase-master
+    rdd               = !git rebase-develop
     sha               = !git log --pretty=format:'%h' -n 1
 [url "https://"]
 	insteadOf = git://

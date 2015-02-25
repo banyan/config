@@ -206,7 +206,6 @@ alias br='bundle exec rake spec'
 alias rdm='rake db:migrate'
 alias be='bundle exec'
 alias bi='bundle install --jobs 4'
-alias bundle-init='bundle install --path .bundle/gems'
 alias plog='grc powder applog' # dependent on grc
 alias powlog='grc powder applog' # dependent on grc
 alias rails-init='bundle install --path .bundle/gems && rake db:create db:migrate && powder link'

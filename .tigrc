@@ -25,3 +25,7 @@ bind diff R !<git rebase -i %(commit)
 bind main K !<sh -c "vim -p $(git changed %(commit))"
 bind diff K !<sh -c "vim -p $(git changed %(commit))"
 bind log  K !<sh -c "vim -p $(git changed %(commit))"
+
+bind main C !<git checkout %(commit)
+bind diff C !<git checkout %(commit)
+bind log  C !<git checkout %(commit)

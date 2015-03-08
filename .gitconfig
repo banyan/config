@@ -7,6 +7,11 @@
     editor            = /usr/bin/vim
 	precomposeunicode = true
     attributesfile    = ~/.gitattributes
+	ignorecase = true
+[pager]
+    log = diff-highlight | less
+    show = diff-highlight | less
+    diff = diff-highlight | less
 [init]
 	templatedir       = ~/.git_template
 [push]

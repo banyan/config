@@ -19,5 +19,9 @@ bind diff o !@hub browse -- commit/%(commit)
 bind log  o !@hub browse -- commit/%(commit)
 
 # http://sue445.hatenablog.com/entry/2014/08/07/015811
-bind main R !git rebase -i %(commit)
-bind diff R !git rebase -i %(commit)
+bind main R !<git rebase -i %(commit)
+bind diff R !<git rebase -i %(commit)
+
+bind main K !<sh -c "vim -p $(git changed %(commit))"
+bind diff K !<sh -c "vim -p $(git changed %(commit))"
+bind log  K !<sh -c "vim -p $(git changed %(commit))"

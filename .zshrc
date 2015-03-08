@@ -51,13 +51,6 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-# z
-. `brew --prefix`/etc/profile.d/z.sh
-
-function precmd () {
-   z --add "$(pwd -P)"
-}
-
 # source git-escape-magic
 if [ -f "$HOME/.zsh.d/git-escape-magic" ]; then
     source "$HOME/.zsh.d/git-escape-magic"
@@ -69,15 +62,6 @@ fi
 if [ -f "$HOME/.zsh.d/antigen/antigen.zsh" ]; then
     source "$HOME/.zsh.d/antigen/antigen.zsh"
 fi
-
-# http://d.hatena.ne.jp/shiba_yu36/20120130/1327937835
-# cdr
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
-zstyle ':chpwd:*' recent-dirs-max 5000
-zstyle ':chpwd:*' recent-dirs-default yes
-zstyle ':completion:*' recent-dirs-insert both
-
 # }}}
 
 # Autoload zsh modules when they are referenced {{{
@@ -177,11 +161,7 @@ esac
 alias ll='ls -la'
 alias lla='ls -A'
 alias l='ll'
-alias sshfs='~/bin/sshfs-binaries/sshfs-static-leopard'
-alias py="python"
 alias wget='wget --no-check-certificate'
-alias javac="`which javac` -Dwhatever"
-alias java="`which java` -Dwhatever"
 alias p="popd"
 alias v="vi"
 alias wcd="find ./ -type f | xargs wc -l"
@@ -195,19 +175,14 @@ alias ocaml='rlwrap ocaml'
 
 # rails
 alias r="rails"
+alias bundle='nocorrect bundle'
+alias rspec='nocorrect rspec'
 alias rr="routes_cache | peco"
 alias rrg="routes_cache | grep"
 alias rrr="routes_cache --force | peco"
 alias rspec='rspec -c'
-alias fu='bundle exec rspec --format Fuubar --color spec'
-alias nyan='bundle exec rspec --format NyanCatFormatter --color spec'
-alias five='bundle exec rspec --format Fivemat --color spec'
-alias br='bundle exec rake spec'
-alias rdm='rake db:migrate'
 alias be='bundle exec'
 alias bi='bundle install --jobs 4'
-alias plog='grc powder applog' # dependent on grc
-alias powlog='grc powder applog' # dependent on grc
 alias rails-init='bundle install --path .bundle/gems && rake db:create db:migrate && powder link'
 alias dbundle='ruby -I ~/git/bundler/lib ~/git/bundler/bin/bundle'
 
@@ -218,23 +193,32 @@ alias vg="vagrant"
 alias bb='brunch build'
 alias bbs='brunch watch --server'
 alias bbm='brunch build && mocha-phantomjs public/test/index.html'
+alias br='be rake run'
 
 # git
 alias g="git"
 alias ci="git commit"
 alias cia="git commit --amend"
 alias gl="git pull origin master"
+alias gd="git pull origin develop"
 alias pus="git push"
-alias c="git checkout"
 alias gw='git wtf'
 alias gc='git clone --recursive'
 alias ga="git add -p"
 alias dic='dc'
-alias m="git co master"
+alias m="checkout_default_branch"
 alias b='git branch'
-alias vs='vim `show_modified_files`'
-
+alias k='vim -p `show_modified_files`'
 alias get='ghq get'
+
+# function my_function() {
+    # # やりたい処理
+    # # キー実行時のプロンプトの内容は $BUFFER で取れる
+ # }
+# zle -N vp  # my_functionをwidgetとして登録
+# bindkey '^k' vp # my_functionをCtrl-Aにバインド
+
+bindkey '^f' vp
 
 # grep や ack で絞り込んだ結果を vim で開く
 # http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
@@ -260,13 +244,6 @@ limit coredumpsize 102400
 # default  : ls /usr/local → ls /usr/ → ls /usr → ls /
 # この設定 : ls /usr/local → ls /usr/ → ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-# cdd を追加
-source ~/.zsh.d/cdd
-
-function chpwd() {
-    _cdd_chpwd
-}
 
 # added by travis gem
 [ -f /Users/banyan/.travis/travis.sh ] && source /Users/banyan/.travis/travis.sh
@@ -341,31 +318,6 @@ function psg() {
     psa | grep $* | grep -v "ps -auxww" | grep -v grep # grep プロセスを除外
 }
 
-# http://subtech.g.hatena.ne.jp/secondlife/20080604/1212562182
-function cdf () {
-    local -a tmpparent; tmpparent=""
-    local -a filename; filename="${1}"
-    local -a file
-    local -a num; num=0
-    while [ $num -le 10 ]; do
-        tmpparent="${tmpparent}../"
-        file="${tmpparent}${filename}"
-        if [ -f "${file}" ] || [ -d "${file}" ]; then
-            cd ${tmpparent}
-            break
-        fi
-        num=$(($num + 1))
-    done
-}
-
-function cdrake () {
-    cdf "Rakefile"
-}
-
-function cdcat () {
-    cdf "Makefile.PL"
-}
-
 function show_modified_files() {
     result=`git status --porcelain`
     for line in $result
@@ -421,6 +373,15 @@ function agv () {
 function spork_process {
 }
 
+function checkout_default_branch () {
+    if [ `git show-ref --verify --quiet refs/heads/develop >/dev/null 2>&1 ; echo $?` -eq 0 ]
+    then
+        git checkout develop
+    else
+        git checkout master
+    fi
+}
+
 # Peco
 if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
   for f ($HOME/.zsh.d/peco-sources/*.zsh) source "${f}"
@@ -433,5 +394,6 @@ if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
   alias R='peco-rake-routes'
   alias -g H='$(hk apps | cut -d " " -f 1 | peco)'
   alias -g B='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
+  alias -g K='vim $(`git status -s | cut -d " " -f 3 | peco`)'
 fi
 # }}}

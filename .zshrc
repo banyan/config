@@ -208,7 +208,7 @@ alias ga="git add -p"
 alias dic='dc'
 alias m="checkout_default_branch"
 alias b='git branch'
-alias k='vim -p `show_modified_files`'
+alias k='vim -p `git modified`'
 alias get='ghq get'
 alias s='git st'
 alias d='git diff'
@@ -293,14 +293,6 @@ function psm() {
 function psg() {
   psa | head -n 1                                      # ラベルを表示
     psa | grep $* | grep -v "ps -auxww" | grep -v grep # grep プロセスを除外
-}
-
-function show_modified_files() {
-    result=`git status --porcelain`
-    for line in $result
-    do
-        printf $line | cut -c 4-${#line}
-    done
 }
 
 # 256色を確かめる

@@ -210,6 +210,8 @@ alias m="checkout_default_branch"
 alias b='git branch'
 alias k='vim -p `show_modified_files`'
 alias get='ghq get'
+alias s='git st'
+alias d='git diff'
 
 # function my_function() {
     # # やりたい処理
@@ -249,32 +251,7 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 [ -f /Users/banyan/.travis/travis.sh ] && source /Users/banyan/.travis/travis.sh
 # }}}
 
-# Functions {{{
-# svn st, git st
-function s() {
-    local -A result
-    result=`git status 2> /dev/null`
-    if [ "$result" ] ; then
-        git st
-        return
-    fi
-    svn status
-}
-
-# svn di, git di
-function d() {
-    local opt
-    local -A result
-    opt=$*
-    result=`git status 2> /dev/null`
-
-    if [ "$result" ] ; then
-        git diff $opt
-        return
-    fi
-    svn di $opt | diffcolor.rb | /usr/bin/less -RE
-}
-
+# Misc {{{
 # svn add, git add
 function a() {
     local -A result

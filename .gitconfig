@@ -56,28 +56,17 @@
     co                = checkout
     s                 = status -sb
     st                = status -sb
-    sti               = status --ignore-submodules
     d                 = diff
     di                = diff
-    dii               = diff --ignore-submodules
     dic               = diff --cached
     dc                = diff --cached
-    dci               = diff --cached --ignore-submodules
     difflog           = log -p HEAD@{3.days.ago}
     l                 = log --pretty=format:\"%h (%an): %s\" --date=short -20
     ls                = ls-files
-    cob               = checkout -b
     b                 = branch
-    br                = branch
     sh                = !git-sh
-    a                 = add
-    aa                = add -A
     sa                = stash
     sap               = stash pop
-    r                 = reset
-    svnci             = svn dcommit
-    svnre             = svn rebase
-    m                 = merge
     graph             = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date = short
     wh                = whatchanged
     stat              = log --stat --summary

@@ -200,7 +200,6 @@ alias g="git"
 alias ci="git commit"
 alias cia="git commit --amend"
 alias gl="pull_default_branch"
-alias gd="git pull origin develop"
 alias pus="git push"
 alias gw='git wtf'
 alias gc='git clone --recursive'

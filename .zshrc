@@ -199,7 +199,7 @@ alias br='be rake run'
 alias g="git"
 alias ci="git commit"
 alias cia="git commit --amend"
-alias gl="git pull origin master"
+alias gl="pull_default_branch"
 alias gd="git pull origin develop"
 alias pus="git push"
 alias gw='git wtf'
@@ -212,6 +212,7 @@ alias k='vim -p `git modified`'
 alias get='ghq get'
 alias s='git st'
 alias d='git diff'
+alias a='git add -A'
 
 # function my_function() {
     # # やりたい処理
@@ -252,47 +253,12 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # }}}
 
 # Misc {{{
-# svn add, git add
-function a() {
-    local -A result
-    result=`git status 2> /dev/null`
-    if [ "$result" ] ; then
-        git add -A
-        return
-    fi
-    svn status | grep '^?' | awk '{print $2}' | xargs svn add
-}
 
 # git diff --cached
 function dc() {
     local opt
     opt=$*
     git diff --cached $opt
-}
-
-# find out what's new in a directory:
-function lsn() {
-    ls -lt ${1+"$@"} | head -20;
-}
-
-# http://d.hatena.ne.jp/aircastle/20080428
-
-# CPU 使用率の高い方から8つ
-function pst() {
-  psa | head -n 1
-    psa | sort -r -n +2 | grep -v "ps -auxww" | grep -v grep | head -n 8
-}
-
-# メモリ占有率の高い方から8つ
-function psm() {
-  psa | head -n 1
-    psa | sort -r -n +3 | grep -v "ps -auxww" | grep -v grep | head -n 8
-}
-
-# 全プロセスから引数の文字列を含むものを grep
-function psg() {
-  psa | head -n 1                                      # ラベルを表示
-    psa | grep $* | grep -v "ps -auxww" | grep -v grep # grep プロセスを除外
 }
 
 # 256色を確かめる
@@ -348,6 +314,15 @@ function checkout_default_branch () {
         git checkout develop
     else
         git checkout master
+    fi
+}
+
+function pull_default_branch () {
+    if [ `git show-ref --verify --quiet refs/heads/develop >/dev/null 2>&1 ; echo $?` -eq 0 ]
+    then
+        git pull origin develop
+    else
+        git pull origin master
     fi
 }
 

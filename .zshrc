@@ -213,6 +213,7 @@ alias s='git st'
 alias d='git diff'
 alias a='git add -A'
 alias o='hub browse'
+alias -g G='| grep --color'
 
 # function my_function() {
     # # やりたい処理

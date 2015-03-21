@@ -212,6 +212,7 @@ alias get='ghq get'
 alias s='git st'
 alias d='git diff'
 alias a='git add -A'
+alias o='hub browse'
 
 # function my_function() {
     # # やりたい処理

@@ -168,10 +168,11 @@ alias wcd="find ./ -type f | xargs wc -l"
 alias diff='colordiff'
 alias less='less -R'
 alias sed='gsed'
-alias t='tmux'
+alias tt='tmux'
 alias pp='pending-pr'
 alias node='node --harmony'
 alias ocaml='rlwrap ocaml'
+alias t='npm test'
 
 # rails
 alias r="rails"
@@ -214,6 +215,7 @@ alias d='git diff'
 alias a='git add -A'
 alias o='hub browse'
 alias -g G='| grep --color'
+alias gm="git modified"
 
 # function my_function() {
     # # やりたい処理

@@ -53,6 +53,7 @@
     ci                = commit -v
     reward            = commit --amend
     amend             = commit --amend -C HEAD
+    yo                = !git commit -m '.'
     co                = checkout
     s                 = status -sb
     st                = status -sb

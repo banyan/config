@@ -29,27 +29,21 @@
   """ }}}
 
   """ repos on github {{{
-    Bundle 'thinca/vim-ref'
     Bundle 'h1mesuke/vim-alignta'
     Bundle 'Shougo/neocomplcache'
     Bundle 'thinca/vim-visualstar'
     Bundle 'vim-ruby/vim-ruby'
     Bundle 'tpope/vim-haml'
-    Bundle 'slim-template/vim-slim'
     Bundle 'jelera/vim-javascript-syntax'
     Bundle 'othree/yajs.vim'
     Bundle 'tsaleh/vim-tmux'
     Bundle 'kchmck/vim-coffee-script'
-    Bundle 'skwp/vim-rspec'
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'banyan/eruby.vim'
     Bundle 'L9'
     Bundle 'FuzzyFinder'
     Bundle 'scrooloose/nerdtree'
     Bundle 'motemen/git-vim'
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'mattn/webapi-vim'
-    Bundle 'mattn/gist-vim'
     Bundle 'thinca/vim-guicolorscheme'
     Bundle 'banyan/banyan.vim'
     Bundle 'tomasr/molokai'
@@ -60,9 +54,7 @@
     Bundle 'mxw/vim-jsx'
     Bundle 'elzr/vim-json'
     Bundle 'bling/vim-airline'
-    Bundle 'digitaltoad/vim-jade'
     Bundle 'dyng/ctrlsf.vim'
-    Bundle 'fatih/vim-go'
     Bundle 'wting/rust.vim'
     Bundle 'maxbrunsfeld/vim-yankstack'
   " }}}
@@ -210,18 +202,11 @@
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType cjsx       setlocal sw=2 sts=2 ts=2 et
 
   set nobackup   " do not keep backup files
   set noswapfile " do not write annoying intermediate swap files,
   set nowritebackup
-
-  " dependent on fakeclip if we use CUI vim
-  set clipboard=unnamed
-
-  "actionscript,mxml setting
-  autocmd BufNewFile,BufRead *.as   set filetype=actionscript
-  autocmd BufNewFile,BufRead *.mxml set filetype=mxml
-  autocmd BufNewFile,BufRead *.erb  set filetype=eruby
 
   " Cease to automatically insert a comment into a new line http://vimwiki.net/?faq/9
   autocmd FileType * set formatoptions-=ro"
@@ -267,6 +252,7 @@
 " Aliases {{{
   nmap <Space>w :w<CR>
   nmap <Space>c :q<CR>
+  nmap <Space>a :qa!<CR>
 
   nmap 0 ^
   nmap 9 $
@@ -281,9 +267,6 @@
   nmap k gk
   vmap j gj
   vmap k gk
-
-  " select all like as Windows
-  nmap <Space>a ggVG
 " }}}
 
 " Misc {{{
@@ -306,10 +289,6 @@
       endif
   endfunction
   inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-
-  " Vim で"gf"をスラッシュで始まる相対URLに対応させる
-  " http://hail2u.net/blog/software/support-slash-started-relative-url-in-vim-gf.html
-  autocmd FileType html :setlocal path+=;/
 
   " 挿入モード時のC-uはundoできないので間違えたときに怖い。
   "http://ujihisa.nowa.jp/entry/26372573d5
@@ -338,11 +317,6 @@
   set foldmethod=marker
 
   " help <C-h>
-  nnoremap <C-h> :<C-u>h<Space>
-
-  " help
-  nnoremap <Space>hj :setlocal helplang=ja
-  nnoremap <Space>he :setlocal helplang=en
 
   " Create a file directory without having to make a directory exists
   function! s:newFileOpen(file)
@@ -375,6 +349,9 @@
   " Remove trailing spaces when saving
   autocmd BufWritePre * :%s/\s\+$//ge
 
+  if has('conceal')
+    set conceallevel=1 concealcursor=
+  endif
 " }}}
 
 " Window {{{
@@ -431,7 +408,6 @@
   nmap <Leader>n :tabnext<CR>
   nmap <Leader>p :tabprevious<CR>
   nmap <Leader>d :tabclose<CR>
-  nmap <Leader>a :tabonly<CR>
   nmap <Leader>s :tabs<CR>
   nmap <Leader>e :tabedit<CR>
   nmap <Leader>b :tab ball<CR>
@@ -513,6 +489,8 @@
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
+    autocmd! BufEnter  *.jsx  let b:syntastic_checkers=['jsxhint']
+
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_omni_patterns')
       let g:neocomplcache_omni_patterns = {}
@@ -553,71 +531,10 @@
     "http://www.vim.org/scripts/script.php?script_id=521
     let MRU_Max_Entries=25
   " }}}
-  " yankring.vim {{{
-    if has('viminfo')
-        set vi^=!
-    endif
-  " }}}
   " yanktmp.vim {{{
     map <silent> sy :call YanktmpYank()<CR>
     map <silent> sp :call YanktmpPaste_p()<CR>
     map <silent> sP :call YanktmpPaste_P()<CR>
-  " }}}
-  " str2htmlentity.vim {{{
-    vmap <silent> sx :Str2HtmlEntity<cr>
-    vmap <silent> sr :Entity2HtmlString<cr>
-  " }}}
-  " unite.vim {{{
-    " nnoremap          [unite]   <Nop>
-    " nmap      <C-j>   [unite]
-
-    " nnoremap          [unite]<C-u> :<C-u>Unite<Space>
-    " nnoremap <silent> [unite]<C-j> :<C-u>Unite -buffer-name=files file<CR>
-    " nnoremap <silent> [unite]<C-b> :<C-u>Unite buffer<CR>
-    " nnoremap <silent> [unite]<C-m> :<C-u>Unite file_mru<CR>
-    " nnoremap <silent> [unite]<C-l> :<C-u>Unite buffer file_mru<CR>
-    " nnoremap <silent> [unite]<C-k> :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
-    " nnoremap <silent> [unite]<C-i> :<C-u>UniteWithBufferDir buffer file_mru file<CR>
-    " nnoremap <silent> [unite]<C-o> :<C-u>Unite outline<CR>
-    " nnoremap <silent> [unite]<C-p> :<C-u>Unite -auto-preview outline<CR>
-
-    " autocmd FileType unite call s:unite_my_settings()
-    " function! s:unite_my_settings()" {{{
-      " " Overwrite settings.
-      " imap <buffer> jj      <Plug>(unite_insert_leave)
-      " nnoremap <silent><buffer> <C-k> :<C-u>call unite#mappings#do_action('preview')<CR>
-      " imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-      " " Start insert.
-      " let g:unite_enable_start_insert = 1
-      " call unite#custom_default_action('file', 'tabopen')
-    " endfunction" }}}
-
-    " let g:unite_source_file_mru_limit = 200
-  " }}}
-  " git-vim.vim {{{
-    " https://github.com/motemen/git-vim
-    let g:git_no_map_default = 1
-    let g:git_command_edit = 'rightbelow vnew'
-    nnoremap <Space>dc  :<C-u>GitDiff --cached<Enter>
-    nnoremap <Space>d   :<C-u>GitDiff<Enter>
-    nnoremap <Space>gs  :<C-u>GitStatus<Enter>
-    nnoremap <Space>gl  :<C-u>GitLog<Enter>
-    nnoremap <Space>gL  :<C-u>GitLog -u \| head -10000<Enter>
-    nnoremap <Space>ga  :<C-u>GitAdd<Enter>
-    nnoremap <Space>gA  :<C-u>GitAdd <cfile><Enter>
-    nnoremap <Space>gc  :<C-u>GitCommit<Enter>
-    nnoremap <Space>gca :<C-u>GitCommit --amend<Enter>
-    nnoremap <Space>gp  :<C-u>Git push
-  " }}}
-  " vim-fugitive {{{
-    " https://github.com/tpope/vim-fugitive
-    nnoremap <Space>gd  :<C-u>GitDiff<CR>
-  " }}}
-  " ack.vim {{{
-    " https://github.com/mileszs/ack.vim
-      nnoremap ,f :Ack -i<Space>
-      nnoremap ,d :AckFromSearch -i<Space>
-      " nnoremap ,s :AckFile -i<Space>
   " }}}
   " vim-indent-guides {{{
     " https://github.com/nathanaelkane/vim-indent-guides
@@ -640,16 +557,16 @@
   " memolist
       let g:memolist_path = $HOME . "/Dropbox/my/memo"
   " }}}
-  " Nonopaste {{{
-      let g:nonopaste_open_browser_after_post = 1
-  " }}}
   " Syntastic {{{
       let g:syntastic_mode_map={ 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['html'] }
+      let g:syntastic_javascript_checkers = ['jsxhint']
+      let g:syntastic_ruby_checkers = ['mri']
+      let g:syntastic_ruby_mri_exec="~/.rubies/ruby-2.2.3/bin/ruby"
   " }}}
   " ctrlsf.vim {{{
-    nnoremap <C-f><C-f> :<C-u>CtrlSF<Space>
+    nnoremap <C-h> :<C-u>CtrlSF<Space>
   " }}}
 " }}}
 

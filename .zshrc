@@ -174,6 +174,7 @@ alias node='node --harmony'
 alias ocaml='rlwrap ocaml'
 alias t='npm test'
 alias f="ag_last_argument_then_peco_to_vim"
+alias ff="ag_last_argument_then_peco_to_vim_all"
 
 # rails
 alias r="rails"
@@ -330,6 +331,12 @@ function ag_last_argument_then_peco_to_vim() {
     last_command=$history[$[HISTCMD-1]];
     last_command_array=("${(s/ /)last_command}")
     vim `ag $@ $last_command_array[-1] | peco | awk -F : '{print "-c " $2 " " $1}'`
+}
+
+function ag_last_argument_then_peco_to_vim_all() {
+    last_command=$history[$[HISTCMD-1]];
+    last_command_array=("${(s/ /)last_command}")
+    vim -p `ag -l $last_command_array[-1]`
 }
 
 function agv () {

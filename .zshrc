@@ -173,6 +173,7 @@ alias pp='pending-pr'
 alias node='node --harmony'
 alias ocaml='rlwrap ocaml'
 alias t='npm test'
+alias f="ag_last_argument_then_peco_to_vim"
 
 # rails
 alias r="rails"
@@ -327,6 +328,12 @@ function pull_default_branch () {
     else
         git pull origin master
     fi
+}
+
+function ag_last_argument_then_peco_to_vim() {
+    last_command=$history[$[HISTCMD-1]];
+    last_command_array=("${(s/ /)last_command}")
+    vim `ag -l $last_command_array[-1] | peco`
 }
 
 # Peco

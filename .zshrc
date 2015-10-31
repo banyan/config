@@ -305,10 +305,6 @@ function rake_tasks_cache {
     zle -R -c
 }
 
-function agv () {
-  vim $(ag $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
-}
-
 function spork_process {
 }
 
@@ -333,7 +329,11 @@ function pull_default_branch () {
 function ag_last_argument_then_peco_to_vim() {
     last_command=$history[$[HISTCMD-1]];
     last_command_array=("${(s/ /)last_command}")
-    vim `ag -l $last_command_array[-1] | peco`
+    vim `ag $@ $last_command_array[-1] | peco | awk -F : '{print "-c " $2 " " $1}'`
+}
+
+function agv () {
+  vim $(ag $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
 }
 
 # Peco

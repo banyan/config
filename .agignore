@@ -4,3 +4,4 @@ coverage
 .rsync_cache
 tmp
 log
+debug.log

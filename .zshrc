@@ -72,12 +72,7 @@ zmodload -ap zsh/mapfile mapfile
 # }}}
 
 # Settings for antigen {{{
-# antigen use oh-my-zsh
-
 antigen bundle git
-antigen bundle brew
-antigen bundle gem
-antigen bundle git-hubflow
 antigen bundle command-not-found
 
 # antigen theme banyan/oh-my-zsh themes/fox
@@ -158,6 +153,8 @@ case "$OSTYPE" in
     ;;
 esac
 
+alias -g C='| pbcopy'
+alias P='pbpaste'
 alias ll='ls -la'
 alias lla='ls -A'
 alias l='ll'

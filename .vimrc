@@ -43,7 +43,6 @@
     Bundle 'L9'
     Bundle 'FuzzyFinder'
     Bundle 'scrooloose/nerdtree'
-    Bundle 'motemen/git-vim'
     Bundle 'thinca/vim-guicolorscheme'
     Bundle 'banyan/banyan.vim'
     Bundle 'tomasr/molokai'
@@ -57,6 +56,7 @@
     Bundle 'dyng/ctrlsf.vim'
     Bundle 'wting/rust.vim'
     Bundle 'maxbrunsfeld/vim-yankstack'
+    Bundle 'cespare/vim-toml'
   " }}}
 
   syntax on

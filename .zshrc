@@ -170,8 +170,8 @@ alias pp='pending-pr'
 alias node='node --harmony'
 alias ocaml='rlwrap ocaml'
 alias t='npm test'
-alias f="ag_last_argument_then_peco_to_vim"
-alias ff="ag_last_argument_then_peco_to_vim_all"
+alias f="ag_last_argument_then_peco_to_vim_all"
+alias ff="ag_last_argument_then_peco_to_vim"
 
 # rails
 alias r="rails"

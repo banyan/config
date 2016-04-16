@@ -1,0 +1,7 @@
+#! /usr/bin/env ruby
+
+from, to, path = ARGV
+target_files = (`git ls-files #{path} | grep #{from}`).each_line.map(&:chomp)
+target_files.each do |file|
+  `mv #{file} #{file.gsub from, to}`
+end

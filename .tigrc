@@ -1,15 +1,13 @@
-set show-rev-graph       = yes
-set show-refs            = yes
-set show-line-numbers    = yes
+set main-view = line-number:yes id:no date:default author:full commit-title:yes,graph,refs,overflow=no
 
-set horizontal-scroll    = 33%
-set split-view-height    = 70%
-set line-graphics        = "UTF-8"
-set tab-size             = 4
+set horizontal-scroll = 33%
+set split-view-height = 70%
+set line-graphics     = utf-8
+set tab-size          = 4
 
 # bind
-bind generic g move-first-line
-bind generic G move-last-line
+bind main    G  none # To override the default keybinding bound to G: https://github.com/jonas/tig/issues/351#issuecomment-67722550
+bind generic G  move-last-line
 bind generic r refresh
 
 # http://blog.kyanny.me/entry/2012/07/22/033134
@@ -22,7 +20,8 @@ bind log  o !@hub browse -- commit/%(commit)
 bind main R !<git rebase -i %(commit)
 bind diff R !<git rebase -i %(commit)
 
-# Override C to checkout
+# ^c to checkout
+bind main C none # To override the default keybinding bound to C
 bind main C !<git checkout %(commit)
 bind diff C !<git checkout %(commit)
 bind log  C !<git checkout %(commit)

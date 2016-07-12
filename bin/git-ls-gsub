@@ -1,6 +1,15 @@
 #! /usr/bin/env ruby
 
+# git ls-gsub <from> <to>
+# git ls-gsub <from> <to> <path>
+
 from, to, path = ARGV
+
+if [from, to].include?(nil)
+  puts 'from and to must be given: git ls-gsub <from> <to>'
+  exit
+end
+
 target_files = (`git ls-files #{path} | grep #{from}`).each_line.map(&:chomp)
 target_files.each do |file|
   `mv #{file} #{file.gsub from, to}`

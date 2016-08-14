@@ -8,6 +8,7 @@
 	precomposeunicode = true
     attributesfile    = ~/.gitattributes
 	ignorecase = true
+	quotepath = false
 [pager]
     log = diff-highlight | less
     show = diff-highlight | less

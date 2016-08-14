@@ -88,6 +88,7 @@
     rebase-develop    = "!sh -c 'branch=`git rev-parse --abbrev-ref HEAD` && git checkout develop && git pull origin develop && git checkout $branch && git rebase develop'"
     tb                =  "!sh -c \"git checkout -b `git log --pretty=\"%s\" -1 | ruby -e \"print STDIN.read.strip.gsub(/[^a-zA-Z0-9]/, '-').downcase\"`\""
     cib               = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
+    fpr               = "!f() { git fetch origin pull/$1/head:pr/$1; }; f"
     rmm               = !git rebase-master
     rdd               = !git rebase-develop
     sha               = !git log --pretty=format:'%h' -n 1

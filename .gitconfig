@@ -77,6 +77,7 @@
     dmr               = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
     pl                = pull --rebase
     lg                = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
+    f                 = fetch
     fo                = fetch origin
     ro                = rebase origin
     rc                = rebase --continue

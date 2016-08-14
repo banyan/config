@@ -94,6 +94,8 @@
     sha               = !git log --pretty=format:'%h' -n 1
 [rebase]
 	autostash = true
+[stash]
+	showPatch = true
 [url "https://"]
 	insteadOf = git://
 [url "git@github.com:"]

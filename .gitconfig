@@ -64,7 +64,7 @@
     difflog           = log -p HEAD@{3.days.ago}
     l                 = log --pretty=format:\"%h (%an): %s\" --date=short -20
     ls                = ls-files
-    b                 = branch
+    b                 = branch --sort=-authordate
     sh                = !git-sh
     sa                = stash
     sap               = stash pop

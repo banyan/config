@@ -94,6 +94,7 @@
     rmm               = !git rebase-master
     rdd               = !git rebase-develop
     sha               = !git log --pretty=format:'%h' -n 1
+    compare           = "!function git_is_ancestor() { if git merge-base --is-ancestor $1 $2; then echo \"$1 is ancestor of $2\" ; elif git merge-base --is-ancestor $2 $1 ; then echo \"$2 is ancestor of $1\" ; else echo \"No relation between $1 and $2\" ; fi } ; git_is_ancestor $1 $2"
 [rebase]
 	autostash = true
 [stash]

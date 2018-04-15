@@ -328,6 +328,10 @@
   endfunction
   command! -nargs=1 -complete=file New call s:newFileOpen(<q-args>)
 
+  " Open current file in vscode
+  command! Code silent! execute '!code ' . expand("%:p") | redraw!
+  cabbrev code Code
+
   " sudo
   cmap w!! w !sudo tee % >/dev/null
 

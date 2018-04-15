@@ -27,6 +27,12 @@ bind diff C !<git checkout %(commit)
 bind log  C !<git checkout %(commit)
 
 # https://github.com/banyan/git-modified
+# Open files in vim
 bind main K !<sh -c "vim -p $(git modified %(commit))"
 bind diff K !<sh -c "vim -p $(git modified %(commit))"
 bind log  K !<sh -c "vim -p $(git modified %(commit))"
+
+# Open files in vscode
+bind main V !<sh -c "code $(git modified %(commit))"
+bind diff V !<sh -c "code $(git modified %(commit))"
+bind log  V !<sh -c "code $(git modified %(commit))"

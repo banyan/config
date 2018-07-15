@@ -172,6 +172,7 @@ alias ocaml='rlwrap ocaml'
 alias t='npm test'
 alias f="ag_last_argument_then_peco_to_vim_all"
 alias ff="ag_last_argument_then_peco_to_vim"
+alias ttig='tig --follow'
 
 # rails
 alias r="rails"

@@ -339,7 +339,7 @@
   " keep a persistent backup file from Vim7.3
   if v:version >= 730
       set undofile
-      set undodir=~/.vim/.undo,~/tmp,/tmp
+      set undodir=~/.vim/.undo,~/tmp-vim,/tmp-vim
   endif
 
   " Tame the quickfix window (open/close using ,f)

@@ -57,6 +57,7 @@
     Bundle 'wting/rust.vim'
     Bundle 'maxbrunsfeld/vim-yankstack'
     Bundle 'cespare/vim-toml'
+    Bundle 'vim-airline/vim-airline-themes'
   " }}}
 
   syntax on

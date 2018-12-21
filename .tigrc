@@ -4,6 +4,7 @@ set horizontal-scroll = 33%
 set split-view-height = 70%
 set line-graphics     = utf-8
 set tab-size          = 4
+set commit-order = default
 
 # bind
 bind main    G  none # To override the default keybinding bound to G: https://github.com/jonas/tig/issues/351#issuecomment-67722550

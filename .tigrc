@@ -41,3 +41,6 @@ bind log  V !<sh -c "code $(git modified %(commit))"
 set blame-view = author:full date:default id:yes,color line-number:yes,interval=1 text
 
 bind generic 9 !@sh -c "git rev-parse --short %(commit) | pbcopy"
+
+# H for git reset --hard
+bind main H !<git reset --hard %(commit)

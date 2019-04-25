@@ -46,3 +46,8 @@ bind generic 9 !@sh -c "git rev-parse --short %(commit) | pbcopy"
 bind main H !<git reset --hard %(commit)
 bind diff H !<git reset --hard %(commit)
 bind log  H !<git reset --hard %(commit)
+
+# S for git reset --soft
+bind main S !<git reset --soft %(commit)
+bind diff S !<git reset --soft %(commit)
+bind log  S !<git reset --soft %(commit)

@@ -129,7 +129,7 @@ module.exports = {
   },
 
   // a list of plugins to fetch and install from npm
-  plugins: ["hyper-opacity", "hyper-material-theme", "hyperminimal"],
+  plugins: ["hyper-opacity"],
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here

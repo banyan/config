@@ -9,7 +9,7 @@ module.exports = {
     fontSize: 18,
 
     // font family with optional fallbacks
-    fontFamily: "monaco",
+    fontFamily: 'monaco, "Ricty Regular"',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: "normal",

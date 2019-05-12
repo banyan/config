@@ -2,7 +2,7 @@
 # Kohei Hasegawa <ameutau@gmail.com>
 # https://github.com/banyan/config
 
-# Complement {{{
+# Complement
 typeset -U fpath
 
 autoload -U compinit
@@ -44,6 +44,7 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
+
 # plugins
 if command -v antibody >/dev/null 2>&1
 then
@@ -57,31 +58,9 @@ else
     echo 'antibody is missing. install antibody'
 fi
 
-# load antigen
-if [ -f "$HOME/.zsh.d/antigen/antigen.zsh" ]; then
-    source "$HOME/.zsh.d/antigen/antigen.zsh"
-fi
-# }}}
 
-# Autoload zsh modules when they are referenced {{{
-zmodload -a zsh/stat stat
-zmodload -a zsh/zpty zpty
-zmodload -a zsh/zprof zprof
-zmodload -ap zsh/mapfile mapfile
-# }}}
-
-# Settings for antigen {{{
-antigen bundle git
-antigen bundle command-not-found
-
-# antigen theme banyan/oh-my-zsh themes/fox
-antigen theme banyan/oh-my-zsh themes/banyan
-
-antigen apply
-# }}}
-
-# Setup options {{{
-setopt APPEND_HISTORY         # .zsh-history を上書きではなく追加
+# Setup options
+setopt APPEND_HISTORY         # .zsh_history を上書きではなく追加
 setopt AUTO_CD                # ディレクトリ名だけを入力した時にそこに cd する
 setopt AUTO_LIST              # 候補が複数ある時に自動的に一覧を出す
 setopt AUTO_MENU              # TAB で順に補完候補を切り替える
@@ -113,36 +92,18 @@ setopt PUSHD_IGNORE_DUPS      # 同じディレクトリを pushd しない
 setopt TRANSIENT_RPROMPT      # 現在のステータスの RPROMPT だけを表示する
 unsetopt CORRECT_ALL          # 対象のファイルもスペルチェックをする
 
-#setopt EQUALS                # =command を command のパス名に展開する
-#setopt HIST_VERIFY           # ヒストリを呼び出してから実行する間に一旦編集
-#setopt LIST_ROWS_FIRST       # 補完リストを水平にソートする
-#setopt LONG_LIST_JOBS        # 内部コマンド jobs の出力をデフォルトで jobs -l にする
-#setopt MAGIC_EQUAL_SUBST     # --prefix=/usr などの = 以降も補完
-#setopt PRINT_EIGHT_BIT       # 出力時8ビットを通す
-
-#unsetopt PROMPTCR            # 出力の文字列末尾に改行コードが無い場合でも表示
-# }}}
-
-# Setup vars {{{
+# Setup vars
 export LANG=ja_JP.UTF-8
 export TERM=xterm-256color
 export EDITOR=vim
 
-HISTFILE=$HOME/.zsh-history
-HISTSIZE=100000
-SAVEHIST=100000
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=300000
+SAVEHIST=300000
 REPORTTIME=3
-# Use dircolors where available
-# export LS_COLORS='no=00:di=00;38;05;44:ln=01;35:pi=33:so=01;32:bd=00;38;05;44:cd=00;38;05;44:ex=01;32:*.c=36:*.cc=36:*.h=33:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.app=01;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.sit=00;31:*.sitX=00;31:*.zip=00;31:*.bin=00;31:*.hqx=00;31:*.jpg=00;35:*.jpeg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.tif=00;35:*.tiff=00;35:*.pdf=00;35:*.avi=00;35:*.mov=00;35:*.mpg=00;35:*.mpeg=00;35:*.asf=00;35:*.wmv=00;35:*.rm=00;35:*.swf=00;35:*.mp3=00;35:*.aiff=00;35:*.aif=00;35:*.snd=00;35:*.wav=00;35:';
-export LSCOLORS=gxfxcxdxbxegedabagacad
-export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-zstyle ':completion:*' list-colors \
-    'di=36' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
 
-# export ZLS_COLORS=$LS_COLORS
-# }}}
 
-# Aliases {{{
+# Aliases
 case "$OSTYPE" in
     freebsd*|darwin*)
         alias ls='ls -G -w'
@@ -152,76 +113,74 @@ case "$OSTYPE" in
     ;;
 esac
 
+alias A='SITE_MODE=aya'
+
 alias -g C='| pbcopy'
 alias P='pbpaste'
-alias ll='ls -la'
-alias lla='ls -A'
-alias l='ll'
+alias l='ls -la'
 alias wget='wget --no-check-certificate'
-alias p="popd"
 alias v="vi"
 alias wcd="find ./ -type f | xargs wc -l"
 alias diff='colordiff'
 alias less='less -R'
 alias sed='gsed'
-alias tt='tmux'
-alias pp='pending-pr'
-alias node='node --harmony'
+alias tt='tmux new-session \; new-window \; new-window \; new-window \; new-window \; new-window \; new-window \; new-window'
+alias pp='popd'
 alias ocaml='rlwrap ocaml'
-alias t='npm test'
+alias t='yarn test'
 alias f="ag_last_argument_then_peco_to_vim_all"
 alias ff="ag_last_argument_then_peco_to_vim"
 alias ttig='tig --follow'
 
 # rails
-alias r="rails"
 alias bundle='nocorrect bundle'
 alias rspec='nocorrect rspec'
-alias rr="routes_cache | peco"
-alias rrg="routes_cache | grep"
-alias rrr="routes_cache --force | peco"
 alias rspec='rspec -c'
 alias be='bundle exec'
 alias bi='bundle install --jobs 4'
 alias rails-init='bundle install --path .bundle/gems && rake db:create db:migrate && powder link'
 alias dbundle='ruby -I ~/git/bundler/lib ~/git/bundler/bin/bundle'
 
-# Vagrant
-alias vg="vagrant"
-
-# brunch
-alias bb='brunch build'
-alias bbs='brunch watch --server'
-alias bbm='brunch build && mocha-phantomjs public/test/index.html'
-alias br='be rake run'
-
 # git
 alias g="git"
-alias ci="git commit"
+# alias ci="ciopen"
 alias cia="git commit --amend"
-alias gl="pull_default_branch"
 alias pus="git push"
 alias gw='git wtf'
 alias gc='git clone --recursive'
 alias ga="git add -p"
 alias dic='dc'
-alias m="checkout_default_branch"
+alias m="m"
 alias b='git branch'
 alias k='vim -p `git modified`'
+alias c='code `git modified`'
 alias get='ghq get'
-alias s='git st'
+alias -g s='git st'
 alias d='git diff'
 alias a='git add -A'
-alias o='hub browse'
+alias o='ghopen'
+alias p="git p"
+alias pl="git pl"
 alias -g G='| grep --color'
 alias gm="git modified"
+alias -g D='deis apps | peco'
+alias yo='git yo'
+alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
 
-# function my_function() {
-    # # やりたい処理
-    # # キー実行時のプロンプトの内容は $BUFFER で取れる
- # }
-# zle -N vp  # my_functionをwidgetとして登録
-# bindkey '^k' vp # my_functionをCtrl-Aにバインド
+alias ks='kubectl'
+
+function kss() {
+  ks config get-contexts | sed "/^\ /d"
+  ks auth can-i get ns >/dev/null 2>&1 && echo "(Authorized)" || echo "(Unauthorized)"
+}
+
+function kc() {
+  test "$1" = "-" && kubectx - || kubectx "$(kubectx | peco)"
+}
+
+function kn() {
+  test "$1" = "-" && kubens - || kubens "$(kubens | peco)"
+}
 
 bindkey '^f' vp
 
@@ -232,17 +191,17 @@ alias -g V="| vim -"
 # for Mac
 alias there="fcd"
 alias here="open ."
-# }}}
 
-# Keybindings {{{
+
+# Keybindings
 bindkey -e       # emacs 風
 # bindkey -v     # vi 風
 # カーソル位置から前方削除
 # override kill-whole-line
 bindkey '^U' backward-kill-line
-# }}}
 
-# Misc {{{
+
+# Misc
 # コアダンプサイズを制限
 limit coredumpsize 102400
 # ls /usr/local/etc などと打っている際に、C-w で単語ごとに削除
@@ -252,9 +211,9 @@ WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 # added by travis gem
 [ -f /Users/banyan/.travis/travis.sh ] && source /Users/banyan/.travis/travis.sh
-# }}}
 
-# Misc {{{
+
+# Misc
 
 # git diff --cached
 function dc() {
@@ -274,54 +233,8 @@ function pcolor() {
     echo
 }
 
-# cache for rake routes
-function routes_cache {
-    local routes_cache; routes_cache="./tmp/routes_cache"
-    if [ "$1" = "--force" ]; then
-        rm $routes_cache;
-    fi
-    if ! [ -e $routes_cache ]; then
-        bundle exec rake routes > $routes_cache
-    fi
-    cat $routes_cache
-}
-
-function rake_tasks_cache {
-    local rake_tasks_cache; rake_tasks_cache="./tmp/rake_tasks_cache"
-    if [ "$1" = "--force" ]; then
-        rm $rake_tasks_cache;
-    fi
-    if ! [ -e $rake_tasks_cache ]; then
-        bundle exec rake -AT > $rake_tasks_cache
-    fi
-    # cat $rake_taskes_cache
-
-    task=$(cat $rake_tasks_cache | peco --query "$LBUFFER" )
-    task_split=("${(s/ /)task}")
-    BUFFER=$task_split[1,2]
-    CURSOR=$#BUFFER
-    zle -R -c
-}
-
-function spork_process {
-}
-
-function checkout_default_branch () {
-    if [ `git show-ref --verify --quiet refs/heads/develop >/dev/null 2>&1 ; echo $?` -eq 0 ]
-    then
-        git checkout develop
-    else
-        git checkout master
-    fi
-}
-
-function pull_default_branch () {
-    if [ `git show-ref --verify --quiet refs/heads/develop >/dev/null 2>&1 ; echo $?` -eq 0 ]
-    then
-        git pull origin develop
-    else
-        git pull origin master
-    fi
+function m() {
+  git checkout `git default-branch`
 }
 
 function ag_last_argument_then_peco_to_vim() {
@@ -354,4 +267,62 @@ if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
   alias -g B='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
   alias -g K='vim $(`git status -s | cut -d " " -f 3 | peco`)'
 fi
-# }}}
+
+
+function ci() {
+  local repo=`git config remote.origin.url | awk -F ':' '{ print $2 }' | awk -F '.' '{ print $1 }'`
+  local branch=`git rev-parse --abbrev-ref HEAD`
+  open "https://circleci.com/gh/${repo}/tree/${branch}"
+}
+
+ghopen() {
+  file=$1
+  base=$2
+
+  if [ "$#" -eq 0 ]; then
+    return `hub browse`
+  fi
+
+  gh="https://github.$(git config remote.origin.url | cut -f2 -d. | tr ':' /)"
+  repo_name=`echo $gh | awk -F '/' 'END{print $NF}'` # get last field by using awk
+  current_dir=${0:a:h} # get real dir name over symlink
+  complementaly_path=`echo $current_dir | awk -F $repo_name 'END{print $NF}'`
+  open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
+}
+
+export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"
+
+lazynvm() {
+  unset -f nvm node npm npx
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+}
+
+nvm() {
+  lazynvm
+  nvm $@
+}
+
+node() {
+  lazynvm
+  node $@
+}
+
+npm() {
+  lazynvm
+  npm $@
+}
+
+npx() {
+  lazynvm
+  npx $@
+}
+
+eval "$(exenv init -)"
+
+if [ -f "$HOME/.zsh.d/default-chruby" ]; then
+    source "$HOME/.zsh.d/default-chruby"
+fi
+
+# opam configuration
+test -r /Users/banyan/.opam/opam-init/init.zsh && . /Users/banyan/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true

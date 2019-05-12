@@ -44,11 +44,17 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-# source git-escape-magic
-if [ -f "$HOME/.zsh.d/git-escape-magic" ]; then
-    source "$HOME/.zsh.d/git-escape-magic"
-    autoload -Uz git-escape-magic
-    git-escape-magic
+# plugins
+if command -v antibody >/dev/null 2>&1
+then
+    # Fixes for oh-my-zsh, see https://github.com/getantibody/antibody/issues/218
+    DISABLE_AUTO_UPDATE=true
+    ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-banyan-SLASH-oh-my-zsh"
+
+    source <(antibody init)
+    antibody bundle < ~/.zsh.d/zsh_plugins.txt
+else
+    echo 'antibody is missing. install antibody'
 fi
 
 # load antigen

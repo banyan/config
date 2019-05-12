@@ -261,8 +261,6 @@ if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
   bindkey '^g' peco-git-recent-branches
   bindkey '^s' peco-src
 
-  alias T='peco-rake-tasks'
-  alias R='peco-rake-routes'
   alias -g H='$(hk apps | cut -d " " -f 1 | peco)'
   alias -g B='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
   alias -g K='vim $(`git status -s | cut -d " " -f 3 | peco`)'

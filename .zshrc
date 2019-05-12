@@ -23,11 +23,6 @@ zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=3
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
 
-# 補完関数を作成する時のデバッグ用関数
-# if [ -f "$HOME/.zsh/debug.zshrc" ]; then
-    # source "$HOME/.zsh/debug.zshrc"
-# fi
-
 # vcs_info
 autoload -Uz add-zsh-hook
 autoload -Uz vcs_info

@@ -36,14 +36,15 @@ function _update_vcs_info_msg() {
     LANG=en_US.UTF-8 vcs_info
     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 
+    repo=`git rev-parse --show-toplevel`
+
     # http://stnard.jp/2010/10/25/402/
-    if [[ -e $PWD/.git/refs/stash ]]; then
+    if [[ -e $repo/.git/refs/stash ]]; then
         stashes=$(git stash list 2>/dev/null | wc -l)
         psvar[2]="[@${stashes// /}]"
     fi
 }
 add-zsh-hook precmd _update_vcs_info_msg
-
 
 # plugins
 if command -v antibody >/dev/null 2>&1
@@ -57,7 +58,6 @@ then
 else
     echo 'antibody is missing. install antibody'
 fi
-
 
 # Setup options
 setopt APPEND_HISTORY         # .zsh_history を上書きではなく追加
@@ -101,7 +101,6 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=300000
 SAVEHIST=300000
 REPORTTIME=3
-
 
 # Aliases
 case "$OSTYPE" in
@@ -182,24 +181,15 @@ function kn() {
   test "$1" = "-" && kubens - || kubens "$(kubens | peco)"
 }
 
-bindkey '^f' vp
-
-# grep や ack で絞り込んだ結果を vim で開く
-# http://subtech.g.hatena.ne.jp/secondlife/20100819/1282200855
-alias -g V="| vim -"
-
 # for Mac
 alias there="fcd"
 alias here="open ."
 
-
 # Keybindings
 bindkey -e       # emacs 風
-# bindkey -v     # vi 風
 # カーソル位置から前方削除
 # override kill-whole-line
 bindkey '^U' backward-kill-line
-
 
 # Misc
 # コアダンプサイズを制限
@@ -208,10 +198,6 @@ limit coredumpsize 102400
 # default  : ls /usr/local → ls /usr/ → ls /usr → ls /
 # この設定 : ls /usr/local → ls /usr/ → ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-# added by travis gem
-[ -f /Users/banyan/.travis/travis.sh ] && source /Users/banyan/.travis/travis.sh
-
 
 # Misc
 
@@ -284,14 +270,15 @@ ghopen() {
   gh="https://github.$(git config remote.origin.url | cut -f2 -d. | tr ':' /)"
   repo_name=`echo $gh | awk -F '/' 'END{print $NF}'` # get last field by using awk
   current_dir=${0:a:h} # get real dir name over symlink
-  complementaly_path=`echo $current_dir | awk -F $repo_name 'END{print $NF}'`
-  open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
+  echo $current_dir
+  # complementaly_path=`echo $current_dir | awk -F $repo_name 'END{print $NF}'`
+  # open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
 }
 
 export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"
 
 lazynvm() {
-  unset -f nvm node npm npx
+  unset -f nvm node npm npx yarn
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 }
@@ -309,6 +296,11 @@ node() {
 npm() {
   lazynvm
   npm $@
+}
+
+yarn() {
+  lazynvm
+  yarn $@
 }
 
 npx() {

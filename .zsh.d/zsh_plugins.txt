@@ -1,3 +1,3 @@
 banyan/oh-my-zsh path:themes/banyan.zsh-theme
-zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
+zsh-users/zsh-completions

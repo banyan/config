@@ -1,108 +1,86 @@
 [user]
-    name              = Kohei Hasegawa
-    email             = ameutau@gmail.com
+	name  = Kohei Hasegawa
+	email = ameutau@gmail.com
 [core]
     excludesfile      = ~/.gitignore
     pager             = less -r
     editor            = /usr/bin/vim
 	precomposeunicode = true
     attributesfile    = ~/.gitattributes
-	ignorecase = true
-	quotepath = false
+	ignorecase        = false
+	quotepath         = false
 [pager]
-    log = diff-highlight | less
+    log  = diff-highlight | less
     show = diff-highlight | less
     diff = diff-highlight | less
-[push]
-	default           = simple
-[pull]
-	default           = simple
-	rebase            = true
-[merge]
-	log               = true
 [color]
-    diff              = auto
-    status            = auto
-    branch            = auto
-    interactive       = auto
+    diff        = auto
+    status      = auto
+    branch      = auto
+    interactive = auto
 [color "branch"]
-    current           = yellow reverse
-    local             = yellow
-    remote            = green
+    current = yellow reverse
+    local   = yellow
+    remote  = green
 [color "diff"]
-    meta              = yellow bold
-    frag              = magenta bold
-    old               = red bold
-    new               = green bold
+    meta = yellow bold
+    frag = magenta bold
+    old  = red bold
+    new  = green bold
 [color "status"]
-    added             = yellow
-    changed           = green
-    untracked         = cyan
-[tig "bind"]
-    generic           = g move-first-line
-    generic           = G move-last-line
+    added     = yellow
+    changed   = green
+    untracked = cyan
 [advice]
-  pushNonFastForward  = false
-  statusHints         = false
-  commitBeforeMerge   = false
-  resolveConflict     = false
-  implicitIdentity    = false
-  detachedHead        = false
+    pushNonFastForward = false
+    statusHints        = false
+    commitBeforeMerge  = false
+    resolveConflict    = false
+    implicitIdentity   = false
+    detachedHead       = false
 [alias]
-    ci                = commit -v
-    reward            = commit --amend
-    amend             = commit --amend -C HEAD
-    yo                = !git commit -m '.'
-    co                = checkout
-    s                 = status -sb
-    st                = status -sb
-    d                 = diff
-    di                = diff
-    dic               = diff --cached
-    dc                = diff --cached
-    difflog           = log -p HEAD@{3.days.ago}
-    l                 = log --pretty=format:\"%h (%an): %s\" --date=short -20
-    ls                = ls-files
-    b                 = branch --sort=-authordate
-    sh                = !git-sh
-    sa                = stash
-    sap               = stash pop
-    graph             = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%cn] %Cgreen%d%Creset %s\" --all --date = short
-    wh                = whatchanged
-    stat              = log --stat --summary
-    logg              = log --graph --decorate --pretty=format:\"%ad [%cn] %h> %n %Cgreen%d%Creset %s %n\" --name-status
-    logs              = log --graph --decorate --pretty=format:\"%ad [%cn] %h> %n %Cgreen%d%Creset %s %n\" --stat
-    sub               = submodule
-    ft                = -n --prune
-    dmr               = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
-    pl                = pull --rebase
-    lg                = log --graph --pretty=oneline --decorate --date=short --abbrev-commit --branches
-    f                 = fetch
-    fo                = fetch origin
-    ro                = rebase origin
-    rc                = rebase --continue
-    wd                = diff --word-diff
-    dm                = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
-    db                = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
-    pr                = !hub pull-request -h `git config pr.head-owner`:`git rev-parse --abbrev-ref HEAD` -b `git config pr.base-owner`:`git config pr.base-branch`
-    gsub              = "!sh -c 'git grep -l $0 $2 | xargs gsed -i \"s/$0/$1/g\"'"
-    rebase-master     = "!sh -c 'branch=`git rev-parse --abbrev-ref HEAD` && git checkout master && git pull origin master && git checkout $branch && git rebase master'"
-    rebase-develop    = "!sh -c 'branch=`git rev-parse --abbrev-ref HEAD` && git checkout develop && git pull origin develop && git checkout $branch && git rebase develop'"
-    tb                =  "!sh -c \"git checkout -b `git log --pretty=\"%s\" -1 | ruby -e \"print STDIN.read.strip.gsub(/[^a-zA-Z0-9]/, '-').downcase\"`\""
-    cib               = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
-    fpr               = "!f() { git fetch origin pull/$1/head:pr/$1; }; f"
-    rmm               = !git rebase-master
-    rdd               = !git rebase-develop
-    sha               = !git log --pretty=format:'%h' -n 1
-    compare           = "!function git_is_ancestor() { if git merge-base --is-ancestor $1 $2; then echo \"$1 is ancestor of $2\" ; elif git merge-base --is-ancestor $2 $1 ; then echo \"$2 is ancestor of $1\" ; else echo \"No relation between $1 and $2\" ; fi } ; git_is_ancestor $1 $2"
+    ci             = commit -v
+    amend          = commit --amend -C HEAD
+    yo             = !git commit -m '.'
+    co             = checkout
+    st             = status -sb
+    d              = diff
+    di             = diff
+    dic            = diff --cached
+    ls             = ls-files
+    b              = branch --color --sort=-authordate
+    sh             = !git-sh
+    dm             = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
+    dmr            = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
+    p              = !git push origin `git rev-parse --abbrev-ref HEAD`
+    pl             = !git pull origin `git rev-parse --abbrev-ref HEAD`
+    f              = fetch
+    default-branch = "!sh -c \"git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'\""
+    tb             = "!sh -c \"git checkout -b `git log --pretty = \"%s\" -1 | ruby -e \"print STDIN.read.strip.gsub(/[^a-zA-Z0-9]/, '-').downcase\"`\""
+    cib            = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
+    fpr            = "!f() { git fetch origin pull/$1/head:pr/$1; }; f"
+    sha            = !git log --pretty=format:'%h' -n 1
+    compare        = "!function git_is_ancestor() { if git merge-base --is-ancestor $1 $2; then echo \"$1 is ancestor of $2\" ; elif git merge-base --is-ancestor $2 $1 ; then echo \"$2 is ancestor of $1\" ; else echo \"No relation between $1 and $2\" ; fi } ; git_is_ancestor $1 $2"
+    tb             = git-tb
+[url "https://"]
+	insteadOf = git://
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+[include]
+    path = ~/.gitconfig.local
+[fetch]
+	prune = true
 [rebase]
 	autostash = true
 [stash]
 	showPatch = true
-[url "https://"]
-	insteadOf = git://
-[url "git@github.com:"]
-    pushinsteadof     = "https://github.com/"
-    pushinsteadof     = "git://github.com/"
-[include]
-  path = ~/.gitconfig.local
+[push]
+	default = simple
+[pull]
+	default = simple
+	rebase  = true
+[merge]
+	log = true
+[tig "bind"]
+    generic = g move-first-line
+    generic = G move-last-line

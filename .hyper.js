@@ -1,7 +1,6 @@
 module.exports = {
   config: {
     opacity: 0.85,
-    // choose either `'stable'` for receiving highly polished,
     // or `'canary'` for less polished but more frequent updates
     updateChannel: "stable",
 
@@ -129,7 +128,7 @@ module.exports = {
   },
 
   // a list of plugins to fetch and install from npm
-  plugins: ["hyper-opacity"],
+  plugins: ["hyper-opacity", "hyper-electron-highlighter"],
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here

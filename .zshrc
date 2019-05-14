@@ -270,9 +270,8 @@ ghopen() {
   gh="https://github.$(git config remote.origin.url | cut -f2 -d. | tr ':' /)"
   repo_name=`echo $gh | awk -F '/' 'END{print $NF}'` # get last field by using awk
   current_dir=${0:a:h} # get real dir name over symlink
-  echo $current_dir
-  # complementaly_path=`echo $current_dir | awk -F $repo_name 'END{print $NF}'`
-  # open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
+  complementaly_path=`echo $current_dir | awk -F $repo_name 'END{print $NF}'`
+  open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
 }
 
 export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"

@@ -56,7 +56,6 @@
     pl             = !git pull origin `git rev-parse --abbrev-ref HEAD`
     f              = fetch
     default-branch = "!sh -c \"git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'\""
-    tb             = "!sh -c \"git checkout -b `git log --pretty = \"%s\" -1 | ruby -e \"print STDIN.read.strip.gsub(/[^a-zA-Z0-9]/, '-').downcase\"`\""
     cib            = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
     fpr            = "!f() { git fetch origin pull/$1/head:pr/$1; }; f"
     sha            = !git log --pretty=format:'%h' -n 1

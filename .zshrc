@@ -36,12 +36,14 @@ function _update_vcs_info_msg() {
     LANG=en_US.UTF-8 vcs_info
     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 
-    repo=`git rev-parse --show-toplevel`
+    if git rev-parse 2> /dev/null; then
+        repo=`git rev-parse --show-toplevel`
 
-    # http://stnard.jp/2010/10/25/402/
-    if [[ -e $repo/.git/refs/stash ]]; then
-        stashes=$(git stash list 2>/dev/null | wc -l)
-        psvar[2]="[@${stashes// /}]"
+        # http://stnard.jp/2010/10/25/402/
+        if [[ -e $repo/.git/refs/stash ]]; then
+            stashes=$(git stash list 2>/dev/null | wc -l)
+            psvar[2]="[@${stashes// /}]"
+        fi
     fi
 }
 add-zsh-hook precmd _update_vcs_info_msg

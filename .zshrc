@@ -87,7 +87,6 @@ setopt NUMERIC_GLOB_SORT      # 数字を数値と解釈してソートする
 setopt NOBEEP                 # ビープを鳴らさない
 setopt NO_FLOW_CONTROL        # disable C-q, C-s
 setopt PROMPT_SUBST           # PROMPT 変数に対して変数展開、コマンド置換、算術展開を施す
-setopt RM_STAR_WAIT           # rm * を実行する前に確認
 setopt SHARE_HISTORY          # 履歴の共有
 setopt AUTOPUSHD              # cd 時に自動で push
 setopt PUSHD_IGNORE_DUPS      # 同じディレクトリを pushd しない

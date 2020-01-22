@@ -277,36 +277,7 @@ ghopen() {
 
 export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"
 
-lazynvm() {
-  unset -f nvm node npm npx yarn
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-}
-
-nvm() {
-  lazynvm
-  nvm $@
-}
-
-node() {
-  lazynvm
-  node $@
-}
-
-npm() {
-  lazynvm
-  npm $@
-}
-
-yarn() {
-  lazynvm
-  yarn $@
-}
-
-npx() {
-  lazynvm
-  npx $@
-}
+eval "`fnm env --multi --use-on-cd`" # for # https://github.com/Schniz/fnm
 
 eval "$(exenv init -)"
 

@@ -131,6 +131,15 @@ alias t='yarn test'
 alias f="ag_last_argument_then_peco_to_vim_all"
 alias ff="ag_last_argument_then_peco_to_vim"
 alias ttig='tig --follow'
+alias tl='tldr'
+alias tf='terraform'
+alias cat='bat'
+
+# terraform
+alias tf='terraform'
+alias tfi='terraform init'
+alias tfp='terraform plan'
+alias tfa='terraform apply'
 
 # rails
 alias bundle='nocorrect bundle'

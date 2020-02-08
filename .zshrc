@@ -286,7 +286,7 @@ ghopen() {
 
 export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"
 
-eval "`fnm env --multi --use-on-cd`" # for # https://github.com/Schniz/fnm
+eval "`fnm env --multi --use-on-cd --log-level=quiet`" # for # https://github.com/Schniz/fnm
 
 eval "$(exenv init -)"
 

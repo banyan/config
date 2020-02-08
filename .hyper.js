@@ -8,7 +8,7 @@ module.exports = {
     fontSize: 18,
 
     // font family with optional fallbacks
-    fontFamily: 'monaco, "Ricty Regular"',
+    fontFamily: 'monaco, "Dank Mono", "Ricty Regular"',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: "normal",
@@ -17,7 +17,7 @@ module.exports = {
     fontWeightBold: "bold",
 
     // line height as a relative unit
-    lineHeight: 1,
+    lineHeight: 1.02,
 
     // letter spacing as a relative unit
     letterSpacing: 0,

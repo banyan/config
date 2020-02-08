@@ -34,21 +34,18 @@
     Bundle 'thinca/vim-visualstar'
     Bundle 'vim-ruby/vim-ruby'
     Bundle 'tpope/vim-haml'
-    Bundle 'jelera/vim-javascript-syntax'
+    Bundle 'vim-es6'
     Bundle 'othree/yajs.vim'
     Bundle 'tsaleh/vim-tmux'
     Bundle 'kchmck/vim-coffee-script'
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'banyan/eruby.vim'
     Bundle 'L9'
-    Bundle 'FuzzyFinder'
-    Bundle 'scrooloose/nerdtree'
-    Bundle 'thinca/vim-guicolorscheme'
+    Bundle 'ctrlpvim/ctrlp.vim'
     Bundle 'banyan/banyan.vim'
     Bundle 'tomasr/molokai'
     Bundle 'banyan/recognize_charcode.vim'
     Bundle 'glidenote/memolist.vim'
-    Bundle 'scrooloose/syntastic'
     Bundle 'hallison/vim-markdown'
     Bundle 'mxw/vim-jsx'
     Bundle 'elzr/vim-json'
@@ -57,7 +54,9 @@
     Bundle 'wting/rust.vim'
     Bundle 'maxbrunsfeld/vim-yankstack'
     Bundle 'cespare/vim-toml'
+    Bundle 'slim-template/vim-slim'
     Bundle 'vim-airline/vim-airline-themes'
+    Bundle 'leafgarland/typescript-vim'
   " }}}
 
   syntax on
@@ -181,6 +180,7 @@
   autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType java       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType javascript setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType typescript setlocal sw=2 sts=2 ts=2 et
   autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType python     setlocal sw=4 sts=4 ts=4 et
@@ -203,7 +203,6 @@
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
-  autocmd FileType cjsx       setlocal sw=2 sts=2 ts=2 et
 
   set nobackup   " do not keep backup files
   set noswapfile " do not write annoying intermediate swap files,
@@ -252,8 +251,8 @@
 
 " Aliases {{{
   nmap <Space>w :w<CR>
-  nmap <Space>c :q<CR>
   nmap <Space>a :qa!<CR>
+  nmap <Space>c :q<CR>
 
   nmap 0 ^
   nmap 9 $
@@ -392,12 +391,10 @@
   nnoremap s. <C-W>=                                     " flat
   nnoremap s= <C-W>=                                     " flat
 
-  " ウィンドウの幅をいい感じにする
-  " function! s:good_width()
-    " if winwidth(0) < 84
-      " vertical resize 84
-    " endif
-  " endfunctio+
+  " open github
+  command! -nargs=* -range GitBrowseRemote !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
+
+  nnoremap <SPACE>wtf oputs "#" * 90<c-m>puts caller<c-m>puts "#" * 90<esc>
 
   function! s:maximize()
       wincmd _ | wincmd |
@@ -494,8 +491,6 @@
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-    autocmd! BufEnter  *.jsx  let b:syntastic_checkers=['jsxhint']
-
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_omni_patterns')
       let g:neocomplcache_omni_patterns = {}
@@ -509,28 +504,20 @@
   " AutoComplPop {{{
     " let g:AutoComplPop_IgnoreCaseOption = 1
   " }}}
-  " fuf.vim {{{
-    nmap <C-j> [fuf]
-
-    let g:fuf_modesDisable     = ['mrucmd']
-    let g:fuf_file_exclude     = '\v\~$|\.(o|exe|bak|swp|gif|jpg|png)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
-    let g:fuf_mrufile_exclude  = '\v\~$|\.bak$|\.swp|\.howm$|\.(gif|jpg|png)$'
-    let g:fuf_mrufile_maxItem  = 1000
-    let g:fuf_enumeratingLimit = 20
-    let g:fuf_keyOpen          = '<Tab>'
-    let g:fuf_keyOpenTabpage   = '<CR>'
-    " let g:fuf_keyPreview       = '<C-]>'
-    " let g:fuf_previewHeight    = 0
-
-    nmap [fuf]<C-b> :FufBuffer<CR>
-    " nmap [fuf]<C-j> :FufFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
-    nmap [fuf]<C-k> :FufFile<CR>
-    nmap [fuf]<C-i> :FufFileWithCurrentBufferDir<CR>
-    nmap [fuf]<C-j> :FufFile **/<CR>
-    nmap [fuf]<C-m> :FufMruFile<CR>
-    nmap [fuf]<C-q> :FufQuickfix<CR>
-    nmap [fuf]<C-l> :FufLine<CR>
-    nnoremap <silent> <C-]> :FufTag! <C-r>=expand('<cword>')<CR><CR>
+  " ctrlp.vim {{{
+    nmap <C-j> [ctrlp]
+    let g:ctrlp_map = '<Nop>'
+    set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jpg,*.png
+    let g:ctrlp_custom_ignore = '\v[\/](node_modules|build)$'
+    let g:ctrlp_prompt_mappings = {
+          \ 'AcceptSelection("e")': ['<c-t>'],
+          \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+          \ }
+    nmap [ctrlp]<C-p> :CtrlP<CR>
+    nmap [ctrlp]<C-i> :CtrlPDir<CR>
+    nmap [ctrlp]<C-j> :CtrlPMixed<CR>
+    nmap [ctrlp]<C-m> :CtrlPMRUFiles<CR>
+    nmap [ctrlp]<C-k> :CtrlPCurWD<CR>
   " }}}
   " mru.vim {{{
     "http://www.vim.org/scripts/script.php?script_id=521
@@ -559,16 +546,6 @@
   " vim-airline
       let g:airline_theme='solarized'
   "
-  " memolist
-      let g:memolist_path = $HOME . "/Dropbox/my/memo"
-  " }}}
-  " Syntastic {{{
-      let g:syntastic_mode_map={ 'mode': 'active',
-                           \ 'active_filetypes': [],
-                           \ 'passive_filetypes': ['html'] }
-      let g:syntastic_javascript_checkers = ['jsxhint']
-      let g:syntastic_ruby_checkers = ['mri']
-      let g:syntastic_ruby_mri_exec="~/.rubies/ruby-2.2.3/bin/ruby"
   " }}}
   " ctrlsf.vim {{{
     nnoremap <C-h> :<C-u>CtrlSF<Space>

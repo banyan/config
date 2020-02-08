@@ -56,11 +56,11 @@
     pl             = !git pull origin `git rev-parse --abbrev-ref HEAD`
     f              = fetch
     default-branch = "!sh -c \"git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'\""
-    cib            = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
+    bc             = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
+    cb             = !git tb
     fpr            = "!f() { git fetch origin pull/$1/head:pr/$1; }; f"
     sha            = !git log --pretty=format:'%h' -n 1
     compare        = "!function git_is_ancestor() { if git merge-base --is-ancestor $1 $2; then echo \"$1 is ancestor of $2\" ; elif git merge-base --is-ancestor $2 $1 ; then echo \"$2 is ancestor of $1\" ; else echo \"No relation between $1 and $2\" ; fi } ; git_is_ancestor $1 $2"
-    tb             = git-tb
 [url "https://"]
 	insteadOf = git://
 [url "git@github.com:"]

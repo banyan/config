@@ -262,13 +262,6 @@ if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
   alias -g K='vim $(`git status -s | cut -d " " -f 3 | peco`)'
 fi
 
-
-function ci() {
-  local repo=`git config remote.origin.url | awk -F ':' '{ print $2 }' | awk -F '.' '{ print $1 }'`
-  local branch=`git rev-parse --abbrev-ref HEAD`
-  open "https://circleci.com/gh/${repo}/tree/${branch}"
-}
-
 ghopen() {
   file=$1
   base=$2

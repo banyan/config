@@ -301,6 +301,26 @@ ghopen() {
   open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
 }
 
+export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border'
+export FZF_DEFAULT_COMMAND='fd --type f'
+
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
+
+function select-history() {
+  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  CURSOR=$#BUFFER
+}
+zle -N select-history
+bindkey '^r' select-history
+
 export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"
 
 eval "`fnm env --multi --use-on-cd --log-level=quiet`" # for # https://github.com/Schniz/fnm

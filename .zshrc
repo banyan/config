@@ -51,15 +51,23 @@ add-zsh-hook precmd _update_vcs_info_msg
 # plugins
 if command -v antibody >/dev/null 2>&1
 then
-    # Fixes for oh-my-zsh, see https://github.com/getantibody/antibody/issues/218
-    DISABLE_AUTO_UPDATE=true
-    ZSH="$(antibody home)/https-COLON--SLASH--SLASH-github.com-SLASH-banyan-SLASH-oh-my-zsh"
-
     source <(antibody init)
     antibody bundle < ~/.zsh.d/zsh_plugins.txt
 else
     echo 'antibody is missing. install antibody'
 fi
+
+# prompt
+success_color=$'%{\e[38;5;38m%}'
+failure_color=$'%{\e[38;5;227m%}'
+path_color=$'%{\e[38;5;14m%}'
+vcs_color=$'%{\e[38;5;248m%}'
+stash_color=$'%{\e[38;5;226m%}'
+firebase_color=$'%{\e[38;5;194m%}'
+PROMPT_SYMBOL="❯"
+PROMPT="%(?,%{$success_color%}${PROMPT_SYMBOL}%{$reset_color%},%{$failure_color%}${PROMPT_SYMBOL}%{$reset_color%}) "
+VCS_INFO="%1(v|%{$vcs_color%}%1v%f%F%$reset_color{$stash_color%}%2v%f|)"
+RPROMPT='%{$firebase_color%}$(firebase_project square)$reset_color${VCS_INFO}$path_color%}[%~]%{${reset_color}%}'
 
 # Setup options
 setopt APPEND_HISTORY         # .zsh_history を上書きではなく追加

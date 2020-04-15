@@ -314,6 +314,16 @@ fkill() {
   fi
 }
 
+function yarn-install () {
+    local VERSION="${1}"
+    if [ -z "${VERSION}" ]
+    then
+        curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
+    else
+        curl --compressed -o- -L https://yarnpkg.com/install.sh | bash -s -- --version "${VERSION}"
+    fi
+}
+
 function select-history() {
   BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
   CURSOR=$#BUFFER

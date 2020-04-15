@@ -217,6 +217,22 @@ limit coredumpsize 102400
 # この設定 : ls /usr/local → ls /usr/ → ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
+# switch firebase project
+function fx() {
+  # `is_firebase_project` and `get_firebase_dir` are depends on https://github.com/Seqi/firebase-zsh
+  # also jq, fzf and firebase-tools are used.
+  if [[ $(is_firebase_project) ]]; then
+      local firebaserc="$(get_firebase_dir)/.firebaserc"
+      local project=$(cat $firebaserc | jq -r '.targets|keys[]' | fzf --no-info)
+
+      if [ "$project" != "" ]; then
+          firebase use "${project}"
+      fi
+  else
+      echo ".firebaserc was not found."
+  fi
+}
+
 # Misc
 
 # git diff --cached

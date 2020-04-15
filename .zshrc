@@ -27,9 +27,9 @@ bindkey '^S' history-incremental-pattern-search-forward
 autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:*' formats '[%b]'
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
 
 function _update_vcs_info_msg() {
     psvar=()

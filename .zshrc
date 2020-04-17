@@ -171,7 +171,6 @@ alias dbundle='ruby -I ~/git/bundler/lib ~/git/bundler/bin/bundle'
 
 # git
 alias g="git"
-# alias ci="ciopen"
 alias cia="git commit --amend"
 alias pus="git push"
 alias gw='git wtf'

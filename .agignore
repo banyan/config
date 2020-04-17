@@ -5,3 +5,5 @@ coverage
 tmp
 log
 debug.log
+yarn-error.log
+/node_modules

@@ -342,11 +342,7 @@ function select-history() {
 zle -N select-history
 bindkey '^r' select-history
 
-export PATH="/usr/local/opt/postgresql@9.5/bin:$PATH"
-
 eval "`fnm env --multi --use-on-cd --log-level=quiet`" # for # https://github.com/Schniz/fnm
-
-eval "$(exenv init -)"
 
 if [ -f "$HOME/.zsh.d/default-chruby" ]; then
     source "$HOME/.zsh.d/default-chruby"

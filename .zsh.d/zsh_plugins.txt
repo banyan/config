@@ -1,5 +1,0 @@
-banyan/oh-my-zsh path:themes/banyan.zsh-theme
-zsh-users/zsh-history-substring-search
-zsh-users/zsh-completions
-g-plane/zsh-yarn-autocompletions
-banyan/firebase-zsh

@@ -5,9 +5,6 @@
 # Complement
 typeset -U fpath
 
-autoload -U compinit
-compinit -u
-
 # 履歴による予測入力 (man zshcontrib)
 autoload -U predict-on
 
@@ -49,13 +46,27 @@ function _update_vcs_info_msg() {
 add-zsh-hook precmd _update_vcs_info_msg
 
 # plugins
-if command -v antibody >/dev/null 2>&1
-then
-    source <(antibody init)
-    antibody bundle < ~/.zsh.d/zsh_plugins.txt
-else
-    echo 'antibody is missing. install antibody'
-fi
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-bin-gem-node
+
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-history-substring-search
+zinit light zsh-users/zsh-completions
+zinit load g-plane/zsh-yarn-autocompletions
+zinit light banyan/firebase-zsh
+
+fpath=(~/.zsh/completions $fpath)
+autoload -Uz compinit && compinit
+zinit cdreplay -q
 
 # prompt
 success_color=$'%{\e[38;5;38m%}'

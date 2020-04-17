@@ -188,6 +188,7 @@ alias a='git add -A'
 alias o='ghopen'
 alias p="git p"
 alias pl="git pl"
+alias R="git reset"
 alias -g G='| grep --color'
 alias gm="git modified"
 alias -g D='deis apps | peco'

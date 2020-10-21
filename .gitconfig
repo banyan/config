@@ -65,8 +65,6 @@
 	insteadOf = git://
 [url "git@github.com:"]
     insteadOf = https://github.com/
-[include]
-    path = ~/.gitconfig.local
 [fetch]
 	prune = true
 [rebase]

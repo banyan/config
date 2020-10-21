@@ -284,6 +284,8 @@ ghopen() {
 export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border -x'
 export FZF_DEFAULT_COMMAND='fd --type f'
 
+[ -f ~/.zsh.d/.fzf.zsh ] && source ~/.zsh.d/.fzf.zsh
+
 fkill() {
   local pid
   pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')

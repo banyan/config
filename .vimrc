@@ -33,7 +33,6 @@
     Bundle 'Shougo/neocomplcache'
     Bundle 'thinca/vim-visualstar'
     Bundle 'vim-ruby/vim-ruby'
-    Bundle 'tpope/vim-haml'
     Bundle 'vim-es6'
     Bundle 'othree/yajs.vim'
     Bundle 'tsaleh/vim-tmux'
@@ -43,7 +42,6 @@
     Bundle 'L9'
     Bundle 'ctrlpvim/ctrlp.vim'
     Bundle 'banyan/banyan.vim'
-    Bundle 'tomasr/molokai'
     Bundle 'banyan/recognize_charcode.vim'
     Bundle 'glidenote/memolist.vim'
     Bundle 'hallison/vim-markdown'
@@ -51,7 +49,6 @@
     Bundle 'elzr/vim-json'
     Bundle 'bling/vim-airline'
     Bundle 'dyng/ctrlsf.vim'
-    Bundle 'wting/rust.vim'
     Bundle 'maxbrunsfeld/vim-yankstack'
     Bundle 'cespare/vim-toml'
     Bundle 'slim-template/vim-slim'
@@ -219,7 +216,6 @@
 
 " Color {{{
   colorscheme banyan
-  " colorscheme molokai
 
   highlight Pmenu       ctermfg=195 ctermbg=236
   highlight PmenuSel    ctermfg=233 ctermbg=154
@@ -501,9 +497,6 @@
     let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
     let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
   " }}}
-  " AutoComplPop {{{
-    " let g:AutoComplPop_IgnoreCaseOption = 1
-  " }}}
   " ctrlp.vim {{{
     nmap <C-j> [ctrlp]
     let g:ctrlp_map = '<Nop>'
@@ -513,8 +506,14 @@
           \ 'AcceptSelection("e")': ['<c-t>'],
           \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
           \ }
+    let g:ctrlp_prompt_mappings = {
+          \ 'PrtSelectMove("j")':   ['<c-j>', '<c-n>'],
+          \ 'PrtSelectMove("k")':   ['<c-k>', '<c-p>'],
+          \ 'PrtHistory(-1)':       ['<down>'],
+          \ 'PrtHistory(1)':        ['<up>'],
+          \ }
     nmap [ctrlp]<C-p> :CtrlP<CR>
-    nmap [ctrlp]<C-i> :CtrlPDir<CR>
+    nmap [ctrlp]<C-i> :CtrlPCurFile<CR>
     nmap [ctrlp]<C-j> :CtrlPMixed<CR>
     nmap [ctrlp]<C-m> :CtrlPMRUFiles<CR>
     nmap [ctrlp]<C-k> :CtrlPCurWD<CR>

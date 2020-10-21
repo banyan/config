@@ -128,8 +128,6 @@ case "$OSTYPE" in
     ;;
 esac
 
-alias A='SITE_MODE=aya'
-
 alias -g C='| pbcopy'
 alias P='pbpaste'
 alias l='ls -la'
@@ -149,6 +147,7 @@ alias ttig='tig --follow'
 alias tl='tldr'
 alias tf='terraform'
 alias cat='bat'
+alias chrome='open -a "Google Chrome.app"'
 
 # terraform
 alias tf='terraform'
@@ -174,6 +173,7 @@ alias gc='git clone --recursive'
 alias ga="git add -p"
 alias dic='dc'
 alias m="m"
+alias merge="gh pr merge `git rev-parse --abbrev-ref HEAD` --merge --delete-branch"
 alias b='git branch'
 alias k='vim -p `git modified`'
 alias c='code `git modified`'
@@ -183,28 +183,14 @@ alias d='git diff'
 alias a='git add -A'
 alias o='ghopen'
 alias p="git p"
+alias pr="gh pr create --web"
 alias pl="git pl"
 alias R="git reset"
 alias -g G='| grep --color'
 alias gm="git modified"
-alias -g D='deis apps | peco'
 alias yo='git yo'
+alias gl='git ls | grep'
 alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
-
-alias ks='kubectl'
-
-function kss() {
-  ks config get-contexts | sed "/^\ /d"
-  ks auth can-i get ns >/dev/null 2>&1 && echo "(Authorized)" || echo "(Unauthorized)"
-}
-
-function kc() {
-  test "$1" = "-" && kubectx - || kubectx "$(kubectx | peco)"
-}
-
-function kn() {
-  test "$1" = "-" && kubens - || kubens "$(kubens | peco)"
-}
 
 # for Mac
 alias there="fcd"
@@ -280,19 +266,6 @@ function agv () {
   vim $(ag $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
 }
 
-# Peco
-if [ `which peco >/dev/null 2>&1 ; echo $?` -eq 0 ]; then
-  for f ($HOME/.zsh.d/peco-sources/*.zsh) source "${f}"
-
-  bindkey '^r' peco-select-history
-  bindkey '^g' peco-git-recent-branches
-  bindkey '^s' peco-src
-
-  alias -g H='$(hk apps | cut -d " " -f 1 | peco)'
-  alias -g B='`git branch | peco --prompt "GIT BRANCH>" | head -n 1 | sed -e "s/^\*\s*//g"`'
-  alias -g K='vim $(`git status -s | cut -d " " -f 3 | peco`)'
-fi
-
 ghopen() {
   file=$1
   base=$2
@@ -308,7 +281,7 @@ ghopen() {
   open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
 }
 
-export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border'
+export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border -x'
 export FZF_DEFAULT_COMMAND='fd --type f'
 
 fkill() {
@@ -331,12 +304,7 @@ function yarn-install () {
     fi
 }
 
-function select-history() {
-  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
-  CURSOR=$#BUFFER
-}
-zle -N select-history
-bindkey '^r' select-history
+export FZF_CTRL_R_OPTS="--prompt=\"History > \""
 
 eval "`fnm env --multi --use-on-cd --log-level=quiet`" # for # https://github.com/Schniz/fnm
 

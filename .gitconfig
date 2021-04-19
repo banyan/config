@@ -86,3 +86,10 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
+[diff "daff-csv"]
+    command = daff diff --git
+[merge "daff-csv"]
+    name = daff tabular csv merge
+    driver = daff merge --output %A %O %A %B
+[init]
+	defaultBranch = main

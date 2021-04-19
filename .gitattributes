@@ -1,1 +1,3 @@
 *.rb diff=ruby
+*.csv diff=daff-csv
+*.csv merge=daff-csv

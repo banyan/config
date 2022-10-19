@@ -1,4 +1,6 @@
 .bundle
+dist
+build
 vendor
 coverage
 .rsync_cache

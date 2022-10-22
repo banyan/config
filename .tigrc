@@ -27,16 +27,16 @@ bind main C !<git checkout %(commit)
 bind diff C !<git checkout %(commit)
 bind log  C !<git checkout %(commit)
 
-# https://github.com/banyan/git-modified
+# https://github.com/banyan/git_modified_files
 # Open files in vim
-bind main K !<sh -c "vim -p $(git modified %(commit))"
-bind diff K !<sh -c "vim -p $(git modified %(commit))"
-bind log  K !<sh -c "vim -p $(git modified %(commit))"
+bind main K !<sh -c "vim -p $(git modified_files %(commit))"
+bind diff K !<sh -c "vim -p $(git modified_files %(commit))"
+bind log  K !<sh -c "vim -p $(git modified_files %(commit))"
 
 # Open files in vscode
-bind main V !<sh -c "code $(git modified %(commit))"
-bind diff V !<sh -c "code $(git modified %(commit))"
-bind log  V !<sh -c "code $(git modified %(commit))"
+bind main V !<sh -c "code $(git modified_files %(commit))"
+bind diff V !<sh -c "code $(git modified_files %(commit))"
+bind log  V !<sh -c "code $(git modified_files %(commit))"
 
 set blame-view = author:full date:default id:yes,color line-number:yes,interval=1 text
 

@@ -21,7 +21,6 @@
   """ repos on vim.org {{{
     Bundle 'yanktmp.vim'
     Bundle 'mru.vim'
-    Bundle 'quickrun.vim'
     Bundle 'The-NERD-Commenter'
     Bundle 'eregex.vim'
     Bundle 'Align'
@@ -32,28 +31,23 @@
     Bundle 'h1mesuke/vim-alignta'
     Bundle 'Shougo/neocomplcache'
     Bundle 'thinca/vim-visualstar'
-    Bundle 'vim-ruby/vim-ruby'
     Bundle 'vim-es6'
-    Bundle 'othree/yajs.vim'
     Bundle 'tsaleh/vim-tmux'
     Bundle 'kchmck/vim-coffee-script'
     Bundle 'nathanaelkane/vim-indent-guides'
-    Bundle 'banyan/eruby.vim'
     Bundle 'L9'
     Bundle 'ctrlpvim/ctrlp.vim'
     Bundle 'banyan/banyan.vim'
     Bundle 'banyan/recognize_charcode.vim'
-    Bundle 'glidenote/memolist.vim'
     Bundle 'hallison/vim-markdown'
-    Bundle 'mxw/vim-jsx'
     Bundle 'elzr/vim-json'
     Bundle 'bling/vim-airline'
     Bundle 'dyng/ctrlsf.vim'
     Bundle 'maxbrunsfeld/vim-yankstack'
     Bundle 'cespare/vim-toml'
-    Bundle 'slim-template/vim-slim'
     Bundle 'vim-airline/vim-airline-themes'
     Bundle 'leafgarland/typescript-vim'
+    Bundle "mxw/vim-jsx"
   " }}}
 
   syntax on
@@ -134,9 +128,6 @@
   set virtualedit+=block       " enable to move the cursor to the place without character
   set formatoptions+=tcroqnlM1 " Vim list of options to determine how to format text.
 
-  "set formatoptions+=mM
-  "set formatoptions-=ro
-
   " enables to rename a file being edited
   command! -nargs=1 -complete=file Rename f <args>|call delete(expand('#'))
 
@@ -161,10 +152,6 @@
   " set terminal title
   set title
   set titlestring=Vim:\ %f\ %h%r%m
-
-  " set cursorline   " highlight current line
-  " set updatetime=1
-  " autocmd CursorHold * :match Search /^.*\%#.*$/
 
   " Indent
   autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
@@ -325,7 +312,8 @@
   command! -nargs=1 -complete=file New call s:newFileOpen(<q-args>)
 
   " Open current file in vscode
-  command! Code silent! execute '!code ' . expand("%:p") | redraw!
+  " command! Code silent! execute '!code ' . expand("%:p") | redraw!
+  command! Code silent! execute '!code ' . "'" . expand("%:p") . "'" | redraw!
   cabbrev code Code
 
   " sudo
@@ -432,32 +420,6 @@
     vnoremap <Leader>:  :Align :<CR>
     vnoremap <Leader>"  :Align "<CR>
     vnoremap <Leader>'  :Align '<CR>
-  " }}}
-  " Ctags etc {{{
-    " nmap <silent> <F4>
-        " \ :!ctags-ex -f %:p:h/tags
-        " \ --langmap="php:+.inc"
-        " \ -h ".php.inc" -R --totals=yes
-        " \ --tag-relative=yes --PHP-kinds=+cf-v %:p:h<CR>
-    " "set tags=~/.tags,tags
-    " set tags=~/.tags
-    " " タグファイルを指定する
-    " " set tags
-    " " from id:secondlife
-    " if has("autochdir")
-        " set autochdir
-        " set tags=tags;
-    " else
-        " set tags=./tags,./../tags,./*/tags,./../../tags,./../../../tags,./../../../../tags,./../../../../../tags
-    " endif
-  " }}}
-  " quickrun.vim {{{
-    let mapleader = ' e'
-    let g:quickrun_config = {}
-    let g:quickrun_config._ = {'split': 'below', 'running_mark': '（ ＾ω＾）'}
-    " let g:quickrun_config._ = {'runner': 'vimproc', 'split': 'below', 'running_mark': '（ ＾ω＾）'} " vimproc is too slow
-    execute 'nnoremap <silent> <leader> :QuickRun -mode n<CR>'
-    execute 'vnoremap <silent> <leader> :QuickRun -mode v<CR>'
 
   " }}}
   " neocomplcache.vim {{{

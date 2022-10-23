@@ -53,12 +53,17 @@ zinit light-mode for \
     zinit-zsh/z-a-as-monitor \
     zinit-zsh/z-a-bin-gem-node
 
-zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma/fast-syntax-highlighting
-zinit light zsh-users/zsh-history-substring-search
-zinit light zsh-users/zsh-completions
-zinit load g-plane/zsh-yarn-autocompletions
+zinit wait lucid blockf light-mode for \
+    @'zsh-users/zsh-autosuggestions' \
+    @'zsh-users/zsh-completions' \
+    @'g-plane/zsh-yarn-autocompletions' \
+    @'zsh-users/zsh-history-substring-search' \
+    @'momo-lab/zsh-replace-multiple-dots' \
+    @'zdharma-continuum/fast-syntax-highlighting'
+
 zinit light banyan/firebase-zsh
+zinit load agkozak/zsh-z
+zinit light banyan/zsh-dollar-sign-quoter
 
 fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
@@ -92,6 +97,7 @@ setopt GLOB_DOTS              # . で開始するファイル名にマッチさ�
 setopt HASH_CMDS              # 各コマンドが実行されるときにパスをハッシュに入れる
 setopt HIST_EXPIRE_DUPS_FIRST # ヒストリリストに追加されるコマンド行が古いものと同じなら古いものを削除する
 setopt HIST_NO_STORE          # history コマンドを history に保存しない
+setopt HIST_IGNORE_ALL_DUPS   # 履歴が重複した場合に古い履歴を削除する
 setopt HIST_IGNORE_DUPS       # 直前と同じコマンドをヒストリに追加しない
 setopt HIST_REDUCE_BLANKS     # 余分な空白は詰めて記録
 setopt HIST_SAVE_NO_DUPS      # ヒストリファイルに書き出すときに、古いコマンドと同じものは無視する
@@ -128,15 +134,13 @@ case "$OSTYPE" in
     ;;
 esac
 
-alias -g C='| pbcopy'
-alias P='pbpaste'
+alias -g P='| pbcopy'
 alias l='ls -la'
 alias wget='wget --no-check-certificate'
-alias v="vi"
-alias wcd="find ./ -type f | xargs wc -l"
 alias diff='colordiff'
 alias less='less -R'
 alias sed='gsed'
+alias date='gdate'
 alias tt='tmux new-session \; new-window \; new-window \; new-window \; new-window \; new-window \; new-window \; new-window'
 alias pp='popd'
 alias ocaml='rlwrap ocaml'
@@ -145,41 +149,30 @@ alias f="ag_last_argument_then_peco_to_vim_all"
 alias ff="ag_last_argument_then_peco_to_vim"
 alias ttig='tig --follow'
 alias tl='tldr'
-alias tf='terraform'
 alias cat='bat'
 alias chrome='open -a "Google Chrome.app"'
+alias tree='tree -N'
+alias ag="ag --hidden"
+alias v="vim"
+alias u="cd-gitroot"
 
-# terraform
-alias tf='terraform'
-alias tfi='terraform init'
-alias tfp='terraform plan'
-alias tfa='terraform apply'
+# terraform - use cargo-make to handle tfvars easily
+alias ti='cargo make init'
+alias tp='cargo make plan'
+alias ta='cargo make apply'
+alias ts='cargo make show'
 
-# rails
-alias bundle='nocorrect bundle'
-alias rspec='nocorrect rspec'
-alias rspec='rspec -c'
-alias be='bundle exec'
-alias bi='bundle install --jobs 4'
-alias rails-init='bundle install --path .bundle/gems && rake db:create db:migrate && powder link'
-alias dbundle='ruby -I ~/git/bundler/lib ~/git/bundler/bin/bundle'
 
 # git
 alias g="git"
-alias cia="git commit --amend"
-alias pus="git push"
-alias gw='git wtf'
-alias gc='git clone --recursive'
-alias ga="git add -p"
 alias dic='dc'
 alias m="m"
-alias M="gh pr merge `git rev-parse --abbrev-ref HEAD` --merge --delete-branch"
 alias b='git branch'
 alias k='vim -p `git modified`'
 alias c='code `git modified`'
-alias get='ghq get'
 alias -g s='git st'
 alias d='git diff'
+alias A='fzf-git-add'
 alias a='git add -A'
 alias o='ghopen'
 alias p="git p"
@@ -189,7 +182,6 @@ alias R="git reset"
 alias -g G='| grep --color'
 alias gm="git modified"
 alias yo='git yo'
-alias gl='git ls | grep'
 alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
 
 # for Mac
@@ -281,10 +273,22 @@ ghopen() {
   open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
 }
 
-export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border -x'
+ZSH_DOLLAR_SIGN_QUOTER_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co')
+
+export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border -x --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up'
 export FZF_DEFAULT_COMMAND='fd --type f'
 
 [ -f ~/.zsh.d/.fzf.zsh ] && source ~/.zsh.d/.fzf.zsh
+
+kill_port() {
+  local pid
+  pid=$(lsof -n -i -P | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
 
 fkill() {
   local pid
@@ -308,6 +312,7 @@ function yarn-install () {
 
 export FZF_CTRL_R_OPTS="--prompt=\"History > \""
 
+# for node.js version manager
 eval "`fnm env --multi --use-on-cd --log-level=quiet`" # for # https://github.com/Schniz/fnm
 
 if [ -f "$HOME/.zsh.d/default-chruby" ]; then
@@ -325,3 +330,56 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
+
+ch() {
+  local cols sep google_history open
+  cols=$(( COLUMNS / 3 ))
+  sep='{::}'
+
+  if [ "$(uname)" = "Darwin" ]; then
+    google_history="$HOME/Library/Application Support/Google/Chrome/Default/History"
+    open=open
+  else
+    google_history="$HOME/.config/google-chrome/Default/History"
+    open=xdg-open
+  fi
+  cp -f "$google_history" /tmp/h
+  sqlite3 -separator $sep /tmp/h \
+    "select substr(title, 1, $cols), url
+     from urls order by last_visit_time desc" |
+  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
+  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
+}
+
+fzf-z-search() {
+    local res=$(z | sort -rn | cut -c 12- | awk '!a[$0]++' | fzf --preview="ls -la {1}")
+    if [ -n "$res" ]; then
+        BUFFER="cd $res"
+    fi
+    zle accept-line
+}
+
+zle -N fzf-z-search
+bindkey '^]' fzf-z-search
+
+fzf-git-add() {
+  local out n addfiles
+  while out=$(
+      git status --short |
+      awk '{if (substr($0,2,1) !~ / /) print $2}' |
+      fzf -m --exit-0 --expect=enter --preview="echo {} | xargs git diff --color"); do
+    n=$[$(wc -l <<< "$out") - 1]
+    addfiles=(`echo $(tail "-$n" <<< "$out")`)
+    [[ -z "$addfiles" ]] && continue
+    git add $addfiles
+  done
+}
+
+zshaddhistory() {
+    local line="${1%%$'\n'}"
+    [[ ! "$line" =~ "^(cd|ls)($| )" ]]
+}
+
+cd-gitroot() {
+    cd ./$(git rev-parse --show-cdup)
+}

@@ -63,11 +63,13 @@ zinit wait lucid blockf light-mode for \
 
 zinit light banyan/firebase-zsh
 zinit load agkozak/zsh-z
-zinit light banyan/zsh-dollar-sign-quoter
+zinit light banyan/zsh-auto-escape
 
 fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
 zinit cdreplay -q
+
+ZSH_AUTO_ESCAPE_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co', 'mv', 'ls', 'ls -la', 'git ci')
 
 # prompt
 success_color=$'%{\e[38;5;38m%}'
@@ -168,8 +170,8 @@ alias g="git"
 alias dic='dc'
 alias m="m"
 alias b='git branch'
-alias k='vim -p `git modified`'
-alias c='code `git modified`'
+alias k='vim -p `git modified_files`'
+alias c='code `git modified_files`'
 alias -g s='git st'
 alias d='git diff'
 alias A='fzf-git-add'
@@ -180,7 +182,7 @@ alias pr="gh pr create --web"
 alias pl="git pl"
 alias R="git reset"
 alias -g G='| grep --color'
-alias gm="git modified"
+alias gm="git modified_files"
 alias yo='git yo'
 alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
 
@@ -272,8 +274,6 @@ ghopen() {
   complementaly_path=`echo $current_dir | awk -F $repo_name 'END{print $NF}'`
   open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
 }
-
-ZSH_DOLLAR_SIGN_QUOTER_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co')
 
 export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border -x --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up'
 export FZF_DEFAULT_COMMAND='fd --type f'

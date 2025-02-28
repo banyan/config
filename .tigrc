@@ -33,6 +33,12 @@ bind main K !<sh -c "vim -p $(git modified_files %(commit))"
 bind diff K !<sh -c "vim -p $(git modified_files %(commit))"
 bind log  K !<sh -c "vim -p $(git modified_files %(commit))"
 
+# https://github.com/banyan/git-cb
+# Use commit message as branch name
+bind main J !<git cb %(commit)
+bind diff J !<git cb %(commit)
+bind log  J !<git cb %(commit)
+
 # Open files in vscode
 bind main V !<sh -c "code $(git modified_files %(commit))"
 bind diff V !<sh -c "code $(git modified_files %(commit))"

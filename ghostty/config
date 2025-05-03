@@ -1,0 +1,30 @@
+theme = Atom
+
+window-title-font-family = Dank Mono Italic
+window-padding-x = 24
+window-padding-y = 20
+window-padding-balance = true
+
+font-family = Moralerspace Neon NF
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+font-size = 18
+
+background-opacity = 0.85
+macos-titlebar-proxy-icon = hidden
+macos-titlebar-style = hidden
+
+mouse-hide-while-typing = true
+cursor-style-blink = false
+
+copy-on-select = clipboard
+term = xterm-256color
+
+macos-icon = custom-style
+macos-icon-ghost-color = cyan
+macos-icon-screen-color = cyan
+
+confirm-close-surface = false
+
+keybind = ctrl+I=ignore

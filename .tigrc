@@ -11,11 +11,10 @@ bind main    G  none # To override the default keybinding bound to G: https://gi
 bind generic G  move-last-line
 bind generic r refresh
 
-# http://blog.kyanny.me/entry/2012/07/22/033134
 # open commit at github
-bind main o !@hub browse -- commit/%(commit)
-bind diff o !@hub browse -- commit/%(commit)
-bind log  o !@hub browse -- commit/%(commit)
+bind main o !@gh browse -- %(commit)
+bind diff o !@gh browse -- %(commit)
+bind log  o !@gh browse -- %(commit)
 
 # http://sue445.hatenablog.com/entry/2014/08/07/015811
 bind main R !<git rebase -i %(commit)

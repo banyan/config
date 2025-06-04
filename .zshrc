@@ -143,6 +143,7 @@ alias diff='colordiff'
 alias less='less -R'
 alias sed='gsed'
 alias date='gdate'
+alias T='tilex'
 alias tt='tmux new-session \; new-window \; new-window \; new-window \; new-window \; new-window \; new-window \; new-window'
 alias pp='popd'
 alias ocaml='rlwrap ocaml'
@@ -383,3 +384,36 @@ zshaddhistory() {
 cd-gitroot() {
     cd ./$(git rev-parse --show-cdup)
 }
+
+tilex() {
+    local count session="multirun"
+    [[ -z $TMUX ]] && echo "No tmux, no bueno" && return
+    echo
+
+    while (($#)); do
+        case $1 in
+            --) shift; break ;;
+            [0-9]*) count=$1; shift ;;
+            *) echo "Usage: tilex <number> -- <command>"; return 1 ;;
+        esac
+    done
+
+    [[ -z $count || $# -eq 0 ]] && {
+        echo "Usage: tilex <number> -- <command>";
+        return 1;
+    }
+
+    local cmd="$*"
+
+    tmux new-window "$cmd"
+    local target="."
+    local created=1
+
+    for ((i = created; i < count; i++)); do
+        tmux split-window -t "$target" "$cmd" && ((created++))
+    done
+
+    tmux select-layout -t "$target" tiled
+    tmux select-pane -t 0
+}
+

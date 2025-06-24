@@ -267,7 +267,7 @@ ghopen() {
   base=$2
 
   if [ "$#" -eq 0 ]; then
-    return `hub browse`
+    return `gh browse`
   fi
 
   gh="https://github.$(git config remote.origin.url | cut -f2 -d. | tr ':' /)"

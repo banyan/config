@@ -171,6 +171,7 @@ alias g="git"
 alias dic='dc'
 alias m="m"
 alias b='git branch'
+alias ai='aicommits'
 alias k='vim -p `git modified_files`'
 alias c='code `git modified_files`'
 alias -g s='git st'

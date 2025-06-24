@@ -368,11 +368,17 @@ fzf-git-add() {
   while out=$(
       git status --short |
       awk '{if (substr($0,2,1) !~ / /) print $2}' |
-      fzf -m --exit-0 --expect=enter --preview="echo {} | xargs git diff --color"); do
+      fzf -m --exit-0 \
+          --expect=enter \
+          --preview="echo {} | xargs git diff --color" \
+          --preview-window=right:50% \
+          --header='Enter: add selected | Tab: toggle selection'); do
+
     n=$[$(wc -l <<< "$out") - 1]
     addfiles=(`echo $(tail "-$n" <<< "$out")`)
+
     [[ -z "$addfiles" ]] && continue
-    git add $addfiles
+    git add "${addfiles[@]}"
   done
 }
 

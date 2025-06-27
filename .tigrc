@@ -43,6 +43,11 @@ bind main V !<sh -c "code $(git modified_files %(commit))"
 bind diff V !<sh -c "code $(git modified_files %(commit))"
 bind log  V !<sh -c "code $(git modified_files %(commit))"
 
+# Send commit diff to Claude with custom prompt
+bind main c !<sh -c "read -p 'Enter instruction for Claude: ' instruction && git show %(commit) | claude \"$instruction\""
+bind diff c !<sh -c "read -p 'Enter instruction for Claude: ' instruction && git show %(commit) | claude \"$instruction\""
+bind log  c !<sh -c "read -p 'Enter instruction for Claude: ' instruction && git show %(commit) | claude \"$instruction\""
+
 set blame-view = author:full date:default id:yes,color line-number:yes,interval=1 text
 
 bind generic 9 !@sh -c "git rev-parse --short %(commit) | pbcopy"

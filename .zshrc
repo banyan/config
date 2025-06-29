@@ -243,7 +243,25 @@ function pcolor() {
 }
 
 function m() {
-  git checkout `git default-branch`
+  local default_branch=$(git default-branch)
+
+  local main_worktree=$(git worktree list --porcelain | head -1 | grep "^worktree " | cut -d' ' -f2)
+  local current_dir=$(pwd)
+
+  local is_worktree=$(git worktree list --porcelain | grep "^worktree $current_dir$" | grep -v "^worktree $main_worktree$")
+
+  if [ -n "$is_worktree" ]; then
+    local worktree_name=$(basename "$current_dir")
+
+    if [ "$worktree_name" = "main" ]; then
+      cd "$(dirname "$current_dir")"
+      git checkout "$default_branch"
+    else
+      git checkout "$worktree_name/$default_branch"
+    fi
+  else
+    git checkout "$default_branch"
+  fi
 }
 
 function ag_last_argument_then_peco_to_vim() {

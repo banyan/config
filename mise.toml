@@ -1,0 +1,21 @@
+[tasks.setup]
+description = "Create symlinks for dotfiles to home directory"
+run = '''
+#!/bin/bash
+set -e
+
+IGNORE_FILES=".git README.md mise.toml bin"
+BASE_PATH="{{config_root}}"
+
+for file in "$BASE_PATH"/{.*,*}; do
+  filename=$(basename "$file")
+
+  # Skip ignored files
+  [[ " $IGNORE_FILES " =~ " $filename " ]] && continue
+  [[ "$filename" == "." || "$filename" == ".." ]] && continue
+
+  dest="$HOME/$filename"
+  ln -sfn "$file" "$dest"
+  echo "Linked: $filename -> $dest"
+done
+'''

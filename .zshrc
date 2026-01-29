@@ -172,7 +172,7 @@ alias m="m"
 alias b='git branch'
 alias ai='aicommits'
 alias k='vim -p `git modified_files`'
-alias c='code `git modified_files`'
+alias C='code `git modified_files`'
 alias -g s='git st'
 alias d='git diff'
 alias A='fzf-git-add'
@@ -183,13 +183,23 @@ alias pr="gh pr create --web"
 alias pl="git pl"
 alias R="git reset"
 alias -g G='| grep --color'
+alias -g H='| head -n 10'
 alias gm="git modified_files"
 alias yo='git yo'
 alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
+alias w="fzf-git-worktree"
+alias snowsql='/Applications/SnowSQL.app/Contents/MacOS/snowsql'
+
+# Claude
+alias c="~/.claude/local/claude --dangerously-skip-permissions"
+alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 
 # for Mac
 alias there="fcd"
 alias here="open ."
+
+alias python=/usr/bin/python3
+alias pip=/usr/bin/pip3
 
 # Keybindings
 bindkey -e       # emacs 風

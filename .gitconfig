@@ -69,8 +69,13 @@
     insteadOf = https://github.com/
 [fetch]
     git-fetch-with-cli = true
+    prune = true
+    pruneTags = true
+    all = true
 [rebase]
-	autostash = true
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
 [stash]
 	showPatch = true
 [push]
@@ -80,6 +85,11 @@
 	rebase  = true
 [merge]
 	log = true
+[diff]
+    algorithm = histogram
+    ; colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
 [tig "bind"]
     generic = g move-first-line
     generic = G move-last-line
@@ -89,9 +99,9 @@
     process = git-lfs filter-process
     required = true
 [diff "daff-csv"]
-    command = daff diff --git
+	command = daff diff --git
 [merge "daff-csv"]
     name = daff tabular csv merge
-    driver = daff merge --output %A %O %A %B
+	driver = daff merge --output %A %O %A %B
 [init]
 	defaultBranch = main

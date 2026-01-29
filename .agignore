@@ -12,3 +12,6 @@ yarn-error.log
 /.git/
 !.*
 .turbo
+bitmovinplayer.js
+.terraform
+.wrangler

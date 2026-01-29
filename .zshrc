@@ -160,11 +160,10 @@ alias v="vim"
 alias u="cd-gitroot"
 
 # terraform - use cargo-make to handle tfvars easily
-alias ti='cargo make init'
-alias tp='cargo make plan'
-alias ta='cargo make apply'
-alias ts='cargo make show'
-
+alias ti='mise run init'
+alias tp='mise run plan'
+alias ta='mise run apply'
+alias ts='mise run show'
 
 # git
 alias g="git"

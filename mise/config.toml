@@ -1,0 +1,9 @@
+[tools]
+node = "24.12.0"
+"npm:@openai/codex" = "latest"
+"npm:@anthropic-ai/claude-code" = "latest"
+"npm:clawdbot" = "latest"
+"npm:ccusage" = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]

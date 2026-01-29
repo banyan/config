@@ -87,7 +87,6 @@
     log = true
 [diff]
     algorithm      = histogram
-    ; colorMoved   = plain
     mnemonicPrefix = true
     renames        = true
 [tig "bind"]

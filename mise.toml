@@ -32,3 +32,34 @@ deno install --global --allow-run -n git-modified_files https://deno.land/x/git_
 [tasks."install:deno"]
 description = "Install deno via mise"
 run = "mise install deno"
+
+[tasks.vundle]
+description = "Install Vundle for vim"
+run = '''
+#!/bin/bash
+set -e
+VUNDLE_DIR="$HOME/.vim/bundle/Vundle.vim"
+if [ -d "$VUNDLE_DIR" ]; then
+  echo "Vundle already installed, updating..."
+  cd "$VUNDLE_DIR" && git pull
+else
+  echo "Installing Vundle..."
+  git clone https://github.com/VundleVim/Vundle.vim.git "$VUNDLE_DIR"
+fi
+echo "Run 'vim +PluginInstall +qall' to install plugins"
+'''
+
+[tasks.coc]
+description = "Build coc.nvim"
+run = '''
+#!/bin/bash
+set -e
+COC_DIR="$HOME/.vim/bundle/coc.nvim"
+if [ -d "$COC_DIR" ]; then
+  cd "$COC_DIR" && npm ci
+  echo "coc.nvim built successfully"
+else
+  echo "coc.nvim not found. Run 'vim +PluginInstall +qall' first"
+  exit 1
+fi
+'''

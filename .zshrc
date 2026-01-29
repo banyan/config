@@ -74,16 +74,16 @@ ZSH_AUTO_ESCAPE_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co', 'mv', 'ls', '
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#B19CD9"
 
 # prompt
-success_color=$'%{\e[38;5;38m%}'
-failure_color=$'%{\e[38;5;227m%}'
-path_color=$'%{\e[38;5;14m%}'
-vcs_color=$'%{\e[38;5;248m%}'
-stash_color=$'%{\e[38;5;226m%}'
-firebase_color=$'%{\e[38;5;194m%}'
 PROMPT_SYMBOL="❯"
-PROMPT="%(?,%{$success_color%}${PROMPT_SYMBOL}%{$reset_color%},%{$failure_color%}${PROMPT_SYMBOL}%{$reset_color%}) "
-VCS_INFO="%1(v|%{$vcs_color%}%1v%f%F%$reset_color{$stash_color%}%2v%f|)"
-RPROMPT='$reset_color${VCS_INFO}$path_color%}[%~]%{${reset_color}%}'
+
+# Mac mini の場合だけホスト名を表示 + ピンクの ❯
+if [[ "$(hostname)" == *"Mac-mini"* ]]; then
+  PROMPT="%F{248}[mini]%f %(?,%F{213}${PROMPT_SYMBOL}%f,%F{227}${PROMPT_SYMBOL}%f) "
+else
+  PROMPT="%(?,%F{38}${PROMPT_SYMBOL}%f,%F{227}${PROMPT_SYMBOL}%f) "
+fi
+VCS_INFO='%1(v|%F{248}%1v%f%F{226}%2v%f|)'
+RPROMPT='${VCS_INFO}%F{14}[%~]%f'
 
 # Setup options
 setopt APPEND_HISTORY         # .zsh_history を上書きではなく追加
@@ -481,9 +481,6 @@ zinit light-mode for \
 # The next line enables shell command completion for gcloud.
 # if [ -f '~/google-cloud-sdk/completion.zsh.inc' ]; then . '~/google-cloud-sdk/completion.zsh.inc'; fi
 
-
-# deno
-. "$HOME/.deno/env"
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"

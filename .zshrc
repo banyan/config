@@ -342,13 +342,6 @@ function yarn-install () {
 
 export FZF_CTRL_R_OPTS="--prompt=\"History > \""
 
-# for node.js version manager
-eval "`fnm env --multi --use-on-cd --log-level=quiet`" # for # https://github.com/Schniz/fnm
-
-if [ -f "$HOME/.zsh.d/default-chruby" ]; then
-    source "$HOME/.zsh.d/default-chruby"
-fi
-
 # opam configuration
 test -r /Users/banyan/.opam/opam-init/init.zsh && . /Users/banyan/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 

@@ -1,5 +1,6 @@
 [tools]
 node = "24.12.0"
+pnpm = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:clawdbot" = "latest"

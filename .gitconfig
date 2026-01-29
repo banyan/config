@@ -1,14 +1,14 @@
 [user]
-	name  = Kohei Hasegawa
-	email = ameutau@gmail.com
+    name  = Kohei Hasegawa
+    email = ameutau@gmail.com
 [core]
     excludesfile      = ~/.gitignore
     pager             = less -r
     editor            = /usr/bin/vim
-	precomposeunicode = true
+    precomposeunicode = true
     attributesfile    = ~/.gitattributes
-	ignorecase        = false
-	quotepath         = false
+    ignorecase        = false
+    quotepath         = false
 [pager]
     log  = diff-highlight | less
     show = diff-highlight | less
@@ -39,28 +39,28 @@
     implicitIdentity   = false
     detachedHead       = false
 [alias]
-    ci             = commit -v
-    amend          = commit --amend -C HEAD
-    yo             = !git commit -m '.'
-    co             = checkout
-    st             = status -sb
-    d              = diff
-    di             = diff
-    dic            = diff --cached
-    ls             = ls-files
-    b              = branch --color --sort=-authordate
-    sh             = !git-sh
-    dm             = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
-    dmr            = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
-    p              = !git push origin `git rev-parse --abbrev-ref HEAD`
-    pl             = !git pull origin `git rev-parse --abbrev-ref HEAD`
-    f              = fetch
-    default-branch = "!sh -c \"git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'\""
+    ci                = commit -v
+    amend             = commit --amend -C HEAD
+    yo                = !git commit -m '.'
+    co                = checkout
+    st                = status -sb
+    d                 = diff
+    di                = diff
+    dic               = diff --cached
+    ls                = ls-files
+    b                 = branch --color --sort=-authordate
+    sh                = !git-sh
+    dm                = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
+    dmr               = fetch -n --prune origin refs/heads/*:refs/remotes/origin/* refs/tags/*:refs/tags/origin/*
+    p                 = !git push origin `git rev-parse --abbrev-ref HEAD`
+    pl                = !git pull origin `git rev-parse --abbrev-ref HEAD`
+    f                 = fetch
+    default-branch    = "!sh -c \"git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'\""
     remove-all-branch = !git branch --list | grep -v \"^* $(git branch --show-current)$\" | xargs git branch -D
-    bc             = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
-    fpr            = "!f() { git fetch origin pull/$1/head:pr/$1; }; f"
-    sha            = !git log --pretty=format:'%h' -n 1
-    compare        = "!function git_is_ancestor() { if git merge-base --is-ancestor $1 $2; then echo \"$1 is ancestor of $2\" ; elif git merge-base --is-ancestor $2 $1 ; then echo \"$2 is ancestor of $1\" ; else echo \"No relation between $1 and $2\" ; fi } ; git_is_ancestor $1 $2"
+    bc                = !git commit -m \"`git rev-parse --abbrev-ref HEAD | ruby -e \"print STDIN.read.strip.gsub('-', ' ').capitalize\"`\"
+    fpr               = "!f() { git fetch origin pull/$1/head:pr/$1; }; f"
+    sha               = !git log --pretty=format:'%h' -n 1
+    compare           = "!function git_is_ancestor() { if git merge-base --is-ancestor $1 $2; then echo \"$1 is ancestor of $2\" ; elif git merge-base --is-ancestor $2 $1 ; then echo \"$2 is ancestor of $1\" ; else echo \"No relation between $1 and $2\" ; fi } ; git_is_ancestor $1 $2"
 [url "https://github.com/rust-lang/crates.io-index"]
     insteadOf = https://github.com/rust-lang/crates.io-index
 [url "https://"]
@@ -69,39 +69,39 @@
     insteadOf = https://github.com/
 [fetch]
     git-fetch-with-cli = true
-    prune = true
-    pruneTags = true
-    all = true
+    prune              = true
+    pruneTags          = true
+    all                = true
 [rebase]
     autoSquash = true
-    autoStash = true
+    autoStash  = true
     updateRefs = true
 [stash]
-	showPatch = true
+    showPatch = true
 [push]
-	default = simple
+    default = simple
 [pull]
-	default = simple
-	rebase  = true
+    default = simple
+    rebase  = true
 [merge]
-	log = true
+    log = true
 [diff]
-    algorithm = histogram
-    ; colorMoved = plain
+    algorithm      = histogram
+    ; colorMoved   = plain
     mnemonicPrefix = true
-    renames = true
+    renames        = true
 [tig "bind"]
     generic = g move-first-line
     generic = G move-last-line
 [filter "lfs"]
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-process
+    clean    = git-lfs clean -- %f
+    smudge   = git-lfs smudge -- %f
+    process  = git-lfs filter-process
     required = true
 [diff "daff-csv"]
-	command = daff diff --git
+    command = daff diff --git
 [merge "daff-csv"]
-    name = daff tabular csv merge
-	driver = daff merge --output %A %O %A %B
+    name   = daff tabular csv merge
+    driver = daff merge --output %A %O %A %B
 [init]
-	defaultBranch = main
+    defaultBranch = main

@@ -28,3 +28,6 @@ macos-icon-screen-color = cyan
 confirm-close-surface = false
 
 keybind = ctrl+I=ignore
+
+auto-update = off
+

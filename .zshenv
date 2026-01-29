@@ -102,4 +102,5 @@ export _JAVA_OPTIONS=""
 if [ -f "$HOME/.zsh.d/local.zshenv" ]; then
     source "$HOME/.zsh.d/local.zshenv"
 fi
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -f "$HOME/.deno/env" ] && . "$HOME/.deno/env"

@@ -69,7 +69,8 @@ fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
 zinit cdreplay -q
 
-ZSH_AUTO_ESCAPE_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co', 'mv', 'ls', 'ls -la', 'git ci')
+ZSH_AUTO_ESCAPE_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co', 'mv', 'ls', 'ls -la', 'jest')
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#B19CD9"
 
 # prompt
 success_color=$'%{\e[38;5;38m%}'

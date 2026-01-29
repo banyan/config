@@ -1,1 +1,2 @@
-RUBYOPT="-r`noexec`"
+. "$HOME/.cargo/env"
+. "$HOME/.deno/env"

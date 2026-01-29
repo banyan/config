@@ -39,6 +39,7 @@ function _zshenv_add_path() {
 export GIT_MERGE_AUTOEDIT=no
 
 export PATH=
+_zshenv_add_path PATH "$HOME/.local/share/mise/shims"
 _zshenv_add_path PATH "$HOME/bin"
 _zshenv_add_path PATH "$HOME/git/config/bin/*" # git で管理する bin
 _zshenv_add_path PATH "$HOME/sbin"
@@ -72,6 +73,10 @@ _zshenv_add_path PATH "$HOME/.nodebrew/current/bin"
 _zshenv_add_path PATH "$HOME/.cabal/bin"
 _zshenv_add_path PATH "$HOME/perl5/lib/perl5"
 _zshenv_add_path PATH "/usr/local/heroku/bin"
+_zshenv_add_path PATH "$HOME/.deno/bin"
+_zshenv_add_path PATH "/opt/homebrew/opt/openjdk@11/bin"
+_zshenv_add_path PATH "$HOME/.bun/bin"
+_zshenv_add_path PATH "$HOME/.local/bin"
 
 export CPATH=
 _zshenv_add_path CPATH "/usr/local/include"
@@ -79,6 +84,7 @@ _zshenv_add_path CPATH "/opt/local/include"
 _zshenv_add_path CPATH "/opt/include"
 
 export NODE_PATH='/usr/local/share/npm/lib/node_modules'
+export CPPFLAGS="-I/opt/homebrew/opt/openjdk@11/include"
 
 if [ -x "`which go`" ]; then
   export GOPATH=$HOME/go
@@ -88,13 +94,12 @@ fi
 #export JAVA_HOME=/usr/java/default
 #export PATH=$PATH:$JAVA_HOME/bin
 #export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
-
 #export JRUBY_HOME=/usr/local/lib/jruby
 #export PATH=$JRUBY_HOME/bin:$PATH
-
-export _JAVA_OPTIONS="-Djava.io.tmpdir=$HOME/tmp"
+export _JAVA_OPTIONS=""
 
 # load local.zshenv
 if [ -f "$HOME/.zsh.d/local.zshenv" ]; then
     source "$HOME/.zsh.d/local.zshenv"
 fi
+. "$HOME/.cargo/env"

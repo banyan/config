@@ -64,6 +64,7 @@ zinit wait lucid blockf light-mode for \
 zinit light banyan/firebase-zsh
 zinit load agkozak/zsh-z
 zinit light banyan/zsh-auto-escape
+zinit light banyan/zsh-fzf-git-worktree
 
 fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
@@ -82,7 +83,7 @@ firebase_color=$'%{\e[38;5;194m%}'
 PROMPT_SYMBOL="❯"
 PROMPT="%(?,%{$success_color%}${PROMPT_SYMBOL}%{$reset_color%},%{$failure_color%}${PROMPT_SYMBOL}%{$reset_color%}) "
 VCS_INFO="%1(v|%{$vcs_color%}%1v%f%F%$reset_color{$stash_color%}%2v%f|)"
-RPROMPT='%{$firebase_color%}$(firebase_project square)$reset_color${VCS_INFO}$path_color%}[%~]%{${reset_color}%}'
+RPROMPT='$reset_color${VCS_INFO}$path_color%}[%~]%{${reset_color}%}'
 
 # Setup options
 setopt APPEND_HISTORY         # .zsh_history を上書きではなく追加
@@ -189,7 +190,6 @@ alias gm="git modified_files"
 alias yo='git yo'
 alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
 alias w="fzf-git-worktree"
-alias snowsql='/Applications/SnowSQL.app/Contents/MacOS/snowsql'
 
 # Claude
 alias c="~/.claude/local/claude --dangerously-skip-permissions"
@@ -215,6 +215,32 @@ limit coredumpsize 102400
 # default  : ls /usr/local → ls /usr/ → ls /usr → ls /
 # この設定 : ls /usr/local → ls /usr/ → ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+function is_firebase_project() {
+	local firebase_dir=$(get_firebase_dir)
+	if [[ -n $firebase_dir ]]
+	then
+		echo 1
+	fi
+}
+
+function get_firebase_dir() {
+	local dir="$(pwd)"
+
+	# Keep checking up, we may be in a subdir
+	while [[ $dir != '/' ]]
+	do
+		local target="$dir/firebase.json"
+
+		if [[ -e $target ]]
+		then
+				echo $dir
+				break
+		else
+				dir=$(dirname ${dir:A})
+		fi
+	done
+}
 
 # switch firebase project
 function fx() {
@@ -306,7 +332,6 @@ ghopen() {
 }
 
 export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border -x --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up'
-export FZF_DEFAULT_COMMAND='fd --type f'
 
 [ -f ~/.zsh.d/.fzf.zsh ] && source ~/.zsh.d/.fzf.zsh
 
@@ -343,7 +368,32 @@ function yarn-install () {
 export FZF_CTRL_R_OPTS="--prompt=\"History > \""
 
 # opam configuration
-test -r /Users/banyan/.opam/opam-init/init.zsh && . /Users/banyan/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+function gcloud-activate() {
+  name="$1"
+  project="$2"
+  echo "gcloud config configurations activate \"${name}\""
+  gcloud config configurations activate "${name}"
+}
+
+function gx-complete() {
+  _values $(gcloud config configurations list | awk '{print $1}')
+}
+
+function gx() {
+  name="$1"
+  if [ -z "$name" ]; then
+    line=$(gcloud config configurations list | peco)
+    name=$(echo "${line}" | awk '{print $1}')
+  else
+    line=$(gcloud config configurations list | grep "$name")
+  fi
+  project=$(echo "${line}" | awk '{print $4}')
+  gcloud-activate "${name}" "${project}"
+}
+
+compdef gx-complete gx
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -413,35 +463,34 @@ cd-gitroot() {
     cd ./$(git rev-parse --show-cdup)
 }
 
-tilex() {
-    local count session="multirun"
-    [[ -z $TMUX ]] && echo "No tmux, no bueno" && return
-    echo
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
 
-    while (($#)); do
-        case $1 in
-            --) shift; break ;;
-            [0-9]*) count=$1; shift ;;
-            *) echo "Usage: tilex <number> -- <command>"; return 1 ;;
-        esac
-    done
+### End of Zinit's installer chunk
 
-    [[ -z $count || $# -eq 0 ]] && {
-        echo "Usage: tilex <number> -- <command>";
-        return 1;
-    }
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-    local cmd="$*"
+# The next line updates PATH for the Google Cloud SDK.
+# if [ -f '~/google-cloud-sdk/path.zsh.inc' ]; then . '~/google-cloud-sdk/path.zsh.inc'; fi
 
-    tmux new-window "$cmd"
-    local target="."
-    local created=1
+# The next line enables shell command completion for gcloud.
+# if [ -f '~/google-cloud-sdk/completion.zsh.inc' ]; then . '~/google-cloud-sdk/completion.zsh.inc'; fi
 
-    for ((i = created; i < count; i++)); do
-        tmux split-window -t "$target" "$cmd" && ((created++))
-    done
 
-    tmux select-layout -t "$target" tiled
-    tmux select-pane -t 0
-}
+# deno
+. "$HOME/.deno/env"
 
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# mise
+eval "$(~/.local/bin/mise activate zsh)"

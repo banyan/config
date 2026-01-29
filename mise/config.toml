@@ -1,5 +1,6 @@
 [tools]
 node = "24.12.0"
+deno = "latest"
 pnpm = "latest"
 fzf = "latest"
 "npm:@openai/codex" = "latest"

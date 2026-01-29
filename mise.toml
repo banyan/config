@@ -19,3 +19,16 @@ for file in "$BASE_PATH"/{.*,*}; do
   echo "Linked: $filename -> $dest"
 done
 '''
+
+[tasks.deno-scripts]
+description = "Install deno scripts"
+depends = ["install:deno"]
+run = '''
+#!/bin/bash
+set -e
+deno install --global --allow-run -n git-modified_files https://deno.land/x/git_modified_files@0.1.4/main.ts
+'''
+
+[tasks."install:deno"]
+description = "Install deno via mise"
+run = "mise install deno"

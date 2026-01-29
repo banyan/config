@@ -15,41 +15,44 @@
   set nocompatible " we're running Vim, not Vi!
   filetype off     " disable file type detection
 
-  set rtp+=~/.vim/vundle/
-  call vundle#rc()
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
+
+  Plugin 'VundleVim/Vundle.vim'
 
   """ repos on vim.org {{{
-    Bundle 'yanktmp.vim'
-    Bundle 'mru.vim'
-    Bundle 'The-NERD-Commenter'
-    Bundle 'eregex.vim'
-    Bundle 'Align'
-    Bundle 'endwise.vim'
+    Plugin 'yanktmp.vim'
+    Plugin 'mru.vim'
+    Plugin 'The-NERD-Commenter'
+    Plugin 'eregex.vim'
+    Plugin 'Align'
+    Plugin 'endwise.vim'
   """ }}}
 
   """ repos on github {{{
-    Bundle 'h1mesuke/vim-alignta'
-    Bundle 'neoclide/coc.nvim'
-    Bundle 'thinca/vim-visualstar'
-    Bundle 'vim-es6'
-    Bundle 'tsaleh/vim-tmux'
-    Bundle 'kchmck/vim-coffee-script'
-    Bundle 'nathanaelkane/vim-indent-guides'
-    Bundle 'L9'
-    Bundle 'ctrlpvim/ctrlp.vim'
-    Bundle 'banyan/banyan.vim'
-    Bundle 'banyan/recognize_charcode.vim'
-    Bundle 'hallison/vim-markdown'
-    Bundle 'elzr/vim-json'
-    Bundle 'bling/vim-airline'
-    Bundle 'dyng/ctrlsf.vim'
-    Bundle 'maxbrunsfeld/vim-yankstack'
-    Bundle 'cespare/vim-toml'
-    Bundle 'vim-airline/vim-airline-themes'
-    Bundle 'leafgarland/typescript-vim'
-    Bundle "mxw/vim-jsx"
+    Plugin 'h1mesuke/vim-alignta'
+    Plugin 'neoclide/coc.nvim'
+    Plugin 'thinca/vim-visualstar'
+    Plugin 'vim-es6'
+    Plugin 'tsaleh/vim-tmux'
+    Plugin 'kchmck/vim-coffee-script'
+    Plugin 'nathanaelkane/vim-indent-guides'
+    Plugin 'L9'
+    Plugin 'ctrlpvim/ctrlp.vim'
+    Plugin 'banyan/banyan.vim'
+    Plugin 'banyan/recognize_charcode.vim'
+    Plugin 'hallison/vim-markdown'
+    Plugin 'elzr/vim-json'
+    Plugin 'bling/vim-airline'
+    Plugin 'dyng/ctrlsf.vim'
+    Plugin 'maxbrunsfeld/vim-yankstack'
+    Plugin 'cespare/vim-toml'
+    Plugin 'vim-airline/vim-airline-themes'
+    Plugin 'leafgarland/typescript-vim'
+    Plugin 'mxw/vim-jsx'
   " }}}
 
+  call vundle#end()
   syntax on
   filetype on        " enable filetype detection
   filetype indent on " enable filetype-specific indenting

@@ -78,7 +78,7 @@ PROMPT_SYMBOL="❯"
 
 # Mac mini の場合だけホスト名を表示 + ピンクの ❯
 if [[ "$(hostname)" == *"Mac-mini"* ]]; then
-  PROMPT="%F{248}[mini]%f %(?,%F{213}${PROMPT_SYMBOL}%f,%F{227}${PROMPT_SYMBOL}%f) "
+  PROMPT="%F{158}[mini]%f %(?,%F{213}${PROMPT_SYMBOL}%f,%F{227}${PROMPT_SYMBOL}%f) "
 else
   PROMPT="%(?,%F{38}${PROMPT_SYMBOL}%f,%F{227}${PROMPT_SYMBOL}%f) "
 fi

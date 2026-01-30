@@ -1,7 +1,8 @@
 [tools]
 node = "24.12.0"
 deno = "latest"
-
+neovim = "latest"
+fzf = "latest"
 pnpm = "latest"
 
 "npm:@anthropic-ai/claude-code" = "latest"

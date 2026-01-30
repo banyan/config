@@ -7,7 +7,6 @@ pnpm = "latest"
 
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@openai/codex" = "latest"
-"npm:clawdbot" = "latest"
 "npm:ccusage" = "latest"
 
 [settings]

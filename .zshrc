@@ -471,6 +471,13 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
+if [[ -n "$SSH_CONNECTION" ]]; then
+  pbcopy() {
+    local input=$(cat)
+    printf "\e]52;c;%s\a" "$(echo -n "$input" | base64)"
+  }
+fi
+
 ### End of Zinit's installer chunk
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

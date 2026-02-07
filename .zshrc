@@ -192,7 +192,7 @@ alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
 alias w="fzf-git-worktree"
 
 # Claude
-alias c="~/.claude/local/claude --dangerously-skip-permissions"
+alias c="claude --dangerously-skip-permissions"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 
 # for Mac

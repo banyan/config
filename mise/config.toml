@@ -10,5 +10,7 @@ uv = "latest"
 "npm:@openai/codex" = "latest"
 "npm:ccusage" = "latest"
 
+"pipx:beko-translate" = "latest"
+
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

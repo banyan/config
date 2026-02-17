@@ -4,6 +4,7 @@ deno = "latest"
 neovim = "latest"
 fzf = "latest"
 pnpm = "latest"
+uv = "latest"
 
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@openai/codex" = "latest"

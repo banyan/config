@@ -13,7 +13,8 @@ font-size = 18
 
 background-opacity = 0.85
 macos-titlebar-proxy-icon = hidden
-macos-titlebar-style = hidden
+macos-titlebar-style = transparent
+title = " "
 
 mouse-hide-while-typing = true
 cursor-style-blink = false

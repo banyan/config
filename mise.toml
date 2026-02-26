@@ -70,17 +70,3 @@ fi
 echo "Run 'vim +PluginInstall +qall' to install plugins"
 '''
 
-[tasks.coc]
-description = "Build coc.nvim"
-run = '''
-#!/bin/bash
-set -e
-COC_DIR="$HOME/.vim/bundle/coc.nvim"
-if [ -d "$COC_DIR" ]; then
-  cd "$COC_DIR" && npm ci
-  echo "coc.nvim built successfully"
-else
-  echo "coc.nvim not found. Run 'vim +PluginInstall +qall' first"
-  exit 1
-fi
-'''

@@ -1,6 +1,3 @@
-[tools]
-neovim = "latest"
-
 [tasks.setup]
 description = "Create symlinks for dotfiles to home directory"
 run = '''

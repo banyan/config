@@ -156,7 +156,8 @@ alias cat='bat'
 alias chrome='open -a "Google Chrome.app"'
 alias tree='tree -N'
 alias ag="ag --hidden"
-alias v="vim"
+alias v="nvim"
+alias vi="nvim"
 alias u="cd-gitroot"
 
 # terraform - use cargo-make to handle tfvars easily
@@ -171,7 +172,7 @@ alias dic='dc'
 alias m="m"
 alias b='git branch'
 alias ai='aicommits'
-alias k='vim -p `git modified_files`'
+alias k='nvim -p `git modified_files`'
 alias C='code `git modified_files`'
 alias -g s='git st'
 alias d='git diff'

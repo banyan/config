@@ -5,14 +5,14 @@
 # Complement
 typeset -U fpath
 
-# 履歴による予測入力 (man zshcontrib)
+# Predictive input from history (man zshcontrib)
 autoload -U predict-on
 
-# 補完候補を ←↓↑→ で選択 (補完候補が色分け表示される)
+# Select completion candidates with arrow keys (candidates are colorized)
 zstyle ':completion:*:default' menu select=1
-# 補完の時に大文字小文字を区別しない (但し、大文字を打った場合は小文字に変換しない)
+# Ignore case during completion (but keep uppercase letters as typed)
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-# カレントディレクトリに候補がない場合のみ cdpath 上のディレクトリを候補
+# Only include directories on cdpath when no local candidates exist
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*' list-colors 'di=;00;38;05;44' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=00;38;05;44' 'cd=00;38;05;44'
 
@@ -76,7 +76,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#B19CD9"
 # prompt
 PROMPT_SYMBOL="❯"
 
-# Mac mini の場合だけホスト名を表示 + ピンクの ❯
+# Show hostname + pink ❯ only on Mac mini
 if [[ "$(hostname)" == *"Mac-mini"* ]]; then
   PROMPT="%F{158}[mini]%f %(?,%F{213}${PROMPT_SYMBOL}%f,%F{227}${PROMPT_SYMBOL}%f) "
 else
@@ -86,37 +86,37 @@ VCS_INFO='%1(v|%F{248}%1v%f%F{226}%2v%f|)'
 RPROMPT='${VCS_INFO}%F{14}[%~]%f'
 
 # Setup options
-setopt APPEND_HISTORY         # .zsh_history を上書きではなく追加
-setopt AUTO_CD                # ディレクトリ名だけを入力した時にそこに cd する
-setopt AUTO_LIST              # 候補が複数ある時に自動的に一覧を出す
-setopt AUTO_MENU              # TAB で順に補完候補を切り替える
-setopt AUTO_PARAM_SLASH       # 変数名補完時に、その値がディレクトリ名なら直後にスラッシュも補う
-setopt AUTO_PARAM_KEYS        # カッコの対応などを自動的に補完
-setopt AUTO_RESUME            # サスペンド中のプロセスと同じコマンド名を実行した場合はリジューム
-setopt CHECK_JOBS             # シェルを抜ける (exit) 時に、zsh: you have runnning jobs と警告を出す
-setopt CORRECT                # コマンドのスペルチェック
-setopt EXTENDED_GLOB          # ファイル名で #, ~, ^ の 3 文字を正規表現として扱う
-setopt EXTENDED_HISTORY       # zsh の開始, 終了時刻をヒストリファイルに書き込む
-setopt GLOB_DOTS              # . で開始するファイル名にマッチさせるとき、先頭に明示的に . を指定する必要がなくなる。
-setopt HASH_CMDS              # 各コマンドが実行されるときにパスをハッシュに入れる
-setopt HIST_EXPIRE_DUPS_FIRST # ヒストリリストに追加されるコマンド行が古いものと同じなら古いものを削除する
-setopt HIST_NO_STORE          # history コマンドを history に保存しない
-setopt HIST_IGNORE_ALL_DUPS   # 履歴が重複した場合に古い履歴を削除する
-setopt HIST_IGNORE_DUPS       # 直前と同じコマンドをヒストリに追加しない
-setopt HIST_REDUCE_BLANKS     # 余分な空白は詰めて記録
-setopt HIST_SAVE_NO_DUPS      # ヒストリファイルに書き出すときに、古いコマンドと同じものは無視する
-setopt INC_APPEND_HISTORY     # 履歴をインクリメンタルに追加
-setopt LIST_TYPES             # 補完候補一覧でファイルの種別をマーク表示
-setopt MARK_DIRS              # ファイル名の展開でディレクトリにマッチした場合 末尾に / を付加
-setopt NUMERIC_GLOB_SORT      # 数字を数値と解釈してソートする
-setopt NOBEEP                 # ビープを鳴らさない
+setopt APPEND_HISTORY         # Append to .zsh_history instead of overwriting
+setopt AUTO_CD                # Run cd when only a directory name is entered
+setopt AUTO_LIST              # Automatically list candidates when multiple matches exist
+setopt AUTO_MENU              # Cycle completion candidates with TAB
+setopt AUTO_PARAM_SLASH       # Append slash if a completed variable value is a directory
+setopt AUTO_PARAM_KEYS        # Auto-complete matching parentheses and similar pairs
+setopt AUTO_RESUME            # Resume suspended process when command name matches
+setopt CHECK_JOBS             # Warn on exit if there are running jobs
+setopt CORRECT                # Command spell-checking
+setopt EXTENDED_GLOB          # Treat #, ~, ^ as pattern characters in filenames
+setopt EXTENDED_HISTORY       # Save zsh start/end timestamps in the history file
+setopt GLOB_DOTS              # Match dotfiles without requiring an explicit leading dot
+setopt HASH_CMDS              # Hash command paths as commands are executed
+setopt HIST_EXPIRE_DUPS_FIRST # Expire older entries first when duplicates exist
+setopt HIST_NO_STORE          # Do not store the history command itself
+setopt HIST_IGNORE_ALL_DUPS   # Remove older duplicate history entries
+setopt HIST_IGNORE_DUPS       # Do not add a command if it matches the previous one
+setopt HIST_REDUCE_BLANKS     # Trim extra spaces before saving history
+setopt HIST_SAVE_NO_DUPS      # Skip duplicates when writing the history file
+setopt INC_APPEND_HISTORY     # Append history incrementally
+setopt LIST_TYPES             # Show file type markers in completion lists
+setopt MARK_DIRS              # Append / when filename expansion matches a directory
+setopt NUMERIC_GLOB_SORT      # Sort numbers numerically
+setopt NOBEEP                 # Disable beep
 setopt NO_FLOW_CONTROL        # disable C-q, C-s
-setopt PROMPT_SUBST           # PROMPT 変数に対して変数展開、コマンド置換、算術展開を施す
-setopt SHARE_HISTORY          # 履歴の共有
-setopt AUTOPUSHD              # cd 時に自動で push
-setopt PUSHD_IGNORE_DUPS      # 同じディレクトリを pushd しない
-setopt TRANSIENT_RPROMPT      # 現在のステータスの RPROMPT だけを表示する
-unsetopt CORRECT_ALL          # 対象のファイルもスペルチェックをする
+setopt PROMPT_SUBST           # Enable parameter, command, and arithmetic expansion in PROMPT
+setopt SHARE_HISTORY          # Share history across shells
+setopt AUTOPUSHD              # Automatically push directories when running cd
+setopt PUSHD_IGNORE_DUPS      # Do not push duplicate directories with pushd
+setopt TRANSIENT_RPROMPT      # Show only the current-status RPROMPT
+unsetopt CORRECT_ALL          # Do not spell-check arguments/files
 
 # Setup vars
 export LANG=ja_JP.UTF-8
@@ -203,17 +203,17 @@ alias python=/usr/bin/python3
 alias pip=/usr/bin/pip3
 
 # Keybindings
-bindkey -e       # emacs 風
-# カーソル位置から前方削除
+bindkey -e       # emacs-style keybindings
+# Delete backward from the cursor position
 # override kill-whole-line
 bindkey '^U' backward-kill-line
 
 # Misc
-# コアダンプサイズを制限
+# Limit core dump size
 limit coredumpsize 102400
-# ls /usr/local/etc などと打っている際に、C-w で単語ごとに削除
+# While typing (e.g. ls /usr/local/etc), let C-w delete by path segment
 # default  : ls /usr/local → ls /usr/ → ls /usr → ls /
-# この設定 : ls /usr/local → ls /usr/ → ls /
+# With this setting: ls /usr/local -> ls /usr/ -> ls /
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 function is_firebase_project() {
@@ -267,7 +267,7 @@ function dc() {
     git diff --cached $opt
 }
 
-# 256色を確かめる
+# Check 256 colors
 function pcolor() {
     for ((f = 0; f < 255; f++)); do
         printf "\e[38;5;%dm %3d#\e[m" $f $f

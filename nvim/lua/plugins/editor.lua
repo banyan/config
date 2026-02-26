@@ -63,4 +63,11 @@ return {
     end,
   },
   { "banyan/recognize_charcode.vim" },
+  {
+    "y3owk1n/undo-glow.nvim",
+    event = { "BufReadPost" },
+    config = function()
+      require("undo-glow").setup()
+    end,
+  },
 }

@@ -38,6 +38,7 @@ opt.writebackup = false
 opt.directory:prepend(vim.fn.expand("~/.tmp//"))
 
 -- UI
+opt.mouse = ""
 opt.number = true
 opt.ruler = true
 opt.list = false

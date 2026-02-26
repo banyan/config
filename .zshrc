@@ -317,18 +317,19 @@ function agv () {
 }
 
 ghopen() {
-  file=$1
-  base=$2
-
   if [ "$#" -eq 0 ]; then
-    return `gh browse`
+    gh browse
+    return
   fi
 
-  gh="https://github.$(git config remote.origin.url | cut -f2 -d. | tr ':' /)"
-  repo_name=`echo $gh | awk -F '/' 'END{print $NF}'` # get last field by using awk
-  current_dir=${0:a:h} # get real dir name over symlink
-  complementaly_path=`echo $current_dir | awk -F $repo_name 'END{print $NF}'`
-  open "${gh}/blob/${base:=`git sha`}${complementaly_path}/${file}"
+  local file=$1
+  local ref=${2:-$(git rev-parse HEAD)}
+  local remote_url=$(git remote get-url origin)
+  local gh_url="https://github.com/$(echo $remote_url | sed 's|.*github.com[:/]||' | sed 's|\.git$||')"
+  local repo_root=$(git rev-parse --show-toplevel)
+  local relative_path="${PWD#$repo_root}"
+
+  open "${gh_url}/blob/${ref}${relative_path}/${file}"
 }
 
 export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border -x --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up'

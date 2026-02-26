@@ -54,3 +54,27 @@ ln -sfn "{{config_root}}/nvim" "$HOME/.config/nvim"
 echo "Linked: nvim -> $HOME/.config/nvim"
 '''
 
+[tasks.cleanup]
+description = "Remove symlinks in home that point to this repo but whose targets no longer exist"
+run = '''
+#!/bin/bash
+set -e
+
+BASE_PATH="{{config_root}}"
+removed=0
+
+for link in "$HOME"/{.*,*}; do
+  [[ -L "$link" ]] || continue
+  target=$(readlink "$link")
+  [[ "$target" == "$BASE_PATH"* ]] || continue
+
+  if [[ ! -e "$link" ]]; then
+    echo "Removing orphaned symlink: $(basename "$link") -> $target"
+    rm "$link"
+    ((removed++))
+  fi
+done
+
+echo "Done. Removed $removed orphaned symlink(s)."
+'''
+

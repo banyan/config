@@ -1,4 +1,0 @@
-#! /bin/sh
-
-tmux save-buffer /tmp/.tmux_to_pbcopy
-cat /tmp/.tmux_to_pbcopy | pbcopy

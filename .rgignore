@@ -10,7 +10,6 @@ debug.log
 yarn-error.log
 /node_modules
 /.git/
-!.*
 .turbo
 bitmovinplayer.js
 .terraform

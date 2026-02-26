@@ -155,7 +155,7 @@ alias tl='tldr'
 alias cat='bat'
 alias chrome='open -a "Google Chrome.app"'
 alias tree='tree -N'
-alias ag="ag --hidden"
+alias rg="rg --hidden"
 alias v="nvim"
 alias vi="nvim"
 alias u="cd-gitroot"
@@ -300,20 +300,20 @@ function m() {
   fi
 }
 
-function ag_last_argument_then_peco_to_vim() {
+function rg_last_argument_then_peco_to_vim() {
     last_command=$history[$[HISTCMD-1]];
     last_command_array=("${(s/ /)last_command}")
-    vim `ag $@ $last_command_array[-1] | peco | awk -F : '{print "-c " $2 " " $1}'`
+    vim `rg $@ $last_command_array[-1] | peco | awk -F : '{print "-c " $2 " " $1}'`
 }
 
-function ag_last_argument_then_peco_to_vim_all() {
+function rg_last_argument_then_peco_to_vim_all() {
     last_command=$history[$[HISTCMD-1]];
     last_command_array=("${(s/ /)last_command}")
-    vim -p `ag -l $last_command_array[-1]`
+    vim -p `rg -l $last_command_array[-1]`
 }
 
-function agv () {
-  vim $(ag $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
+function rgv () {
+  vim $(rg $@ | peco --query "$LBUFFER" | awk -F : '{print "-c " $2 " " $1}')
 }
 
 ghopen() {

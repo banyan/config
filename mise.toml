@@ -1,10 +1,13 @@
+[tools]
+neovim = "latest"
+
 [tasks.setup]
 description = "Create symlinks for dotfiles to home directory"
 run = '''
 #!/bin/bash
 set -e
 
-IGNORE_FILES=".git README.md mise.toml bin"
+IGNORE_FILES=".git README.md mise.toml bin nvim"
 BASE_PATH="{{config_root}}"
 
 for file in "$BASE_PATH"/{.*,*}; do
@@ -32,6 +35,17 @@ deno install --global --allow-run -n git-modified_files https://deno.land/x/git_
 [tasks."install:deno"]
 description = "Install deno via mise"
 run = "mise install deno"
+
+[tasks."install:nvim"]
+description = "Install neovim via mise and create ~/.config/nvim symlink"
+run = '''
+#!/bin/bash
+set -e
+mise install neovim
+mkdir -p "$HOME/.config"
+ln -sfn "{{config_root}}/nvim" "$HOME/.config/nvim"
+echo "Linked: nvim -> $HOME/.config/nvim"
+'''
 
 [tasks.vundle]
 description = "Install Vundle for vim"

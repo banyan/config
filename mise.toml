@@ -54,19 +54,3 @@ ln -sfn "{{config_root}}/nvim" "$HOME/.config/nvim"
 echo "Linked: nvim -> $HOME/.config/nvim"
 '''
 
-[tasks.vundle]
-description = "Install Vundle for vim"
-run = '''
-#!/bin/bash
-set -e
-VUNDLE_DIR="$HOME/.vim/bundle/Vundle.vim"
-if [ -d "$VUNDLE_DIR" ]; then
-  echo "Vundle already installed, updating..."
-  cd "$VUNDLE_DIR" && git pull
-else
-  echo "Installing Vundle..."
-  git clone https://github.com/VundleVim/Vundle.vim.git "$VUNDLE_DIR"
-fi
-echo "Run 'vim +PluginInstall +qall' to install plugins"
-'''
-

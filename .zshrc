@@ -190,9 +190,10 @@ alias yo='git yo'
 alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
 alias w="fzf-git-worktree"
 
-# Claude
+# LLMs
 alias c="claude --dangerously-skip-permissions"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
+alias gemini="gemini --yolo"
 
 # for Mac
 alias there="fcd"

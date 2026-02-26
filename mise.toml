@@ -1,4 +1,4 @@
-[tasks.setup]
+[tasks."install:dotfiles"]
 description = "Create symlinks for dotfiles to home directory"
 run = '''
 #!/bin/bash
@@ -53,6 +53,10 @@ mkdir -p "$HOME/.config"
 ln -sfn "{{config_root}}/nvim" "$HOME/.config/nvim"
 echo "Linked: nvim -> $HOME/.config/nvim"
 '''
+
+[tasks.setup]
+description = "Run all setup tasks (dotfiles, nvim, ghostty, deno)"
+depends = ["install:dotfiles", "install:nvim", "install:ghostty", "deno-scripts"]
 
 [tasks.cleanup]
 description = "Remove symlinks in home that point to this repo but whose targets no longer exist"

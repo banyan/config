@@ -8,14 +8,19 @@ git clone https://github.com/banyan/config ~/git/config
 cd ~/git/config
 git submodule update --init --recursive
 
-# Symlink dotfiles into $HOME
+# Run all setup tasks (dotfiles, nvim, ghostty, deno)
 mise run setup
-
-# Optional
-mise run install:nvim
-mise run install:ghostty
-mise run deno-scripts
 ```
+
+### Individual tasks
+
+| Task | Description |
+|------|-------------|
+| `mise run install:dotfiles` | Symlink dotfiles into `$HOME` |
+| `mise run install:nvim` | Install neovim and symlink `~/.config/nvim` |
+| `mise run install:ghostty` | Symlink `~/.config/ghostty` |
+| `mise run deno-scripts` | Install deno global scripts |
+| `mise run cleanup` | Remove orphaned symlinks |
 
 ## Notes
 

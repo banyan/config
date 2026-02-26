@@ -7,7 +7,7 @@ run = '''
 #!/bin/bash
 set -e
 
-IGNORE_FILES=".git README.md mise.toml bin nvim"
+IGNORE_FILES=".git README.md mise.toml bin nvim ghostty"
 BASE_PATH="{{config_root}}"
 
 for file in "$BASE_PATH"/{.*,*}; do
@@ -35,6 +35,16 @@ deno install --global --allow-run -n git-modified_files https://deno.land/x/git_
 [tasks."install:deno"]
 description = "Install deno via mise"
 run = "mise install deno"
+
+[tasks."install:ghostty"]
+description = "Create ~/.config/ghostty symlink"
+run = '''
+#!/bin/bash
+set -e
+mkdir -p "$HOME/.config"
+ln -sfn "{{config_root}}/ghostty" "$HOME/.config/ghostty"
+echo "Linked: ghostty -> $HOME/.config/ghostty"
+'''
 
 [tasks."install:nvim"]
 description = "Install neovim via mise and create ~/.config/nvim symlink"

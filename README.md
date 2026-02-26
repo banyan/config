@@ -1,10 +1,22 @@
 # banyan's dotfiles
 
-## Installation
+## Setup
+
 ```zsh
-$ mkdir ~/git
-$ git clone --recursive git://github.com/banyan/config ~/git/config
-$ cd ~/git/config
-$ rake dotfiles:setup -v noop=true # run as dry-run
-$ rake dotfiles:setup -v force=true
+mkdir -p ~/git
+git clone https://github.com/banyan/config ~/git/config
+cd ~/git/config
+git submodule update --init --recursive
+
+# Symlink dotfiles into $HOME
+mise run setup
+
+# Optional
+mise run install:nvim
+mise run install:ghostty
+mise run deno-scripts
 ```
+
+## Notes
+
+- This repo is zsh-first (`.zshenv`, `.zshrc`).

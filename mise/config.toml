@@ -1,6 +1,6 @@
 [tools]
 node = "24.12.0"
-gemini = "0.30.0"
+gemini = "latest"
 deno = "latest"
 neovim = "latest"
 fzf = "latest"

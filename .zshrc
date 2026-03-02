@@ -156,6 +156,7 @@ alias cat='bat'
 alias chrome='open -a "Google Chrome.app"'
 alias tree='tree -N'
 alias rg="rg --hidden"
+alias ag="rg --hidden"  # muscle memory shim; remove once habits are updated
 alias v="nvim"
 alias vi="nvim"
 alias u="cd-gitroot"

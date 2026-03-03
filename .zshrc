@@ -407,9 +407,22 @@ if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
 fi
 
 ch() {
-  local cols sep google_history open
-  cols=$(( COLUMNS / 3 ))
+  local cols title_cols date_cols sep google_history open
+  local -a fzf_opts
+  cols=$COLUMNS
+  title_cols=$(( cols / 3 ))
+  date_cols=16
+  (( title_cols < 24 )) && title_cols=24
   sep='{::}'
+
+  fzf_opts=(--ansi --multi --no-sort --tiebreak=index)
+  if [[ "$1" == "-e" || "$1" == "--exact" ]]; then
+    fzf_opts+=(--exact)
+    shift
+  fi
+  if (( $# > 0 )); then
+    fzf_opts+=(--query "$*")
+  fi
 
   if [ "$(uname)" = "Darwin" ]; then
     google_history="$HOME/Library/Application Support/Google/Chrome/Default/History"
@@ -419,11 +432,20 @@ ch() {
     open=xdg-open
   fi
   cp -f "$google_history" /tmp/h
-  sqlite3 -separator $sep /tmp/h \
-    "select substr(title, 1, $cols), url
+  sqlite3 -separator "$sep" /tmp/h \
+    "select datetime(last_visit_time / 1000000 - 11644473600, 'unixepoch', 'localtime'),
+            substr(title, 1, $title_cols),
+            url
      from urls order by last_visit_time desc" |
-  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
-  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
+  awk -F "$sep" -v dc="$date_cols" -v tc="$title_cols" '
+    BEGIN {
+      printf "%-" dc "s  %-" tc "s  %s\n", "Visited At", "Title", "URL"
+    }
+    {
+      printf "%-" dc "s  %-" tc "s  \x1b[36m%s\x1b[m\n", $1, $2, $3
+    }
+  ' |
+  fzf "${fzf_opts[@]}" --header-lines=1 | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
 }
 
 fzf-z-search() {

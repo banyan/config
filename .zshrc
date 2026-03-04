@@ -184,7 +184,7 @@ alias p="git p"
 alias pr="gh pr create --web"
 alias pl="git pl"
 alias R="git reset"
-alias -g G='| grep --color'
+alias -g G='| rg --color=always'
 alias -g H='| head -n 10'
 alias gm="git modified_files"
 alias yo='git yo'

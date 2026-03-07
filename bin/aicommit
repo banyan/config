@@ -774,7 +774,11 @@ async function chooseCommitAction(
   }
 
   while (true) {
-    const answer = (await deps.prompt("Commit with this message? [Y/e/n] "))?.trim().toLowerCase() ?? "";
+    const raw = await deps.prompt("Commit with this message? [Y/e/n] ");
+    if (raw === null) {
+      return "abort";
+    }
+    const answer = raw.trim().toLowerCase();
     if (answer === "" || answer === "y" || answer === "yes") {
       return "commit";
     }
@@ -873,7 +877,6 @@ export async function main(args = Deno.args, overrides: MainOverrides = {}): Pro
 
     const action = await chooseCommitAction(deps, options.yes);
     if (action === "abort") {
-      deps.error("Aborted.");
       return 1;
     }
 

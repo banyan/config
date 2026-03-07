@@ -357,16 +357,6 @@ fkill() {
   fi
 }
 
-function yarn-install () {
-    local VERSION="${1}"
-    if [ -z "${VERSION}" ]
-    then
-        curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
-    else
-        curl --compressed -o- -L https://yarnpkg.com/install.sh | bash -s -- --version "${VERSION}"
-    fi
-}
-
 export FZF_CTRL_R_OPTS="--prompt=\"History > \""
 
 # opam configuration

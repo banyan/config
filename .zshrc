@@ -407,45 +407,99 @@ if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
 fi
 
 ch() {
-  local cols title_cols date_cols sep google_history open
-  local -a fzf_opts
+  local cols title_cols date_cols sep google_history opener prompt header query output key exact_label uniq_label
+  local exact_mode uniq_mode
+  local -a fzf_opts lines selections urls
   cols=$COLUMNS
   title_cols=$(( cols / 3 ))
   date_cols=16
   (( title_cols < 24 )) && title_cols=24
   sep='{::}'
-
-  fzf_opts=(--ansi --multi --no-sort --tiebreak=index)
-  if [[ "$1" == "-e" || "$1" == "--exact" ]]; then
-    fzf_opts+=(--exact)
-    shift
-  fi
-  if (( $# > 0 )); then
-    fzf_opts+=(--query "$*")
-  fi
+  exact_mode=0
+  uniq_mode=0
+  query="$*"
 
   if [ "$(uname)" = "Darwin" ]; then
     google_history="$HOME/Library/Application Support/Google/Chrome/Default/History"
-    open=open
+    opener=open
   else
     google_history="$HOME/.config/google-chrome/Default/History"
-    open=xdg-open
+    opener=xdg-open
   fi
+
   cp -f "$google_history" /tmp/h
-  sqlite3 -separator "$sep" /tmp/h \
-    "select datetime(last_visit_time / 1000000 - 11644473600, 'unixepoch', 'localtime'),
-            substr(title, 1, $title_cols),
-            url
-     from urls order by last_visit_time desc" |
-  awk -F "$sep" -v dc="$date_cols" -v tc="$title_cols" '
-    BEGIN {
-      printf "%-" dc "s  %-" tc "s  %s\n", "Visited At", "Title", "URL"
-    }
-    {
-      printf "%-" dc "s  %-" tc "s  \x1b[36m%s\x1b[m\n", $1, $2, $3
-    }
-  ' |
-  fzf "${fzf_opts[@]}" --header-lines=1 | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
+
+  while true; do
+    prompt='ch'
+    (( exact_mode )) && prompt+=' [exact]'
+    (( uniq_mode )) && prompt+=' [title-uniq]'
+    prompt+='> '
+    exact_label=off
+    uniq_label=off
+    (( exact_mode )) && exact_label=on
+    (( uniq_mode )) && uniq_label=on
+    header="F1: exact ${exact_label} | F2: title-uniq ${uniq_label}"
+
+    fzf_opts=(
+      --ansi
+      --multi
+      --no-sort
+      --tiebreak=index
+      --header-lines=1
+      --print-query
+      --expect=f1,f2
+      --prompt "$prompt"
+      --header "$header"
+    )
+    (( exact_mode )) && fzf_opts+=(--exact)
+    [[ -n "$query" ]] && fzf_opts+=(--query "$query")
+
+    output=$(
+      sqlite3 -separator "$sep" /tmp/h \
+        "select datetime(last_visit_time / 1000000 - 11644473600, 'unixepoch', 'localtime'),
+                coalesce(title, ''),
+                url
+         from urls order by last_visit_time desc" |
+      awk -F "$sep" -v dc="$date_cols" -v tc="$title_cols" -v uniq="$uniq_mode" '
+        BEGIN {
+          printf "%-" dc "s  %-" tc "s  %s\n", "Visited At", "Title", "URL"
+        }
+        uniq && seen[$2]++ {
+          next
+        }
+        {
+          title = $2
+          if (length(title) > tc) {
+            title = substr(title, 1, tc)
+          }
+          printf "%-" dc "s  %-" tc "s  \x1b[36m%s\x1b[m\n", $1, title, $3
+        }
+      ' |
+      fzf "${fzf_opts[@]}"
+    ) || return 0
+
+    lines=("${(@f)output}")
+    query="${lines[1]}"
+    key="${lines[2]}"
+
+    if [[ "$key" == "f1" ]]; then
+      (( exact_mode = ! exact_mode ))
+      continue
+    fi
+    if [[ "$key" == "f2" ]]; then
+      (( uniq_mode = ! uniq_mode ))
+      continue
+    fi
+
+    (( ${#lines[@]} < 3 )) && return 0
+    selections=("${lines[@][3,-1]}")
+    urls=("${(@f)$(printf '%s\n' "${selections[@]}" | sed 's#.*\(https*://\)#\1#')}")
+
+    for url in "${urls[@]}"; do
+      "$opener" "$url" > /dev/null 2> /dev/null &
+    done
+    return 0
+  done
 }
 
 fzf-z-search() {

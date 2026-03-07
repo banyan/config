@@ -121,7 +121,7 @@ unsetopt CORRECT_ALL          # Do not spell-check arguments/files
 # Setup vars
 export LANG=ja_JP.UTF-8
 export TERM=xterm-256color
-export EDITOR=vim
+export EDITOR=nvim
 
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=300000

@@ -1,0 +1,879 @@
+#!/usr/bin/env -S deno run --allow-env --allow-net --allow-read --allow-write --allow-run=git
+
+// aicommit — Generate commit messages for staged changes with OpenRouter.
+//
+// Usage:
+//   export OPENROUTER_API_KEY=...
+//
+//   # Preview only
+//   aicommit --dry-run
+//
+//   # Add explicit context that can also be stored in git notes
+//   aicommit -c "LLM plan: migrate plugin config"
+//
+//   # Pipe longer context from another tool or file
+//   some-tool-that-prints-plan | aicommit --context-file - --yes
+//
+// Notes:
+// - Follows the current repository style by preferring COMMITS.md in the repo
+//   root, then recent commit history, then ~/COMMITS.md.
+// - Confirmation uses y/e/n for yes / edit / no.
+// - When explicit context is provided, appends it to git notes after a
+//   successful commit unless --no-notes is set.
+
+type CliOptions = {
+  contexts: string[];
+  contextFiles: string[];
+  dryRun: boolean;
+  yes: boolean;
+  noNotes: boolean;
+  help: boolean;
+};
+
+type CommitExample = {
+  subject: string;
+  body: string;
+};
+
+type PromptInput = {
+  diffStat: string;
+  diff: string;
+  recentSubjects: string[];
+  recentMessages: string[];
+  repoStyleGuide: string | null;
+  userStyleGuide: string | null;
+  contexts: string[];
+};
+
+type MessageRole = "system" | "user";
+
+type ChatMessage = {
+  role: MessageRole;
+  content: string;
+};
+
+type GeneratedCommitMessage = {
+  subject: string;
+  body: string;
+  raw: string;
+};
+
+type CommandResult = {
+  code: number;
+  stdout: string;
+  stderr: string;
+};
+
+type RunGitOptions = {
+  cwd: string;
+  args: string[];
+  interactive?: boolean;
+  input?: string;
+};
+
+type OpenRouterRequestOptions = {
+  apiKey: string;
+  baseUrl: string;
+  model: string;
+  messages: ChatMessage[];
+};
+
+type Deps = {
+  cwd: string;
+  envGet: (name: string) => string | undefined;
+  readTextFile: (path: string) => Promise<string>;
+  writeTextFile: (path: string, text: string) => Promise<void>;
+  mkdir: (path: string) => Promise<void>;
+  removeFile: (path: string) => Promise<void>;
+  makeTempFile: () => Promise<string>;
+  runGit: (options: RunGitOptions) => Promise<CommandResult>;
+  readStdin: () => Promise<string>;
+  prompt: (message: string) => Promise<string | null>;
+  isInteractive: () => boolean;
+  now: () => Date;
+  output: (text: string) => void;
+  error: (text: string) => void;
+  fetch: typeof fetch;
+};
+
+const DEFAULT_MODEL = "openrouter/auto";
+const DEFAULT_BASE_URL = "https://openrouter.ai/api/v1";
+const DEFAULT_STYLE_GUIDE = [
+  "Keep the subject line concise.",
+  "Use a body only when it adds context that the diff does not show.",
+  "Explain intent and impact rather than narrating the diff.",
+  "Follow the repository style guide or recent examples if they exist.",
+  "Do not invent a scope prefix unless the repository examples suggest one.",
+].join("\n");
+
+const HELP_TEXT = `aicommit
+
+Generate a commit message for staged changes with OpenRouter.
+
+Usage:
+  aicommit [options]
+
+Options:
+  -c, --context TEXT        Add extra context for the commit message
+      --context-file PATH   Read extra context from a file (use - for stdin)
+      --dry-run             Print the generated commit message and exit
+      --yes                 Skip the confirmation prompt and commit directly
+      --no-notes            Do not write git notes even when context is provided
+  -h, --help                Show this help
+
+Environment:
+  OPENROUTER_API_KEY        Required API key
+  AICOMMIT_MODEL            Optional model (default: openrouter/auto)
+  AICOMMIT_BASE_URL         Optional API base URL
+`;
+
+export function parseArgs(args: string[]): CliOptions {
+  const options: CliOptions = {
+    contexts: [],
+    contextFiles: [],
+    dryRun: false,
+    yes: false,
+    noNotes: false,
+    help: false,
+  };
+
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === "-c" || arg === "--context") {
+      const value = args[i + 1];
+      if (!value) {
+        throw new Error(`${arg} requires a value`);
+      }
+      options.contexts.push(value);
+      i += 1;
+      continue;
+    }
+    if (arg.startsWith("--context=")) {
+      options.contexts.push(arg.slice("--context=".length));
+      continue;
+    }
+    if (arg === "--context-file") {
+      const value = args[i + 1];
+      if (!value) {
+        throw new Error(`${arg} requires a value`);
+      }
+      options.contextFiles.push(value);
+      i += 1;
+      continue;
+    }
+    if (arg.startsWith("--context-file=")) {
+      options.contextFiles.push(arg.slice("--context-file=".length));
+      continue;
+    }
+    if (arg === "--dry-run") {
+      options.dryRun = true;
+      continue;
+    }
+    if (arg === "--yes") {
+      options.yes = true;
+      continue;
+    }
+    if (arg === "--no-notes") {
+      options.noNotes = true;
+      continue;
+    }
+    if (arg === "-h" || arg === "--help") {
+      options.help = true;
+      continue;
+    }
+    throw new Error(`unknown argument: ${arg}`);
+  }
+
+  return options;
+}
+
+function truncate(text: string, maxChars: number): string {
+  if (text.length <= maxChars) {
+    return text;
+  }
+  return `${text.slice(0, maxChars)}\n...[truncated]`;
+}
+
+function dedentTrim(text: string): string {
+  return text.replace(/\r\n/g, "\n").trim();
+}
+
+function stripCodeFence(text: string): string {
+  const trimmed = text.trim();
+  const fencedMatch = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  return fencedMatch ? fencedMatch[1].trim() : trimmed;
+}
+
+function extractJsonObject(text: string): string {
+  const cleaned = stripCodeFence(text);
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start >= 0 && end > start) {
+    return cleaned.slice(start, end + 1);
+  }
+  return cleaned;
+}
+
+function normalizeMessageParts(subject: string, body: string): GeneratedCommitMessage {
+  let normalizedSubject = subject.replace(/\r\n/g, "\n").trim();
+  let normalizedBody = body.replace(/\r\n/g, "\n").trim();
+
+  if (!normalizedSubject && normalizedBody) {
+    const [firstLine, ...rest] = normalizedBody.split("\n");
+    normalizedSubject = firstLine.trim();
+    normalizedBody = rest.join("\n").trim();
+  }
+
+  if (normalizedSubject.includes("\n")) {
+    const [firstLine, ...rest] = normalizedSubject.split("\n");
+    normalizedSubject = firstLine.trim();
+    normalizedBody = [rest.join("\n"), normalizedBody].filter(Boolean).join("\n").trim();
+  }
+
+  if (!normalizedSubject) {
+    throw new Error("generated commit message is missing a subject");
+  }
+
+  return {
+    subject: normalizedSubject,
+    body: normalizedBody,
+    raw: formatCommitMessage(normalizedSubject, normalizedBody),
+  };
+}
+
+export function formatCommitMessage(subject: string, body = ""): string {
+  const normalizedSubject = subject.replace(/\r\n/g, "\n").trim();
+  const normalizedBody = body.replace(/\r\n/g, "\n").trim();
+  return normalizedBody ? `${normalizedSubject}\n\n${normalizedBody}` : normalizedSubject;
+}
+
+export function formatNotePayload(
+  contexts: string[],
+  model: string,
+  createdAt: Date,
+): string {
+  const parts = [
+    "aicommit-context",
+    `model: ${model}`,
+    `created-at: ${createdAt.toISOString()}`,
+    "",
+  ];
+
+  contexts.forEach((context, index) => {
+    parts.push(`--- context ${index + 1} ---`);
+    parts.push(context.trim());
+    parts.push("");
+  });
+
+  return parts.join("\n").trimEnd() + "\n";
+}
+
+export function buildPrompt(input: PromptInput): ChatMessage[] {
+  const messages: ChatMessage[] = [
+    {
+      role: "system",
+      content: [
+        "You are a tool named aicommit.",
+        "Generate a high quality git commit message for staged changes.",
+        "Return JSON only with keys subject and body.",
+        "The body must be an empty string when a body is unnecessary.",
+        "Follow the repository style guide and recent examples when present.",
+        "Do not assume a scope prefix, language, or commit style unless the repository examples suggest one.",
+      ].join("\n"),
+    },
+  ];
+
+  if (input.repoStyleGuide) {
+    messages.push({
+      role: "system",
+      content: `Repository style guide:\n${input.repoStyleGuide}`,
+    });
+  } else if (input.userStyleGuide) {
+    messages.push({
+      role: "system",
+      content: `User style guide fallback:\n${input.userStyleGuide}`,
+    });
+  } else {
+    messages.push({
+      role: "system",
+      content: `Default style guide:\n${DEFAULT_STYLE_GUIDE}`,
+    });
+  }
+
+  if (input.recentSubjects.length > 0) {
+    messages.push({
+      role: "system",
+      content: `Recent commit subjects in this repository:\n${JSON.stringify(input.recentSubjects)}`,
+    });
+  }
+
+  if (input.recentMessages.length > 0) {
+    messages.push({
+      role: "system",
+      content: `Recent multiline commit examples in this repository:\n${JSON.stringify(input.recentMessages)}`,
+    });
+  }
+
+  const userParts = [
+    "Staged diff stat:",
+    input.diffStat || "(empty)",
+  ];
+
+  if (input.contexts.length > 0) {
+    userParts.push("Additional context:");
+    userParts.push(
+      input.contexts.map((context, index) => `Context ${index + 1}:\n${context}`).join("\n\n"),
+    );
+  }
+
+  userParts.push("Staged diff:");
+  userParts.push(input.diff);
+
+  messages.push({
+    role: "user",
+    content: userParts.join("\n\n"),
+  });
+
+  return messages;
+}
+
+function joinUrl(baseUrl: string, path: string): string {
+  return `${baseUrl.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+}
+
+function isStructuredOutputRetryable(status: number): boolean {
+  return status >= 400 && status < 500 && status !== 401 && status !== 403;
+}
+
+async function requestOpenRouter(
+  options: OpenRouterRequestOptions,
+  fetchImpl: typeof fetch,
+  structured: boolean,
+): Promise<GeneratedCommitMessage> {
+  const body: Record<string, unknown> = {
+    model: options.model,
+    messages: options.messages,
+    temperature: 0.2,
+  };
+
+  if (structured) {
+    body.response_format = {
+      type: "json_schema",
+      json_schema: {
+        name: "commit_message",
+        strict: true,
+        schema: {
+          type: "object",
+          additionalProperties: false,
+          required: ["subject", "body"],
+          properties: {
+            subject: { type: "string" },
+            body: { type: "string" },
+          },
+        },
+      },
+    };
+  }
+
+  const response = await fetchImpl(joinUrl(options.baseUrl, "/chat/completions"), {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${options.apiKey}`,
+      "Content-Type": "application/json",
+      "X-Title": "aicommit",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const rawText = await response.text();
+  if (!response.ok) {
+    const error = new Error(
+      `OpenRouter request failed (${response.status}): ${truncate(rawText, 500)}`,
+    ) as Error & { retryable?: boolean };
+    error.retryable = structured && isStructuredOutputRetryable(response.status);
+    throw error;
+  }
+
+  let parsedResponse: unknown;
+  try {
+    parsedResponse = JSON.parse(rawText);
+  } catch (_error) {
+    const error = new Error(`OpenRouter returned invalid JSON: ${truncate(rawText, 500)}`) as Error & {
+      retryable?: boolean;
+    };
+    error.retryable = structured;
+    throw error;
+  }
+
+  const content = extractCompletionContent(parsedResponse);
+  const parsedMessage = parseGeneratedMessage(content);
+  return normalizeMessageParts(parsedMessage.subject, parsedMessage.body);
+}
+
+function extractCompletionContent(responseBody: unknown): string {
+  if (!responseBody || typeof responseBody !== "object") {
+    throw new Error("OpenRouter response is missing choices");
+  }
+  const choices = (responseBody as { choices?: unknown[] }).choices;
+  const firstChoice = Array.isArray(choices) ? choices[0] : null;
+  if (!firstChoice || typeof firstChoice !== "object") {
+    throw new Error("OpenRouter response does not contain a choice");
+  }
+  const message = (firstChoice as { message?: unknown }).message;
+  if (!message || typeof message !== "object") {
+    throw new Error("OpenRouter response does not contain a message");
+  }
+  const content = (message as { content?: unknown }).content;
+  if (typeof content === "string") {
+    return content;
+  }
+  if (Array.isArray(content)) {
+    return content
+      .map((part) => {
+        if (typeof part === "string") {
+          return part;
+        }
+        if (part && typeof part === "object" && "text" in part && typeof part.text === "string") {
+          return part.text;
+        }
+        return "";
+      })
+      .join("");
+  }
+  throw new Error("OpenRouter response content is empty");
+}
+
+function parseGeneratedMessage(content: string): { subject: string; body: string } {
+  const candidate = extractJsonObject(content);
+  try {
+    const parsed = JSON.parse(candidate) as { subject?: unknown; body?: unknown };
+    return {
+      subject: typeof parsed.subject === "string" ? parsed.subject : "",
+      body: typeof parsed.body === "string" ? parsed.body : "",
+    };
+  } catch (_error) {
+    const text = stripCodeFence(content).trim();
+    const [subject, ...rest] = text.split("\n");
+    return {
+      subject: subject?.trim() ?? "",
+      body: rest.join("\n").trim(),
+    };
+  }
+}
+
+export async function requestCommitMessageFromOpenRouter(
+  options: OpenRouterRequestOptions,
+  fetchImpl: typeof fetch,
+): Promise<GeneratedCommitMessage> {
+  try {
+    return await requestOpenRouter(options, fetchImpl, true);
+  } catch (error) {
+    if (!(error instanceof Error) || !(error as Error & { retryable?: boolean }).retryable) {
+      throw error;
+    }
+  }
+  return await requestOpenRouter(options, fetchImpl, false);
+}
+
+function createDefaultDeps(): Deps {
+  return {
+    cwd: Deno.cwd(),
+    envGet: (name) => Deno.env.get(name),
+    readTextFile: (path) => Deno.readTextFile(path),
+    writeTextFile: (path, text) => Deno.writeTextFile(path, text),
+    mkdir: (path) => Deno.mkdir(path, { recursive: true }),
+    removeFile: (path) => Deno.remove(path),
+    makeTempFile: () => Deno.makeTempFile(),
+    runGit: (options) => runGit(options),
+    readStdin: () => new Response(Deno.stdin.readable).text(),
+    prompt: async (message) => prompt(message),
+    isInteractive: () => Deno.stdin.isTerminal() && Deno.stdout.isTerminal(),
+    now: () => new Date(),
+    output: (text) => console.log(text),
+    error: (text) => console.error(text),
+    fetch: (input, init) => fetch(input, init),
+  };
+}
+
+async function runGit(options: RunGitOptions): Promise<CommandResult> {
+  const command = new Deno.Command("git", {
+    args: ["-C", options.cwd, ...options.args],
+    stdin: options.interactive ? "inherit" : options.input !== undefined ? "piped" : "null",
+    stdout: options.interactive ? "inherit" : "piped",
+    stderr: options.interactive ? "inherit" : "piped",
+  });
+
+  const child = command.spawn();
+  if (options.interactive) {
+    const status = await child.status;
+    return { code: status.code, stdout: "", stderr: "" };
+  }
+
+  if (options.input !== undefined && child.stdin) {
+    const writer = child.stdin.getWriter();
+    await writer.write(new TextEncoder().encode(options.input));
+    await writer.close();
+  }
+
+  const [status, stdout, stderr] = await Promise.all([
+    child.status,
+    child.stdout ? new Response(child.stdout).text() : Promise.resolve(""),
+    child.stderr ? new Response(child.stderr).text() : Promise.resolve(""),
+  ]);
+
+  return { code: status.code, stdout, stderr };
+}
+
+async function gitSuccess(
+  deps: Deps,
+  cwd: string,
+  args: string[],
+  errorPrefix: string,
+): Promise<string> {
+  const result = await deps.runGit({ cwd, args });
+  if (result.code !== 0) {
+    throw new Error(`${errorPrefix}: ${result.stderr.trim() || result.stdout.trim()}`);
+  }
+  return result.stdout.trim();
+}
+
+async function resolveRepoRoot(deps: Deps, cwd: string): Promise<string> {
+  return await gitSuccess(deps, cwd, ["rev-parse", "--show-toplevel"], "failed to resolve git root");
+}
+
+async function resolveGitDir(deps: Deps, cwd: string): Promise<string> {
+  return await gitSuccess(deps, cwd, ["rev-parse", "--git-dir"], "failed to resolve git dir");
+}
+
+async function readOptionalFile(
+  deps: Deps,
+  path: string,
+): Promise<string | null> {
+  try {
+    return dedentTrim(await deps.readTextFile(path)) || null;
+  } catch (error) {
+    if (error instanceof Deno.errors.NotFound) {
+      return null;
+    }
+    throw error;
+  }
+}
+
+async function loadStyleGuides(
+  deps: Deps,
+  repoRoot: string,
+): Promise<{ repoStyleGuide: string | null; userStyleGuide: string | null }> {
+  const repoStyleGuide = await readOptionalFile(deps, `${repoRoot}/COMMITS.md`);
+  if (repoStyleGuide) {
+    return { repoStyleGuide, userStyleGuide: null };
+  }
+
+  const home = deps.envGet("HOME");
+  if (!home) {
+    return { repoStyleGuide: null, userStyleGuide: null };
+  }
+
+  const userStyleGuide = await readOptionalFile(deps, `${home}/COMMITS.md`);
+  return { repoStyleGuide: null, userStyleGuide };
+}
+
+function parseCommitExamples(raw: string): CommitExample[] {
+  return raw
+    .split("\x1e")
+    .map((record) => record.trim())
+    .filter(Boolean)
+    .map((record) => {
+      const [subject, body = ""] = record.split("\x1f");
+      return {
+        subject: subject.trim(),
+        body: body.trim(),
+      };
+    })
+    .filter((record) => Boolean(record.subject));
+}
+
+async function loadRecentCommitExamples(deps: Deps, repoRoot: string): Promise<{
+  recentSubjects: string[];
+  recentMessages: string[];
+}> {
+  const raw = await gitSuccess(
+    deps,
+    repoRoot,
+    ["log", "-n", "25", "--format=%s%x1f%b%x1e"],
+    "failed to read recent commits",
+  );
+  const examples = parseCommitExamples(raw);
+  const recentSubjects = examples.slice(0, 20).map((example) => truncate(example.subject, 160));
+  const recentMessages = examples
+    .filter((example) => example.body)
+    .slice(0, 5)
+    .map((example) => truncate(formatCommitMessage(example.subject, example.body), 600));
+
+  return { recentSubjects, recentMessages };
+}
+
+async function loadStagedDiff(deps: Deps, repoRoot: string): Promise<{ diffStat: string; diff: string }> {
+  const diffStat = await gitSuccess(
+    deps,
+    repoRoot,
+    ["diff", "--cached", "--stat", "--compact-summary", "--no-ext-diff"],
+    "failed to read staged diff stat",
+  );
+  const diff = await gitSuccess(
+    deps,
+    repoRoot,
+    ["diff", "--cached", "--no-ext-diff", "--submodule=diff"],
+    "failed to read staged diff",
+  );
+
+  if (!diff.trim()) {
+    throw new Error("no staged changes found");
+  }
+
+  return {
+    diffStat: truncate(diffStat, 12000),
+    diff: truncate(diff, 80000),
+  };
+}
+
+async function loadContexts(deps: Deps, options: CliOptions): Promise<string[]> {
+  const contexts = [...options.contexts];
+  let stdinCache: string | null = null;
+
+  for (const path of options.contextFiles) {
+    let text: string;
+    if (path === "-") {
+      if (stdinCache === null) {
+        stdinCache = await deps.readStdin();
+      }
+      text = stdinCache;
+    } else {
+      text = await deps.readTextFile(path);
+    }
+    const normalized = dedentTrim(text);
+    if (normalized) {
+      contexts.push(truncate(normalized, 8000));
+    }
+  }
+
+  return contexts;
+}
+
+async function generateCommitMessage(
+  deps: Deps,
+  repoRoot: string,
+  contexts: string[],
+): Promise<GeneratedCommitMessage> {
+  const apiKey = deps.envGet("OPENROUTER_API_KEY");
+  if (!apiKey) {
+    throw new Error("OPENROUTER_API_KEY is not set");
+  }
+
+  const model = deps.envGet("AICOMMIT_MODEL") || DEFAULT_MODEL;
+  const baseUrl = deps.envGet("AICOMMIT_BASE_URL") || DEFAULT_BASE_URL;
+  const styleGuides = await loadStyleGuides(deps, repoRoot);
+  const recentCommits = await loadRecentCommitExamples(deps, repoRoot);
+  const diff = await loadStagedDiff(deps, repoRoot);
+
+  const messages = buildPrompt({
+    diffStat: diff.diffStat,
+    diff: diff.diff,
+    recentSubjects: recentCommits.recentSubjects,
+    recentMessages: recentCommits.recentMessages,
+    repoStyleGuide: styleGuides.repoStyleGuide,
+    userStyleGuide: styleGuides.userStyleGuide,
+    contexts,
+  });
+
+  return await requestCommitMessageFromOpenRouter(
+    {
+      apiKey,
+      baseUrl,
+      model,
+      messages,
+    },
+    deps.fetch,
+  );
+}
+
+async function commitWithMessage(
+  deps: Deps,
+  repoRoot: string,
+  message: GeneratedCommitMessage,
+  editBeforeCommit: boolean,
+): Promise<string> {
+  const tempFile = await deps.makeTempFile();
+  try {
+    await deps.writeTextFile(tempFile, `${message.raw}\n`);
+    const result = await deps.runGit({
+      cwd: repoRoot,
+      args: ["commit", ...(editBeforeCommit ? ["--edit"] : []), "-F", tempFile],
+      interactive: true,
+    });
+    if (result.code !== 0) {
+      throw new Error("git commit failed");
+    }
+  } finally {
+    await deps.removeFile(tempFile).catch(() => undefined);
+  }
+
+  return await gitSuccess(deps, repoRoot, ["rev-parse", "HEAD"], "failed to resolve new commit");
+}
+
+async function appendGitNote(
+  deps: Deps,
+  repoRoot: string,
+  commitSha: string,
+  notePayload: string,
+): Promise<void> {
+  const tempFile = await deps.makeTempFile();
+  try {
+    await deps.writeTextFile(tempFile, notePayload);
+    let result = await deps.runGit({
+      cwd: repoRoot,
+      args: ["notes", "--ref=commits", "append", "-F", tempFile, commitSha],
+    });
+    if (result.code !== 0) {
+      result = await deps.runGit({
+        cwd: repoRoot,
+        args: ["notes", "--ref=commits", "add", "-f", "-F", tempFile, commitSha],
+      });
+    }
+    if (result.code !== 0) {
+      throw new Error(result.stderr.trim() || result.stdout.trim() || "git notes append failed");
+    }
+  } finally {
+    await deps.removeFile(tempFile).catch(() => undefined);
+  }
+}
+
+async function persistPendingNote(
+  deps: Deps,
+  repoRoot: string,
+  gitDir: string,
+  commitSha: string,
+  notePayload: string,
+): Promise<string> {
+  const resolvedGitDir = gitDir.startsWith("/") ? gitDir : `${repoRoot}/${gitDir}`;
+  const pendingDir = `${resolvedGitDir}/aicommit`;
+  await deps.mkdir(pendingDir);
+  const pendingPath = `${pendingDir}/pending-note-${commitSha}.md`;
+  await deps.writeTextFile(pendingPath, notePayload);
+  return pendingPath;
+}
+
+async function chooseCommitAction(
+  deps: Deps,
+  autoYes: boolean,
+): Promise<"commit" | "edit" | "abort"> {
+  if (autoYes) {
+    return "commit";
+  }
+
+  while (true) {
+    const answer = (await deps.prompt("Commit with this message? [Y/e/n] "))?.trim().toLowerCase() ?? "";
+    if (answer === "" || answer === "y" || answer === "yes") {
+      return "commit";
+    }
+    if (answer === "e" || answer === "edit") {
+      return "edit";
+    }
+    if (answer === "n" || answer === "no") {
+      return "abort";
+    }
+    deps.error("Please enter y, e, or n.");
+  }
+}
+
+function renderPreview(message: GeneratedCommitMessage): string {
+  return `Generated commit message:\n\n${message.raw}`;
+}
+
+type MainOverrides = Partial<Deps> & {
+  generateCommitMessage?: (
+    deps: Deps,
+    repoRoot: string,
+    contexts: string[],
+  ) => Promise<GeneratedCommitMessage>;
+};
+
+export async function main(args = Deno.args, overrides: MainOverrides = {}): Promise<number> {
+  const deps: Deps = {
+    ...createDefaultDeps(),
+    ...overrides,
+  };
+  const generateMessage = overrides.generateCommitMessage ?? generateCommitMessage;
+
+  let options: CliOptions;
+  try {
+    options = parseArgs(args);
+  } catch (error) {
+    deps.error(error instanceof Error ? error.message : String(error));
+    deps.error("Run `aicommit --help` for usage.");
+    return 1;
+  }
+
+  if (options.help) {
+    deps.output(HELP_TEXT.trimEnd());
+    return 0;
+  }
+
+  try {
+    const repoRoot = await resolveRepoRoot(deps, deps.cwd);
+    const contexts = await loadContexts(deps, options);
+    const message = await generateMessage(deps, repoRoot, contexts);
+    deps.output(renderPreview(message));
+
+    const notePayload = contexts.length > 0 && !options.noNotes
+      ? formatNotePayload(
+        contexts,
+        deps.envGet("AICOMMIT_MODEL") || DEFAULT_MODEL,
+        deps.now(),
+      )
+      : null;
+
+    if (options.dryRun) {
+      if (notePayload) {
+        deps.output(`\nGit note preview:\n\n${notePayload.trimEnd()}`);
+      }
+      return 0;
+    }
+
+    if (!options.yes && !deps.isInteractive()) {
+      deps.error("Refusing to prompt without a TTY. Re-run with --yes or --dry-run.");
+      return 1;
+    }
+
+    const action = await chooseCommitAction(deps, options.yes);
+    if (action === "abort") {
+      deps.error("Aborted.");
+      return 1;
+    }
+
+    const commitSha = await commitWithMessage(deps, repoRoot, message, action === "edit");
+
+    if (notePayload) {
+      const gitDir = await resolveGitDir(deps, repoRoot);
+      try {
+        await appendGitNote(deps, repoRoot, commitSha, notePayload);
+      } catch (error) {
+        const pendingPath = await persistPendingNote(deps, repoRoot, gitDir, commitSha, notePayload);
+        deps.error(
+          `Commit succeeded, but git notes failed. Saved note payload to ${pendingPath}.`,
+        );
+        if (error instanceof Error && error.message) {
+          deps.error(error.message);
+        }
+      }
+    }
+
+    return 0;
+  } catch (error) {
+    deps.error(error instanceof Error ? error.message : String(error));
+    return 1;
+  }
+}
+
+if (import.meta.main) {
+  Deno.exit(await main());
+}

@@ -93,6 +93,7 @@ type Deps = {
   now: () => Date;
   output: (text: string) => void;
   error: (text: string) => void;
+  writeRaw: (text: string) => void;
   fetch: typeof fetch;
 };
 
@@ -491,6 +492,7 @@ function createDefaultDeps(): Deps {
     now: () => new Date(),
     output: (text) => console.log(text),
     error: (text) => console.error(text),
+    writeRaw: (text) => Deno.stderr.writeSync(new TextEncoder().encode(text)),
     fetch: (input, init) => fetch(input, init),
   };
 }
@@ -785,8 +787,26 @@ async function chooseCommitAction(
   }
 }
 
+const SPINNER_FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+
+function startSpinner(deps: Deps): () => void {
+  let frame = 0;
+  const id = setInterval(() => {
+    deps.writeRaw(`\r${SPINNER_FRAMES[frame % SPINNER_FRAMES.length]} Generating...`);
+    frame += 1;
+  }, 80);
+  return () => {
+    clearInterval(id);
+    deps.writeRaw("\r\x1b[2K");
+  };
+}
+
 function renderPreview(message: GeneratedCommitMessage): string {
-  return `Generated commit message:\n\n${message.raw}`;
+  const parts = [message.subject];
+  if (message.body) {
+    parts.push(message.body);
+  }
+  return parts.join("\n\n");
 }
 
 type MainOverrides = Partial<Deps> & {
@@ -821,7 +841,13 @@ export async function main(args = Deno.args, overrides: MainOverrides = {}): Pro
   try {
     const repoRoot = await resolveRepoRoot(deps, deps.cwd);
     const contexts = await loadContexts(deps, options);
-    const message = await generateMessage(deps, repoRoot, contexts);
+    const stopSpinner = startSpinner(deps);
+    let message: GeneratedCommitMessage;
+    try {
+      message = await generateMessage(deps, repoRoot, contexts);
+    } finally {
+      stopSpinner();
+    }
     deps.output(renderPreview(message));
 
     const notePayload = contexts.length > 0 && !options.noNotes

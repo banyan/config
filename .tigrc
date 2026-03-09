@@ -27,10 +27,10 @@ bind diff C !<git checkout %(commit)
 bind log  C !<git checkout %(commit)
 
 # https://github.com/banyan/git_modified_files
-# Open files in vim
-bind main K !<sh -c "vim -p $(git modified_files %(commit))"
-bind diff K !<sh -c "vim -p $(git modified_files %(commit))"
-bind log  K !<sh -c "vim -p $(git modified_files %(commit))"
+# Open files in nvim
+bind main K !<sh -c "nvim -p $(git modified_files %(commit))"
+bind diff K !<sh -c "nvim -p $(git modified_files %(commit))"
+bind log  K !<sh -c "nvim -p $(git modified_files %(commit))"
 
 # https://github.com/banyan/git-cb
 # Use commit message as branch name

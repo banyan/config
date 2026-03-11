@@ -167,6 +167,10 @@ alias tp='mise run plan'
 alias ta='mise run apply'
 alias ts='mise run show'
 
+# mise
+alias mi='mise install'
+alias mu='mise upgrade'
+
 # git
 alias g="git"
 alias dic='dc'

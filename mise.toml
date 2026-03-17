@@ -54,9 +54,32 @@ ln -sfn "{{config_root}}/nvim" "$HOME/.config/nvim"
 echo "Linked: nvim -> $HOME/.config/nvim"
 '''
 
+[tasks."install:bin"]
+description = "Create symlinks for bin commands to ~/bin"
+run = '''
+#!/bin/bash
+set -e
+
+BIN_COMMANDS="aicommit"
+BASE_PATH="{{config_root}}/bin"
+
+mkdir -p "$HOME/bin"
+
+for cmd in $BIN_COMMANDS; do
+  src="$BASE_PATH/$cmd"
+  dest="$HOME/bin/$cmd"
+  if [[ -f "$src" ]]; then
+    ln -sfn "$src" "$dest"
+    echo "Linked: $cmd -> $dest"
+  else
+    echo "Warning: $src not found, skipping"
+  fi
+done
+'''
+
 [tasks.setup]
-description = "Run all setup tasks (dotfiles, nvim, ghostty, deno)"
-depends = ["install:dotfiles", "install:nvim", "install:ghostty", "deno-scripts"]
+description = "Run all setup tasks (dotfiles, nvim, ghostty, deno, bin)"
+depends = ["install:dotfiles", "install:nvim", "install:ghostty", "deno-scripts", "install:bin"]
 
 [tasks.cleanup]
 description = "Remove symlinks in home that point to this repo but whose targets no longer exist"

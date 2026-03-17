@@ -1,3 +1,7 @@
+[tasks.setup]
+description = "Run all setup tasks (dotfiles, nvim, ghostty, deno, bin)"
+depends = ["install:dotfiles", "install:nvim", "install:ghostty", "deno-scripts", "install:bin"]
+
 [tasks."install:dotfiles"]
 description = "Create symlinks for dotfiles to home directory"
 run = '''
@@ -76,10 +80,6 @@ for cmd in $BIN_COMMANDS; do
   fi
 done
 '''
-
-[tasks.setup]
-description = "Run all setup tasks (dotfiles, nvim, ghostty, deno, bin)"
-depends = ["install:dotfiles", "install:nvim", "install:ghostty", "deno-scripts", "install:bin"]
 
 [tasks.cleanup]
 description = "Remove symlinks in home that point to this repo but whose targets no longer exist"

@@ -284,7 +284,14 @@ function pcolor() {
 }
 
 function m() {
-  local default_branch=$(git default-branch)
+  local default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+  if [ -z "$default_branch" ]; then
+    git remote set-head origin --auto >/dev/null 2>&1
+    default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+  fi
+  if [ -z "$default_branch" ]; then
+    default_branch=$(git branch -l main master --format '%(refname:short)' | head -1)
+  fi
 
   local main_worktree=$(git worktree list --porcelain | head -1 | grep "^worktree " | cut -d' ' -f2)
   local current_dir=$(pwd)

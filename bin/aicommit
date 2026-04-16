@@ -277,6 +277,7 @@ export function buildPrompt(input: PromptInput): ChatMessage[] {
         "You are a tool named aicommit.",
         "Generate a high quality git commit message for staged changes.",
         "Return JSON only with keys subject and body.",
+        "Start the subject line with an uppercase English letter. When using a conventional commit prefix (e.g. feat:, fix:, chore:), capitalize the first word after the prefix instead (e.g. 'feat: Add login page').",
         "Omit the body (empty string) unless the change is complex enough to need explanation.",
         "When a body is needed, keep it to 1-2 short lines maximum.",
         "Follow the repository style guide and recent examples when present.",

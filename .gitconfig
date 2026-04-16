@@ -104,3 +104,5 @@
     driver = daff merge --output %A %O %A %B
 [init]
     defaultBranch = main
+[include]
+    path = ~/.gitconfig.local

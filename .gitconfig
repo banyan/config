@@ -72,23 +72,29 @@
     prune              = true
     pruneTags          = true
     all                = true
+    writeCommitGraph   = true
 [rebase]
     autoSquash = true
     autoStash  = true
     updateRefs = true
+[rerere]
+    enabled = true
 [stash]
     showPatch = true
 [push]
-    default = simple
+    autoSetupRemote = true
 [pull]
-    default = simple
-    rebase  = true
+    rebase = true
 [merge]
     log = true
 [diff]
     algorithm      = histogram
     mnemonicPrefix = true
     renames        = true
+    colorMoved     = default
+    colorMovedWS   = allow-indentation-change
+[column]
+    ui = auto
 [tig "bind"]
     generic = g move-first-line
     generic = G move-last-line

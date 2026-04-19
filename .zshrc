@@ -51,7 +51,8 @@ autoload -Uz _zinit
 zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-rust
 
 zinit wait lucid blockf light-mode for \
     @'zsh-users/zsh-autosuggestions' \
@@ -541,14 +542,6 @@ zshaddhistory() {
 cd-gitroot() {
     cd ./$(git rev-parse --show-cdup)
 }
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
 
 if [[ -n "$SSH_CONNECTION" ]]; then
   pbcopy() {

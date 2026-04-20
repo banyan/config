@@ -1,6 +1,6 @@
 [tasks.setup]
-description = "Run all setup tasks (dotfiles, nvim, ghostty, deno, bin)"
-depends = ["install:dotfiles", "install:nvim", "install:ghostty", "deno-scripts", "install:bin"]
+description = "Run all setup tasks (dotfiles, nvim, ghostty, agentoast, deno, bin)"
+depends = ["install:dotfiles", "install:nvim", "install:ghostty", "install:agentoast", "deno-scripts", "install:bin"]
 
 [tasks."install:dotfiles"]
 description = "Create symlinks for dotfiles to home directory"
@@ -8,7 +8,7 @@ run = '''
 #!/bin/bash
 set -e
 
-IGNORE_FILES=".git README.md mise.toml bin nvim ghostty"
+IGNORE_FILES=".git README.md mise.toml bin nvim ghostty agentoast"
 BASE_PATH="{{config_root}}"
 
 for file in "$BASE_PATH"/{.*,*}; do
@@ -56,6 +56,16 @@ mise install neovim
 mkdir -p "$HOME/.config"
 ln -sfn "{{config_root}}/nvim" "$HOME/.config/nvim"
 echo "Linked: nvim -> $HOME/.config/nvim"
+'''
+
+[tasks."install:agentoast"]
+description = "Create ~/.config/agentoast symlink"
+run = '''
+#!/bin/bash
+set -e
+mkdir -p "$HOME/.config"
+ln -sfn "{{config_root}}/agentoast" "$HOME/.config/agentoast"
+echo "Linked: agentoast -> $HOME/.config/agentoast"
 '''
 
 [tasks."install:bin"]

@@ -46,15 +46,6 @@ return {
       require("nvim-surround").setup()
     end,
   },
-  {
-    "gbprod/yanky.nvim",
-    config = function()
-      require("yanky").setup({})
-      vim.keymap.set("n", "sy", "<Plug>(YankyYank)")
-      vim.keymap.set("n", "sp", "<Plug>(YankyPutAfter)")
-      vim.keymap.set("n", "sP", "<Plug>(YankyPutBefore)")
-    end,
-  },
   { "thinca/vim-visualstar" },
   {
     "yegappan/mru",

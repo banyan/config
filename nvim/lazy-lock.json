@@ -33,6 +33,5 @@
   "vim-easy-align": { "branch": "master", "commit": "9815a55dbcd817784458df7a18acacc6f82b1241" },
   "vim-endwise": { "branch": "master", "commit": "4994afb0cdf956d9a665a14b9c834869e602c396" },
   "vim-visualstar": { "branch": "master", "commit": "a18cd0e7a03311ac709595c1d261ed44b45c9098" },
-  "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" },
-  "yanky.nvim": { "branch": "main", "commit": "29f31f75afe9adf40b85a48756b349807064be5d" }
+  "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
 }

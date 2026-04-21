@@ -5,7 +5,7 @@ duration_ms = 10000
 
 [notification]
 filter_notified_only = false
-show_non_agent_panes = true
+show_non_agent_panes = false
 muted = false
 
 [notification.agents.claude_code]

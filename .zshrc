@@ -41,6 +41,12 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
+# OSC 133 shell integration (prompt markers for tmux copy-mode jumps).
+# 133;A is injected into PROMPT below so it fires exactly at prompt draw.
+# 133;C marks command start (preexec runs right before the command).
+_osc133_preexec() { print -n $'\e]133;C\e\\' }
+add-zsh-hook preexec _osc133_preexec
+
 # plugins
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
@@ -85,6 +91,9 @@ else
 fi
 VCS_INFO='%1(v|%F{248}%1v%f%F{226}%2v%f|)'
 RPROMPT='${VCS_INFO}%F{14}[%~]%f'
+
+# OSC 133;A: zero-width prompt marker for tmux copy-mode previous-prompt/next-prompt
+PROMPT=$'%{\e]133;A\e\\%}'$PROMPT
 
 # Setup options
 setopt APPEND_HISTORY         # Append to .zsh_history instead of overwriting

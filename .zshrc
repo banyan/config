@@ -409,9 +409,9 @@ if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
 fi
 
 ch() {
-  local cols title_cols date_cols sep google_history opener prompt header query output key exact_label uniq_label
-  local exact_mode uniq_mode
-  local -a fzf_opts lines selections urls
+  local cols title_cols date_cols sep chrome_root opener prompt header query output key exact_label uniq_label
+  local exact_mode uniq_mode tmpdir profile_dir src dst base i
+  local -a fzf_opts lines selections urls profile_dirs copied_dbs attach_sql union_parts
   cols=$COLUMNS
   title_cols=$(( cols / 3 ))
   date_cols=16
@@ -422,14 +422,43 @@ ch() {
   query="$*"
 
   if [ "$(uname)" = "Darwin" ]; then
-    google_history="$HOME/Library/Application Support/Google/Chrome/Default/History"
+    chrome_root="$HOME/Library/Application Support/Google/Chrome"
     opener=open
   else
-    google_history="$HOME/.config/google-chrome/Default/History"
+    chrome_root="$HOME/.config/google-chrome"
     opener=xdg-open
   fi
 
-  cp -f "$google_history" /tmp/h
+  # Copy every profile's History DB into a tmpdir, then UNION them.
+  # Chrome's Default profile can be empty (missing `urls` table) when the
+  # user's real data lives in "Profile 2" etc. — copy them all.
+  tmpdir=$(mktemp -d -t ch-history) || return 1
+  profile_dirs=("$chrome_root"/Default "$chrome_root"/Profile*(N))
+  copied_dbs=()
+  for profile_dir in "${profile_dirs[@]}"; do
+    src="$profile_dir/History"
+    [[ -f "$src" ]] || continue
+    base="${profile_dir:t}"
+    dst="$tmpdir/${base// /_}.sqlite"
+    cp -f "$src" "$dst" 2>/dev/null || continue
+    # Skip DBs that don't have a `urls` table (e.g. freshly-reset profile).
+    sqlite3 "$dst" "select 1 from urls limit 1" >/dev/null 2>&1 || continue
+    copied_dbs+=("$dst")
+  done
+
+  if (( ${#copied_dbs[@]} == 0 )); then
+    echo "ch: no Chrome profile with browsing history found under $chrome_root" >&2
+    rm -rf "$tmpdir"
+    return 1
+  fi
+
+  # Build: ATTACH each DB as db0,db1,...; UNION ALL selects across them.
+  attach_sql=""
+  union_parts=()
+  for (( i=1; i <= ${#copied_dbs[@]}; i++ )); do
+    attach_sql+="attach database '${copied_dbs[i]}' as db${i};"$'\n'
+    union_parts+=("select last_visit_time, title, url from db${i}.urls")
+  done
 
   while true; do
     prompt='ch'
@@ -457,11 +486,12 @@ ch() {
     [[ -n "$query" ]] && fzf_opts+=(--query "$query")
 
     output=$(
-      sqlite3 -separator "$sep" /tmp/h \
-        "select datetime(last_visit_time / 1000000 - 11644473600, 'unixepoch', 'localtime'),
+      sqlite3 -separator "$sep" "" \
+        "${attach_sql}select datetime(last_visit_time / 1000000 - 11644473600, 'unixepoch', 'localtime'),
                 coalesce(title, ''),
                 url
-         from urls order by last_visit_time desc" |
+         from (${(j: union all :)union_parts})
+         order by last_visit_time desc" |
       awk -F "$sep" -v dc="$date_cols" -v tc="$title_cols" -v uniq="$uniq_mode" '
         BEGIN {
           printf "%-" dc "s  %-" tc "s  %s\n", "Visited At", "Title", "URL"
@@ -478,7 +508,7 @@ ch() {
         }
       ' |
       fzf "${fzf_opts[@]}"
-    ) || return 0
+    ) || { rm -rf "$tmpdir"; return 0; }
 
     lines=("${(@f)output}")
     query="${lines[1]}"
@@ -493,13 +523,14 @@ ch() {
       continue
     fi
 
-    (( ${#lines[@]} < 3 )) && return 0
+    (( ${#lines[@]} < 3 )) && { rm -rf "$tmpdir"; return 0; }
     selections=("${lines[@][3,-1]}")
     urls=("${(@f)$(printf '%s\n' "${selections[@]}" | sed 's#.*\(https*://\)#\1#')}")
 
     for url in "${urls[@]}"; do
       "$opener" "$url" > /dev/null 2> /dev/null &
     done
+    rm -rf "$tmpdir"
     return 0
   done
 }

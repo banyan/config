@@ -83,11 +83,12 @@
     showPatch = true
 [push]
     autoSetupRemote = true
+    followTags      = true
 [pull]
     rebase = true
 [merge]
     log           = true
-    conflictStyle = diff3
+    conflictStyle = zdiff3
 [merge "mergiraf"]
     name   = mergiraf
     driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
@@ -96,7 +97,8 @@
     mnemonicPrefix = true
     renames        = true
     colorMoved     = default
-    colorMovedWS   = allow-indentation-change
+    colorMovedWS     = allow-indentation-change
+    interHunkContext = 2
 [column]
     ui = auto
 [tig "bind"]

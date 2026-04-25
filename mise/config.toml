@@ -10,6 +10,7 @@ uv = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@mariozechner/pi-coding-agent" = "latest"
 "npm:@openai/codex" = "latest"
+"npm:@playwright/cli" = "latest"
 
 "pipx:beko-translate" = "latest"
 

@@ -1,11 +1,11 @@
 [tools]
 node = "24.12.0"
 gemini = "latest"
-deno = "latest"
+deno = "2.7.14"
 neovim = "latest"
 fzf = "latest"
-pnpm = "latest"
-uv = "latest"
+pnpm = "10.33.4"
+uv = "0.11.11"
 
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@mariozechner/pi-coding-agent" = "latest"

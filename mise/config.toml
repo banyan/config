@@ -6,6 +6,7 @@ neovim = "latest"
 fzf = "latest"
 pnpm = "10.33.4"
 uv = "0.11.11"
+"aqua:cli/cli" = "2.92.0"
 
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@mariozechner/pi-coding-agent" = "latest"

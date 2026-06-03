@@ -29,6 +29,7 @@ macos-icon-screen-color = cyan
 confirm-close-surface = false
 
 keybind = ctrl+i=unbind
+keybind = cmd+d=unbind
 
 auto-update = off
 

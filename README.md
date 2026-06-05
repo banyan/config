@@ -6,7 +6,6 @@
 mkdir -p ~/git
 git clone https://github.com/banyan/config ~/git/config
 cd ~/git/config
-git submodule update --init --recursive
 
 # Run all setup tasks (dotfiles, nvim, ghostty, deno)
 mise run setup

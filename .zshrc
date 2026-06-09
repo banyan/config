@@ -206,7 +206,7 @@ alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
 alias w="fzf-git-worktree"
 
 # LLMs
-alias c="claude --dangerously-skip-permissions"
+alias c="claude --permission-mode auto"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 alias gemini="gemini --yolo"
 

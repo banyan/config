@@ -197,7 +197,7 @@ alias a='git add -A'
 alias o='ghopen'
 alias p="git p"
 alias pr="gh pr create --web"
-alias gc="gh contrib"
+alias co="gh contrib"
 alias pl="git pl"
 alias R="git reset"
 alias -g G='| rg --color=always'

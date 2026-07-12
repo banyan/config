@@ -2,6 +2,7 @@
 # Usage: brew bundle --file=~/Brewfile
 
 brew "git"                    # Version control
+brew "tmux"                   # Terminal multiplexer
 brew "gh"                     # GitHub CLI
 brew "tig"                    # Git TUI
 brew "bat"                    # cat with syntax highlighting
@@ -28,3 +29,4 @@ brew "docker-compose"         # Docker Compose
 brew "gnupg"                  # GPG encryption
 
 cask "1password-cli"          # 1Password CLI (op)
+cask "ghostty"                # Terminal emulator

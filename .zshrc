@@ -60,8 +60,10 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-rust
 
+# This owns interactive ZLE widgets, so it must be ready at the first prompt.
+zinit light zsh-users/zsh-autosuggestions
+
 zinit wait lucid blockf light-mode for \
-    @'zsh-users/zsh-autosuggestions' \
     @'zsh-users/zsh-completions' \
     @'g-plane/zsh-yarn-autocompletions' \
     @'zsh-users/zsh-history-substring-search' \

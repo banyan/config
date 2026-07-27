@@ -214,14 +214,18 @@ alias c="claude --dangerously-skip-permissions"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 alias gemini="gemini --yolo"
 
-# sr (github.com/banyan/sr): pick any claude or codex session across every
-# project and resume it in its own cwd. A binary can't cd its parent shell, so
-# sr hands the chosen directory back through SR_CD_FILE and this wrapper does
-# the cd. Without the function sr still works — only the cd is lost.
-sr() {
+# r (github.com/banyan/r): pick any claude or codex session across every project
+# and resume it in its own cwd. A binary can't cd its parent shell, so r hands
+# the chosen directory back through R_CD_FILE and this wrapper does the cd.
+# Without the function r still works — only the cd is lost.
+#
+# This shadows the zsh builtin `r` (re-run the last command), which has never
+# been used here. `command r` reaches ~/bin/r, which sits ahead of the R
+# language's /usr/local/bin/r on PATH; `Rscript` is unaffected.
+r() {
   local f
-  f=$(mktemp -t sr-cd) || return
-  SR_CD_FILE=$f command sr "$@"
+  f=$(mktemp -t r-cd) || return
+  R_CD_FILE=$f command r "$@"
   local st=$? d
   d=$(<"$f")
   rm -f "$f"

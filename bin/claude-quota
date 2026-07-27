@@ -1,19 +1,22 @@
 #!/usr/bin/env -S deno run --allow-env --allow-net=api.anthropic.com --allow-read --allow-write --allow-run=security
 
-// claude-quota — 各 Claude アカウント（default + ~/.claude-profiles/*）の残枠を
-// 1アカウント1行で出す。`c`（zshrc の account picker）が fzf の行に使う。
+// claude-quota — prints the remaining quota of every Claude account (default +
+// ~/.claude-profiles/*), one line per account. `c` (the account picker in
+// zshrc) uses these lines as fzf rows.
 //
 //   $ claude-quota
 //   default 	kohei@conocer.co 	5h ⣿⣿⣀      12%  7d ⣿⣄       7%  fable ⣿⣶      10%
 //
-// 表示は dashboard.mi.nu の quota カード（errands jobs/agent-usage/quota.ts）と
-// ~/.claude/statusline.py に合わせる: 同じ braille bar、同じ緑→赤 gradient、
-// 同じラベル（session→5h / weekly_all→7d / weekly_scoped→モデル名小文字）。
+// The output matches the dashboard.mi.nu quota cards (errands
+// jobs/agent-usage/quota.ts) and ~/.claude/statusline.py: same braille bars,
+// same green-to-red gradient, same labels (session→5h / weekly_all→7d /
+// weekly_scoped→lowercased model name).
 //
-// token は Keychain から読む。service 名は claude 本体の規則どおり
-// "Claude Code-credentials" ＋ CLAUDE_CONFIG_DIR の sha256 先頭8桁 suffix。
-// 取得は全アカウント並列・3s timeout・~/.cache/claude-quota に 5分 cache
-// （picker を連続で開いたとき待たせないため）。--fresh で cache を無視する。
+// Tokens are read from the Keychain. The service name follows claude's own
+// convention: "Claude Code-credentials" plus the first 8 hex chars of the
+// sha256 of CLAUDE_CONFIG_DIR as a suffix. Fetches run for all accounts in
+// parallel with a 3s timeout and a 5-minute cache in ~/.cache/claude-quota
+// (so reopening the picker doesn't block). --fresh bypasses the cache.
 
 import { createHash } from "node:crypto";
 
@@ -59,12 +62,12 @@ function accounts(): Account[] {
       });
     }
   } catch {
-    // profiles dir が無ければ default だけ
+    // no profiles dir → default account only
   }
   return out;
 }
 
-// claude 本体と同じ service 名の規則（bin/claude.exe の oG() 相当）
+// Same service-name convention as claude itself (oG() in bin/claude.exe)
 function keychainService(configDir: string): string {
   if (!configDir) return "Claude Code-credentials";
   const hash = createHash("sha256")
@@ -99,7 +102,7 @@ async function keychainToken(service: string): Promise<string | null> {
   }
 }
 
-// errands jobs/agent-usage/quota.ts の toLimit() と同じマッピング
+// Same mapping as toLimit() in errands jobs/agent-usage/quota.ts
 function toLimits(usage: Record<string, unknown>): Limit[] {
   const out: Limit[] = [];
   for (const raw of (usage.limits ?? []) as Record<string, unknown>[]) {
@@ -156,12 +159,12 @@ async function fetchLimits(a: Account): Promise<Limit[] | null> {
     Deno.mkdirSync(CACHE_DIR, { recursive: true });
     Deno.writeTextFileSync(cachePath, JSON.stringify(limits));
   } catch {
-    // cache は best effort
+    // caching is best effort
   }
   return limits;
 }
 
-// statusline.py / quota.ts と同じ描画
+// Same rendering as statusline.py / quota.ts
 function brailleBar(pct: number): string {
   const level = Math.min(Math.max(pct, 0), 100) / 100;
   let bar = "";

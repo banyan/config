@@ -221,8 +221,8 @@ alias w="fzf-git-worktree"
 c() {
   local pdir=$HOME/.claude-profiles choice name
   local -a items
-  # claude-quota (bin/claude-quota) が各アカウントの残枠（5h/7d/fable）付きの
-  # 行を出す。無い環境では email だけの行に落とす
+  # claude-quota (bin/claude-quota) emits one row per account with its
+  # remaining quota (5h/7d/fable). Fall back to email-only rows without it.
   if (( $+commands[claude-quota] )) && items=(${(f)"$(claude-quota 2>/dev/null)"}) && (( $#items )); then
   else
     items=("default	$(_c_email "$HOME/.claude.json")")
@@ -260,9 +260,9 @@ _c_sync_profile() {
   for src in $HOME/.claude/*(N); do
     [[ -e $dir/${src:t} || -L $dir/${src:t} ]] || ln -s "$src" "$dir/${src:t}"
   done
-  # 新 profile にはディレクトリ trust（folder 確認）を default から種付けする。
-  # trust は .claude.json（profile ごと）に入るので、これが無いと同じディレクトリ
-  # でも profile ごとに毎回確認される
+  # Seed directory trust (the folder prompt) for new profiles from the default
+  # account. Trust lives in .claude.json (per profile), so without this every
+  # profile re-asks about the same directory.
   [[ -e $dir/.claude.json ]] || python3 - "$dir" <<'EOF'
 import json, os, sys
 KEYS = ['allowedTools','hasTrustDialogAccepted','hasCompletedProjectOnboarding',

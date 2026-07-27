@@ -14,6 +14,7 @@ uv = "0.11.11"
 "npm:@playwright/cli" = "latest"
 
 "pipx:beko-translate" = "latest"
+"npm:chrome-devtools-mcp" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

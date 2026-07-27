@@ -221,13 +221,18 @@ alias w="fzf-git-worktree"
 c() {
   local pdir=$HOME/.claude-profiles choice name
   local -a items
-  items=("default	$(_c_email "$HOME/.claude.json")")
-  for name in $pdir/*(N/:t); do
-    items+=("$name	$(_c_email "$pdir/$name/.claude.json")")
-  done
+  # claude-quota (bin/claude-quota) が各アカウントの残枠（5h/7d/fable）付きの
+  # 行を出す。無い環境では email だけの行に落とす
+  if (( $+commands[claude-quota] )) && items=(${(f)"$(claude-quota 2>/dev/null)"}) && (( $#items )); then
+  else
+    items=("default	$(_c_email "$HOME/.claude.json")")
+    for name in $pdir/*(N/:t); do
+      items+=("$name	$(_c_email "$pdir/$name/.claude.json")")
+    done
+  fi
   items+=("new:	create a profile for another account")
-  choice=$(printf '%s\n' "${items[@]}" | fzf --prompt='claude account> ' --height=~40% --reverse) || return
-  choice=${choice%%	*}
+  choice=$(printf '%s\n' "${items[@]}" | fzf --ansi --prompt='claude account> ' --height=~40% --reverse) || return
+  choice=${${choice%%$'\t'*}%% *}
   case $choice in
     default) claude --dangerously-skip-permissions "$@" ;;
     new:)
@@ -255,6 +260,23 @@ _c_sync_profile() {
   for src in $HOME/.claude/*(N); do
     [[ -e $dir/${src:t} || -L $dir/${src:t} ]] || ln -s "$src" "$dir/${src:t}"
   done
+  # 新 profile にはディレクトリ trust（folder 確認）を default から種付けする。
+  # trust は .claude.json（profile ごと）に入るので、これが無いと同じディレクトリ
+  # でも profile ごとに毎回確認される
+  [[ -e $dir/.claude.json ]] || python3 - "$dir" <<'EOF'
+import json, os, sys
+KEYS = ['allowedTools','hasTrustDialogAccepted','hasCompletedProjectOnboarding',
+        'hasClaudeMdExternalIncludesApproved','hasClaudeMdExternalIncludesWarningShown',
+        'enabledMcpjsonServers','disabledMcpjsonServers','mcpServers']
+try:
+    src = json.load(open(os.path.expanduser('~/.claude.json')))
+except OSError:
+    sys.exit(0)
+projects = {p: {k: v[k] for k in KEYS if k in v}
+            for p, v in src.get('projects', {}).items()
+            if v.get('hasTrustDialogAccepted')}
+json.dump({'projects': projects}, open(f'{sys.argv[1]}/.claude.json', 'w'))
+EOF
   return 0
 }
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"

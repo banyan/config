@@ -1,0 +1,213 @@
+#!/usr/bin/env -S deno run --allow-env --allow-net=api.anthropic.com --allow-read --allow-write --allow-run=security
+
+// claude-quota — 各 Claude アカウント（default + ~/.claude-profiles/*）の残枠を
+// 1アカウント1行で出す。`c`（zshrc の account picker）が fzf の行に使う。
+//
+//   $ claude-quota
+//   default 	kohei@conocer.co 	5h ⣿⣿⣀      12%  7d ⣿⣄       7%  fable ⣿⣶      10%
+//
+// 表示は dashboard.mi.nu の quota カード（errands jobs/agent-usage/quota.ts）と
+// ~/.claude/statusline.py に合わせる: 同じ braille bar、同じ緑→赤 gradient、
+// 同じラベル（session→5h / weekly_all→7d / weekly_scoped→モデル名小文字）。
+//
+// token は Keychain から読む。service 名は claude 本体の規則どおり
+// "Claude Code-credentials" ＋ CLAUDE_CONFIG_DIR の sha256 先頭8桁 suffix。
+// 取得は全アカウント並列・3s timeout・~/.cache/claude-quota に 5分 cache
+// （picker を連続で開いたとき待たせないため）。--fresh で cache を無視する。
+
+import { createHash } from "node:crypto";
+
+const HOME = Deno.env.get("HOME") ?? "";
+const PROFILES_DIR = `${HOME}/.claude-profiles`;
+const CACHE_DIR = `${HOME}/.cache/claude-quota`;
+const CACHE_TTL_MS = 5 * 60_000;
+const TIMEOUT_MS = 3_000;
+const USAGE_URL = "https://api.anthropic.com/api/oauth/usage";
+const BAR_WIDTH = 8;
+
+const R = "\x1b[0m";
+const DIM = "\x1b[2m";
+const BRAILLE = " ⣀⣄⣤⣦⣶⣷⣿";
+
+interface Account {
+  name: string;
+  configDir: string; // "" = default (~/.claude)
+  claudeJson: string;
+}
+
+interface Limit {
+  label: string;
+  percent: number;
+}
+
+function accounts(): Account[] {
+  const out: Account[] = [{
+    name: "default",
+    configDir: "",
+    claudeJson: `${HOME}/.claude.json`,
+  }];
+  try {
+    const names = [...Deno.readDirSync(PROFILES_DIR)]
+      .filter((e) => e.isDirectory)
+      .map((e) => e.name)
+      .sort();
+    for (const name of names) {
+      out.push({
+        name,
+        configDir: `${PROFILES_DIR}/${name}`,
+        claudeJson: `${PROFILES_DIR}/${name}/.claude.json`,
+      });
+    }
+  } catch {
+    // profiles dir が無ければ default だけ
+  }
+  return out;
+}
+
+// claude 本体と同じ service 名の規則（bin/claude.exe の oG() 相当）
+function keychainService(configDir: string): string {
+  if (!configDir) return "Claude Code-credentials";
+  const hash = createHash("sha256")
+    .update(configDir.normalize("NFC"))
+    .digest("hex")
+    .slice(0, 8);
+  return `Claude Code-credentials-${hash}`;
+}
+
+function email(a: Account): string {
+  try {
+    const doc = JSON.parse(Deno.readTextFileSync(a.claudeJson));
+    return doc?.oauthAccount?.emailAddress ?? "not logged in";
+  } catch {
+    return "not logged in";
+  }
+}
+
+async function keychainToken(service: string): Promise<string | null> {
+  const { code, stdout } = await new Deno.Command("security", {
+    args: ["find-generic-password", "-s", service, "-w"],
+    stdout: "piped",
+    stderr: "null",
+  }).output();
+  if (code !== 0) return null;
+  try {
+    const tok = JSON.parse(new TextDecoder().decode(stdout))?.claudeAiOauth
+      ?.accessToken;
+    return typeof tok === "string" ? tok : null;
+  } catch {
+    return null;
+  }
+}
+
+// errands jobs/agent-usage/quota.ts の toLimit() と同じマッピング
+function toLimits(usage: Record<string, unknown>): Limit[] {
+  const out: Limit[] = [];
+  for (const raw of (usage.limits ?? []) as Record<string, unknown>[]) {
+    const kind = String(raw.kind ?? "");
+    const percent = Number(raw.percent);
+    if (!kind || !Number.isFinite(percent)) continue;
+    const scope = raw.scope as { model?: { display_name?: string } } | null;
+    const model = scope?.model?.display_name;
+    const label = kind === "session"
+      ? "5h"
+      : kind === "weekly_all"
+      ? "7d"
+      : model
+      ? model.toLowerCase()
+      : kind;
+    out.push({ label, percent: Math.round(percent) });
+  }
+  return out;
+}
+
+async function fetchLimits(a: Account): Promise<Limit[] | null> {
+  const cachePath = `${CACHE_DIR}/${a.name}.json`;
+  if (!Deno.args.includes("--fresh")) {
+    try {
+      const st = Deno.statSync(cachePath);
+      if (st.mtime && Date.now() - st.mtime.getTime() < CACHE_TTL_MS) {
+        return JSON.parse(Deno.readTextFileSync(cachePath));
+      }
+    } catch {
+      // cache miss
+    }
+  }
+  const token = await keychainToken(keychainService(a.configDir));
+  if (!token) return null;
+  let usage: Record<string, unknown>;
+  try {
+    const res = await fetch(USAGE_URL, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "anthropic-beta": "oauth-2025-04-20",
+      },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+    if (!res.ok) {
+      await res.body?.cancel();
+      return null;
+    }
+    usage = await res.json();
+  } catch {
+    return null;
+  }
+  const limits = toLimits(usage);
+  try {
+    Deno.mkdirSync(CACHE_DIR, { recursive: true });
+    Deno.writeTextFileSync(cachePath, JSON.stringify(limits));
+  } catch {
+    // cache は best effort
+  }
+  return limits;
+}
+
+// statusline.py / quota.ts と同じ描画
+function brailleBar(pct: number): string {
+  const level = Math.min(Math.max(pct, 0), 100) / 100;
+  let bar = "";
+  for (let i = 0; i < BAR_WIDTH; i++) {
+    const start = i / BAR_WIDTH;
+    const end = (i + 1) / BAR_WIDTH;
+    if (level >= end) bar += BRAILLE[7];
+    else if (level <= start) bar += BRAILLE[0];
+    else {
+      bar += BRAILLE[
+        Math.min(Math.floor(((level - start) / (end - start)) * 7), 7)
+      ];
+    }
+  }
+  return bar;
+}
+
+function gradient(pct: number): string {
+  const p = Math.min(Math.max(pct, 0), 100);
+  const [r, g, b] = p < 50
+    ? [Math.round(p * 5.1), 200, 80]
+    : [255, Math.max(Math.round(200 - (p - 50) * 4), 0), 60];
+  return `\x1b[38;2;${r};${g};${b}m`;
+}
+
+function fmtLimits(limits: Limit[] | null): string {
+  if (limits === null) return `${DIM}quota n/a${R}`;
+  if (limits.length === 0) return `${DIM}no limits${R}`;
+  return limits.map((l) =>
+    `${DIM}${l.label}${R} ${gradient(l.percent)}${brailleBar(l.percent)}${R} ${
+      String(l.percent).padStart(3)
+    }%`
+  ).join("  ");
+}
+
+if (import.meta.main) {
+  const list = accounts();
+  const limits = await Promise.all(list.map(fetchLimits));
+  const nameW = Math.max(...list.map((a) => a.name.length));
+  const emails = list.map(email);
+  const emailW = Math.max(...emails.map((e) => e.length));
+  for (let i = 0; i < list.length; i++) {
+    console.log(
+      `${list[i].name.padEnd(nameW)}\t${emails[i].padEnd(emailW)}\t${
+        fmtLimits(limits[i])
+      }`,
+    );
+  }
+}

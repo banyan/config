@@ -210,7 +210,47 @@ alias ran="git ran -e '^s|^a|^dic|^git|^ran'"
 alias w="fzf-git-worktree"
 
 # LLMs
-alias c="claude --dangerously-skip-permissions"
+# c: pick which Claude account to use, then start claude. "default" is plain
+# ~/.claude; other profiles are CLAUDE_CONFIG_DIR dirs under ~/.claude-profiles
+# with shared config (skills, settings, CLAUDE.md, projects, …) symlinked back
+# to ~/.claude, so only login/credentials differ. Credentials stay isolated in
+# the Keychain too — claude suffixes the service name with a hash of
+# CLAUDE_CONFIG_DIR. Pick "new:" to scaffold a profile for another account
+# (first launch will ask for /login).
+c() {
+  local pdir=$HOME/.claude-profiles choice name
+  local -a items
+  items=("default	$(_c_email "$HOME/.claude.json")")
+  for name in $pdir/*(N/:t); do
+    items+=("$name	$(_c_email "$pdir/$name/.claude.json")")
+  done
+  items+=("new:	create a profile for another account")
+  choice=$(printf '%s\n' "${items[@]}" | fzf --prompt='claude account> ' --height=~40% --reverse) || return
+  choice=${choice%%	*}
+  case $choice in
+    default) claude --dangerously-skip-permissions "$@" ;;
+    new:)
+      printf 'profile name (e.g. work): '; read -r name
+      [[ -n $name ]] || return 1
+      _c_new_profile "$name" || return
+      CLAUDE_CONFIG_DIR=$pdir/$name claude --dangerously-skip-permissions "$@" ;;
+    *) CLAUDE_CONFIG_DIR=$pdir/$choice claude --dangerously-skip-permissions "$@" ;;
+  esac
+}
+_c_email() {
+  [[ -r $1 ]] || { print -n "not logged in"; return }
+  python3 -c 'import json,sys
+print(json.load(open(sys.argv[1])).get("oauthAccount",{}).get("emailAddress","not logged in"),end="")' "$1" 2>/dev/null || print -n '?'
+}
+_c_new_profile() {
+  local dir=$HOME/.claude-profiles/$1 f
+  mkdir -p "$dir" || return
+  for f in CLAUDE.md settings.json settings.local.json skills commands agents \
+           plugins mcp.json statusline.py bin projects agent-sops plans handoffs; do
+    [[ -e $HOME/.claude/$f && ! -e $dir/$f ]] && ln -s "$HOME/.claude/$f" "$dir/$f"
+  done
+  return 0
+}
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 alias gemini="gemini --yolo"
 

@@ -211,12 +211,13 @@ alias w="fzf-git-worktree"
 
 # LLMs
 # c: pick which Claude account to use, then start claude. "default" is plain
-# ~/.claude; other profiles are CLAUDE_CONFIG_DIR dirs under ~/.claude-profiles
-# with shared config (skills, settings, CLAUDE.md, projects, …) symlinked back
-# to ~/.claude, so only login/credentials differ. Credentials stay isolated in
-# the Keychain too — claude suffixes the service name with a hash of
-# CLAUDE_CONFIG_DIR. Pick "new:" to scaffold a profile for another account
-# (first launch will ask for /login).
+# ~/.claude; other profiles are CLAUDE_CONFIG_DIR dirs under ~/.claude-profiles.
+# Everything except auth is shared: on every launch the profile is re-synced to
+# symlink each entry of ~/.claude, so new skills/settings/dirs propagate to all
+# accounts. Only auth is per-profile — .claude.json (oauthAccount) lives inside
+# the profile dir, and claude suffixes the Keychain service name with a hash of
+# CLAUDE_CONFIG_DIR, so logins stay isolated. Pick "new:" to scaffold a profile
+# for another account (first launch will ask for /login).
 c() {
   local pdir=$HOME/.claude-profiles choice name
   local -a items
@@ -232,9 +233,11 @@ c() {
     new:)
       printf 'profile name (e.g. work): '; read -r name
       [[ -n $name ]] || return 1
-      _c_new_profile "$name" || return
+      _c_sync_profile "$name" || return
       CLAUDE_CONFIG_DIR=$pdir/$name claude --dangerously-skip-permissions "$@" ;;
-    *) CLAUDE_CONFIG_DIR=$pdir/$choice claude --dangerously-skip-permissions "$@" ;;
+    *)
+      _c_sync_profile "$choice" || return
+      CLAUDE_CONFIG_DIR=$pdir/$choice claude --dangerously-skip-permissions "$@" ;;
   esac
 }
 _c_email() {
@@ -242,12 +245,15 @@ _c_email() {
   python3 -c 'import json,sys
 print(json.load(open(sys.argv[1])).get("oauthAccount",{}).get("emailAddress","not logged in"),end="")' "$1" 2>/dev/null || print -n '?'
 }
-_c_new_profile() {
-  local dir=$HOME/.claude-profiles/$1 f
+# Symlink every entry of ~/.claude into the profile, skipping anything already
+# there (including files claude created itself, which then stay per-profile).
+# Dotfiles are deliberately not globbed: that keeps auth out — .credentials.json
+# is the one auth file that could appear in ~/.claude (macOS uses the Keychain).
+_c_sync_profile() {
+  local dir=$HOME/.claude-profiles/$1 src
   mkdir -p "$dir" || return
-  for f in CLAUDE.md settings.json settings.local.json skills commands agents \
-           plugins mcp.json statusline.py bin projects agent-sops plans handoffs; do
-    [[ -e $HOME/.claude/$f && ! -e $dir/$f ]] && ln -s "$HOME/.claude/$f" "$dir/$f"
+  for src in $HOME/.claude/*(N); do
+    [[ -e $dir/${src:t} || -L $dir/${src:t} ]] || ln -s "$src" "$dir/${src:t}"
   done
   return 0
 }

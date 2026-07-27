@@ -214,6 +214,21 @@ alias c="claude --dangerously-skip-permissions"
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 alias gemini="gemini --yolo"
 
+# sr (github.com/banyan/sr): pick any claude or codex session across every
+# project and resume it in its own cwd. A binary can't cd its parent shell, so
+# sr hands the chosen directory back through SR_CD_FILE and this wrapper does
+# the cd. Without the function sr still works — only the cd is lost.
+sr() {
+  local f
+  f=$(mktemp -t sr-cd) || return
+  SR_CD_FILE=$f command sr "$@"
+  local st=$? d
+  d=$(<"$f")
+  rm -f "$f"
+  [[ -n $d && -d $d ]] && cd -- "$d"
+  return $st
+}
+
 # for Mac
 alias there="fcd"
 alias here="open ."

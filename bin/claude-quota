@@ -5,7 +5,7 @@
 // zshrc) uses these lines as fzf rows.
 //
 //   $ claude-quota
-//   default 	kohei@conocer.co 	5h ⣿⣿⣀      12%  7d ⣿⣄       7%  fable ⣿⣶      10%
+//   default 	kohei@conocer.co 	5h ⣿⣿⣀      12%  2h40m  7d ⣿⣄       7%  5d23h  fable ⣿⣶      10%  5d23h
 //
 // The output matches the dashboard.mi.nu quota cards (errands
 // jobs/agent-usage/quota.ts) and ~/.claude/statusline.py: same braille bars,
@@ -49,6 +49,7 @@ interface Account {
 interface Limit {
   label: string;
   percent: number;
+  resetsAt?: string;
 }
 
 function accounts(): Account[] {
@@ -222,7 +223,10 @@ function toLimits(usage: Record<string, unknown>): Limit[] {
       : model
       ? model.toLowerCase()
       : kind;
-    out.push({ label, percent: Math.round(percent) });
+    const resetsAt = typeof raw.resets_at === "string"
+      ? raw.resets_at
+      : undefined;
+    out.push({ label, percent: Math.round(percent), resetsAt });
   }
   return out;
 }
@@ -294,14 +298,30 @@ function gradient(pct: number): string {
   return `\x1b[38;2;${r};${g};${b}m`;
 }
 
+// Time until a limit window resets, computed at print time so 5-minute-old
+// cache entries still show the right countdown. "" when the API gave none.
+function fmtEta(resetsAt: string | undefined): string {
+  if (!resetsAt) return "";
+  const ms = Date.parse(resetsAt) - Date.now();
+  if (!Number.isFinite(ms)) return "";
+  if (ms <= 0) return "now";
+  const min = Math.ceil(ms / 60_000);
+  const d = Math.floor(min / 1440);
+  const h = Math.floor((min % 1440) / 60);
+  const m = min % 60;
+  if (d > 0) return `${d}d${h > 0 ? `${h}h` : ""}`;
+  if (h > 0) return `${h}h${m > 0 ? `${m}m` : ""}`;
+  return `${m}m`;
+}
+
 function fmtLimits(limits: Limit[] | null): string {
   if (limits === null) return `${DIM}quota n/a${R}`;
   if (limits.length === 0) return `${DIM}no limits${R}`;
   return limits.map((l) =>
     `${DIM}${l.label}${R} ${gradient(l.percent)}${brailleBar(l.percent)}${R} ${
       String(l.percent).padStart(3)
-    }%`
-  ).join("  ");
+    }%  ${DIM}${fmtEta(l.resetsAt).padEnd(6)}${R}`
+  ).join(" ");
 }
 
 if (import.meta.main) {

@@ -5,7 +5,7 @@
 // zshrc) uses these lines as fzf rows.
 //
 //   $ claude-quota
-//   default 	kohei@conocer.co 	5h ⣿⣿⣀      12%  2h40m  7d ⣿⣄       7%  5d23h  fable ⣿⣶      10%  5d23h
+//   default 	kohei@conocer.co 	5h ⣿⣿⣀      12%  ↻23:29  7d ⣿⣄       7%  ↻8/2 03:59  fable ⣿⣶      10%  ↻8/2 03:59
 //
 // The output matches the dashboard.mi.nu quota cards (errands
 // jobs/agent-usage/quota.ts) and ~/.claude/statusline.py: same braille bars,
@@ -298,20 +298,20 @@ function gradient(pct: number): string {
   return `\x1b[38;2;${r};${g};${b}m`;
 }
 
-// Time until a limit window resets, computed at print time so 5-minute-old
-// cache entries still show the right countdown. "" when the API gave none.
-function fmtEta(resetsAt: string | undefined): string {
+// When a limit window resets, in local time — same style as the
+// dashboard.mi.nu quota cards: "↻23:29" today, "↻8/2 03:59" another day.
+// "" when the API gave none.
+function fmtReset(resetsAt: string | undefined): string {
   if (!resetsAt) return "";
-  const ms = Date.parse(resetsAt) - Date.now();
-  if (!Number.isFinite(ms)) return "";
-  if (ms <= 0) return "now";
-  const min = Math.ceil(ms / 60_000);
-  const d = Math.floor(min / 1440);
-  const h = Math.floor((min % 1440) / 60);
-  const m = min % 60;
-  if (d > 0) return `${d}d${h > 0 ? `${h}h` : ""}`;
-  if (h > 0) return `${h}h${m > 0 ? `${m}m` : ""}`;
-  return `${m}m`;
+  const t = new Date(resetsAt);
+  if (Number.isNaN(t.getTime())) return "";
+  const now = new Date();
+  const hhmm = `${String(t.getHours()).padStart(2, "0")}:${
+    String(t.getMinutes()).padStart(2, "0")
+  }`;
+  const sameDay = t.getFullYear() === now.getFullYear() &&
+    t.getMonth() === now.getMonth() && t.getDate() === now.getDate();
+  return sameDay ? `↻${hhmm}` : `↻${t.getMonth() + 1}/${t.getDate()} ${hhmm}`;
 }
 
 function fmtLimits(limits: Limit[] | null): string {
@@ -320,7 +320,7 @@ function fmtLimits(limits: Limit[] | null): string {
   return limits.map((l) =>
     `${DIM}${l.label}${R} ${gradient(l.percent)}${brailleBar(l.percent)}${R} ${
       String(l.percent).padStart(3)
-    }%  ${DIM}${fmtEta(l.resetsAt).padEnd(6)}${R}`
+    }%  ${DIM}${fmtReset(l.resetsAt).padEnd(12)}${R}`
   ).join(" ");
 }
 

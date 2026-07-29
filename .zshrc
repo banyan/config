@@ -301,6 +301,16 @@ r() {
   return $st
 }
 
+# rr: describe the session instead of filtering the list. Prompts for one line
+# (vared, so the usual line editing works), enter hands it to `r --ask`, where
+# claude shortlists the matching sessions and the picker confirms.
+rr() {
+  local q
+  vared -p 'ask > ' -c q || return
+  [[ -z $q ]] && return 0
+  r --ask "$q"
+}
+
 # for Mac
 alias there="fcd"
 alias here="open ."

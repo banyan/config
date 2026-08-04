@@ -15,6 +15,8 @@ uv = "0.11.11"
 
 "pipx:beko-translate" = "latest"
 "npm:chrome-devtools-mcp" = "latest"
+colima = "latest"
+lima = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

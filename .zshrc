@@ -76,7 +76,15 @@ zinit light banyan/zsh-auto-escape
 zinit light banyan/zsh-fzf-git-worktree
 
 fpath=(~/.zsh/completions $fpath)
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+# -C skips compaudit and dump regeneration (~40ms). Fine on a single-user
+# machine, but new completions would never be seen, so fall back to a full
+# compinit once the dump is older than 24h.
+if [[ -n ~/.zcompdump(#qN.mh-24) ]]; then
+    compinit -C
+else
+    compinit
+fi
 zinit cdreplay -q
 
 ZSH_AUTO_ESCAPE_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co', 'mv', 'ls', 'ls -la', 'jest')

@@ -86,7 +86,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#B19CD9"
 PROMPT_SYMBOL="❯"
 
 # Show hostname + pink ❯ only on Mac mini
-if [[ "$(hostname)" == *"Mac-mini"* ]]; then
+if [[ "$HOST" == *"Mac-mini"* ]]; then
   PROMPT="%F{158}[mini]%f %(?,%F{213}${PROMPT_SYMBOL}%f,%F{227}${PROMPT_SYMBOL}%f) "
 else
   PROMPT="%(?,%F{38}${PROMPT_SYMBOL}%f,%F{227}${PROMPT_SYMBOL}%f) "

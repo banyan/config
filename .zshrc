@@ -5,9 +5,6 @@
 # Complement
 typeset -U fpath
 
-# Predictive input from history (man zshcontrib)
-autoload -U predict-on
-
 # Select completion candidates with arrow keys (candidates are colorized)
 zstyle ':completion:*:default' menu select=1
 # Ignore case during completion (but keep uppercase letters as typed)
@@ -465,8 +462,6 @@ ghopen() {
 
 export FZF_DEFAULT_OPTS='--height 90% --layout=reverse --border -x --bind ctrl-d:preview-page-down,ctrl-u:preview-page-up'
 
-[ -f ~/.zsh.d/.fzf.zsh ] && source ~/.zsh.d/.fzf.zsh
-
 kill_port() {
   local pid
   pid=$(lsof -n -i -P | fzf -m | awk '{print $2}')
@@ -488,9 +483,6 @@ fkill() {
 }
 
 export FZF_CTRL_R_OPTS="--prompt=\"History > \""
-
-# opam configuration
-test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 function gcloud-activate() {
   name="$1"

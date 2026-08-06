@@ -52,17 +52,20 @@ autoload -Uz _zinit
 # This owns interactive ZLE widgets, so it must be ready at the first prompt.
 zinit light zsh-users/zsh-autosuggestions
 
+# Turbo, no blockf so they may touch fpath. Registered first so auto-escape
+# installs its accept-line widget before fast-syntax-highlighting wraps it.
+zinit wait lucid light-mode for \
+    @'banyan/firebase-zsh' \
+    @'agkozak/zsh-z' \
+    @'banyan/zsh-auto-escape' \
+    @'banyan/zsh-fzf-git-worktree'
+
 zinit wait lucid blockf light-mode for \
     @'zsh-users/zsh-completions' \
     @'g-plane/zsh-yarn-autocompletions' \
     @'zsh-users/zsh-history-substring-search' \
     @'momo-lab/zsh-replace-multiple-dots' \
     @'zdharma-continuum/fast-syntax-highlighting'
-
-zinit light banyan/firebase-zsh
-zinit load agkozak/zsh-z
-zinit light banyan/zsh-auto-escape
-zinit light banyan/zsh-fzf-git-worktree
 
 fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit

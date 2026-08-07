@@ -10,7 +10,6 @@ brew "difftastic"             # Structural diff (git dft)
 brew "bat"                    # cat with syntax highlighting
 brew "fzf"                    # Fuzzy finder
 brew "zoxide"                 # Smarter cd (z)
-brew "atuin"                  # SQLite shell history (Ctrl-R)
 brew "jq"                     # JSON processor
 brew "yq"                     # YAML processor
 

@@ -5,8 +5,11 @@ brew "git"                    # Version control
 brew "tmux"                   # Terminal multiplexer
 brew "gh"                     # GitHub CLI
 brew "tig"                    # Git TUI
+brew "git-delta"              # Syntax-highlighting git pager (delta)
+brew "difftastic"             # Structural diff (git dft)
 brew "bat"                    # cat with syntax highlighting
 brew "fzf"                    # Fuzzy finder
+brew "zoxide"                 # Smarter cd (z)
 brew "jq"                     # JSON processor
 brew "yq"                     # YAML processor
 
@@ -14,6 +17,7 @@ brew "ripgrep"                # Fast grep (rg)
 brew "fd"                     # Fast find
 brew "tree"                   # Directory listing
 brew "gnu-sed"                # GNU sed (gsed)
+brew "hyperfine"              # CLI benchmarking
 
 brew "ffmpeg"                 # Video/audio processing
 brew "imagemagick"            # Image manipulation

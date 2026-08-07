@@ -56,7 +56,6 @@ zinit light zsh-users/zsh-autosuggestions
 # installs its accept-line widget before fast-syntax-highlighting wraps it.
 zinit wait lucid light-mode for \
     @'banyan/firebase-zsh' \
-    @'agkozak/zsh-z' \
     @'banyan/zsh-auto-escape' \
     @'banyan/zsh-fzf-git-worktree'
 
@@ -641,9 +640,9 @@ ch() {
 }
 
 fzf-z-search() {
-    local res=$(z | sort -rn | cut -c 12- | awk '!a[$0]++' | fzf --preview="ls -la {1}")
+    local res=$(zoxide query -l | fzf --preview="ls -la {}")
     if [ -n "$res" ]; then
-        BUFFER="cd $res"
+        BUFFER="cd ${(q)res}"
     fi
     zle accept-line
 }
@@ -702,3 +701,6 @@ fi
 
 # mise
 eval "$(~/.local/bin/mise activate zsh)"
+
+# zoxide (replaces zsh-z; data imported from ~/.z via `zoxide import --from z`)
+eval "$(zoxide init zsh)"

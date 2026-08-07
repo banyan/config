@@ -10,9 +10,13 @@
     ignorecase        = false
     quotepath         = false
 [pager]
-    log  = diff-highlight | less
-    show = diff-highlight | less
-    diff = diff-highlight | less
+    log  = delta
+    show = delta
+    diff = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
 [color]
     diff        = auto
     status      = auto

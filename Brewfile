@@ -25,6 +25,7 @@ brew "imagemagick"            # Image manipulation
 brew "pandoc"                 # Document conversion
 brew "gnuplot"                # Graph generation
 brew "sqlite"                 # Database (supplement to system sqlite3)
+brew "duckdb"                 # SQL over CSV/JSON/Parquet files
 
 brew "colima"                 # Container runtime for macOS
 brew "docker"                 # Docker CLI

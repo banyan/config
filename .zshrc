@@ -712,15 +712,3 @@ if [[ ! -s $_zoxide_init || $_zoxide_init -ot ${commands[zoxide]:A} ]]; then
 fi
 source $_zoxide_init
 unset _zoxide_init
-
-# atuin: SQLite-backed history search on Ctrl-R (fzf's binding is overridden;
-# fzf keeps Ctrl-T / Alt-C). Up-arrow stays plain zsh history. Same init cache
-# as zoxide; the ATUIN_SESSION uuid fork inside the script is per-shell and
-# can't be cached.
-_atuin_init=$HOME/.cache/atuin-init.zsh
-if [[ ! -s $_atuin_init || $_atuin_init -ot ${commands[atuin]:A} ]]; then
-    command mkdir -p $HOME/.cache
-    atuin init zsh --disable-up-arrow >| $_atuin_init
-fi
-source $_atuin_init
-unset _atuin_init

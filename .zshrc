@@ -702,5 +702,13 @@ fi
 # mise
 eval "$(~/.local/bin/mise activate zsh)"
 
-# zoxide (replaces zsh-z; data imported from ~/.z via `zoxide import --from z`)
-eval "$(zoxide init zsh)"
+# zoxide (replaces zsh-z; data imported from ~/.z via `zoxide import --from z`).
+# The init script is cached: forking zoxide on every startup costs ~4ms. The
+# cache is refreshed whenever the resolved zoxide binary is newer (brew upgrade).
+_zoxide_init=$HOME/.cache/zoxide-init.zsh
+if [[ ! -s $_zoxide_init || $_zoxide_init -ot ${commands[zoxide]:A} ]]; then
+    command mkdir -p $HOME/.cache
+    zoxide init zsh >| $_zoxide_init
+fi
+source $_zoxide_init
+unset _zoxide_init

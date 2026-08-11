@@ -280,6 +280,7 @@ EOF
 }
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 alias gemini="gemini --yolo"
+alias oc="opencode --auto"
 
 # r (github.com/banyan/r): pick any claude or codex session across every project
 # and resume it in its own cwd. A binary can't cd its parent shell, so r hands

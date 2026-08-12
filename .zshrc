@@ -300,11 +300,11 @@ pi() {
     esac
   done
 
-  choice=$(printf '%s\n' \
-    $'codex\tGPT-5.6 Sol · ChatGPT subscription' \
-    $'deepseek\tDeepSeek V4 Flash 0731 · OpenRouter' |
+  choice=$(printf '%-12s%s\n' \
+    codex 'GPT-5.6 Sol · ChatGPT subscription' \
+    deepseek 'DeepSeek V4 Flash 0731 · OpenRouter' |
     fzf --prompt='pi model> ' --height=~40% --reverse) || return
-  choice=${choice%%$'\t'*}
+  choice=${choice%% *}
 
   case $choice in
     codex) command pi --model openai-codex/gpt-5.6-sol:medium "$@" ;;

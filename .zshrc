@@ -283,7 +283,7 @@ EOF
 # model/provider flags and maintenance subcommands bypass the picker so the
 # underlying CLI remains directly accessible.
 pi() {
-  local choice arg api_key
+  local choice arg
 
   case $1 in
     install|remove|uninstall|update|list|config|auth|-h|--help|-v|--version|--list-models)
@@ -308,16 +308,7 @@ pi() {
 
   case $choice in
     codex) command pi --model openai-codex/gpt-5.6-sol:medium "$@" ;;
-    deepseek)
-      api_key=$PI_OPENROUTER_API_KEY
-      if [[ -z $api_key ]]; then
-        api_key=$(security find-generic-password -a "$USER" -s PI_OPENROUTER_API_KEY -w 2>/dev/null) || {
-          print -u2 'PI_OPENROUTER_API_KEY がmacOS Keychainにありません'
-          return 1
-        }
-      fi
-      OPENROUTER_API_KEY=$api_key command pi --model openrouter/deepseek/deepseek-v4-flash-0731:high "$@"
-      ;;
+    deepseek) OPENROUTER_API_KEY=$PI_OPENROUTER_API_KEY command pi --model openrouter/deepseek/deepseek-v4-flash-0731:high "$@" ;;
   esac
 }
 

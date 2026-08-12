@@ -278,6 +278,40 @@ json.dump({'projects': projects}, open(f'{sys.argv[1]}/.claude.json', 'w'))
 EOF
   return 0
 }
+
+# pi: pick the model backend before starting an interactive session. Explicit
+# model/provider flags and maintenance subcommands bypass the picker so the
+# underlying CLI remains directly accessible.
+pi() {
+  local choice arg
+
+  case $1 in
+    install|remove|uninstall|update|list|config|auth|-h|--help|-v|--version|--list-models)
+      command pi "$@"
+      return
+      ;;
+  esac
+  for arg in "$@"; do
+    case $arg in
+      --model|--provider)
+        command pi "$@"
+        return
+        ;;
+    esac
+  done
+
+  choice=$(printf '%s\n' \
+    $'codex\tGPT-5.6 Sol · ChatGPT subscription' \
+    $'deepseek\tDeepSeek V4 Flash 0731 · OpenRouter' |
+    fzf --prompt='pi model> ' --height=~40% --reverse) || return
+  choice=${choice%%$'\t'*}
+
+  case $choice in
+    codex) command pi --model openai-codex/gpt-5.6-sol:medium "$@" ;;
+    deepseek) command pi --model openrouter/deepseek/deepseek-v4-flash-0731:high "$@" ;;
+  esac
+}
+
 alias codex="codex --dangerously-bypass-approvals-and-sandbox"
 alias gemini="gemini --yolo"
 alias oc="opencode --auto"

@@ -8,7 +8,7 @@ pnpm = "10.33.4"
 uv = "0.11.11"
 "aqua:cli/cli" = "2.92.0"
 
-"npm:@anthropic-ai/claude-code" = "latest"
+"npm:@anthropic-ai/claude-code" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@playwright/cli" = "latest"
@@ -20,3 +20,4 @@ lima = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
+npm.shell_out = true

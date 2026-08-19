@@ -232,17 +232,33 @@ c() {
   items+=("new:	create a profile for another account")
   choice=$(printf '%s\n' "${items[@]}" | fzf --ansi --prompt='claude account> ' --height=~40% --reverse) || return
   choice=${${choice%%$'\t'*}%% *}
+  local model effort
+  model=$(_c_pick model fable opus sonnet haiku) || return
+  effort=$(_c_pick effort low medium high xhigh max) || return
   case $choice in
-    default) claude --dangerously-skip-permissions "$@" ;;
+    default) claude --dangerously-skip-permissions --model $model --effort $effort "$@" ;;
     new:)
       printf 'profile name (e.g. work): '; read -r name
       [[ -n $name ]] || return 1
       _c_sync_profile "$name" || return
-      CLAUDE_CONFIG_DIR=$pdir/$name claude --dangerously-skip-permissions "$@" ;;
+      CLAUDE_CONFIG_DIR=$pdir/$name claude --dangerously-skip-permissions --model $model --effort $effort "$@" ;;
     *)
       _c_sync_profile "$choice" || return
-      CLAUDE_CONFIG_DIR=$pdir/$choice claude --dangerously-skip-permissions "$@" ;;
+      CLAUDE_CONFIG_DIR=$pdir/$choice claude --dangerously-skip-permissions --model $model --effort $effort "$@" ;;
   esac
+}
+# Pick one of the given options with fzf, remembering the choice in
+# ~/.local/state/c/<kind>. The saved value is moved to the top of the list so a
+# plain Enter keeps the current model/effort; the rest stay in canonical order.
+_c_pick() {
+  local kind=$1 sdir=$HOME/.local/state/c cur choice
+  shift
+  local -a items=("$@")
+  [[ -r $sdir/$kind ]] && cur=$(<$sdir/$kind)
+  [[ -n $cur ]] && items=($cur ${(@)items:#$cur})
+  choice=$(printf '%s\n' "${items[@]}" | fzf --prompt="claude $kind> " --height=~40% --reverse) || return
+  mkdir -p $sdir && print -r -- $choice >$sdir/$kind
+  print -r -- $choice
 }
 _c_email() {
   [[ -r $1 ]] || { print -n "not logged in"; return }

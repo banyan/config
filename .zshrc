@@ -248,15 +248,18 @@ c() {
   esac
 }
 # Pick one of the given options with fzf, remembering the choice in
-# ~/.local/state/c/<kind>. The saved value is moved to the top of the list so a
-# plain Enter keeps the current model/effort; the rest stay in canonical order.
+# ~/.local/state/c/<kind>. The list keeps its canonical order; the cursor
+# starts on the saved value, so a plain Enter keeps the current model/effort.
 _c_pick() {
   local kind=$1 sdir=$HOME/.local/state/c cur choice
+  local -i pos=1
   shift
   local -a items=("$@")
   [[ -r $sdir/$kind ]] && cur=$(<$sdir/$kind)
-  [[ -n $cur ]] && items=($cur ${(@)items:#$cur})
-  choice=$(printf '%s\n' "${items[@]}" | fzf --prompt="claude $kind> " --height=~40% --reverse) || return
+  [[ -n $cur ]] && pos=${items[(i)$cur]}
+  (( pos > $#items )) && pos=1
+  choice=$(printf '%s\n' "${items[@]}" |
+    fzf --prompt="claude $kind> " --height=~40% --reverse --bind "start:pos($pos)") || return
   mkdir -p $sdir && print -r -- $choice >$sdir/$kind
   print -r -- $choice
 }

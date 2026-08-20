@@ -233,8 +233,8 @@ c() {
   choice=$(printf '%s\n' "${items[@]}" | fzf --ansi --prompt='claude account> ' --height=~40% --reverse) || return
   choice=${${choice%%$'\t'*}%% *}
   local model effort
-  model=$(_c_pick model fable opus sonnet haiku) || return
-  effort=$(_c_pick effort low medium high xhigh max) || return
+  model=$(_llm_pick c claude model fable opus sonnet haiku) || return
+  effort=$(_llm_pick c claude effort low medium high xhigh max) || return
   case $choice in
     default) claude --dangerously-skip-permissions --model $model --effort $effort "$@" ;;
     new:)
@@ -247,19 +247,20 @@ c() {
       CLAUDE_CONFIG_DIR=$pdir/$choice claude --dangerously-skip-permissions --model $model --effort $effort "$@" ;;
   esac
 }
-# Pick one of the given options with fzf, remembering the choice in
-# ~/.local/state/c/<kind>. The list keeps its canonical order; the cursor
-# starts on the saved value, so a plain Enter keeps the current model/effort.
-_c_pick() {
-  local kind=$1 sdir=$HOME/.local/state/c cur choice
+# Pick one of the given options with fzf, remembering the choice per launcher.
+# The list keeps its canonical order; the cursor starts on the saved value, so
+# a plain Enter keeps the current model/effort.
+_llm_pick() {
+  local launcher=$1 label=$2 kind=$3 cur choice
   local -i pos=1
-  shift
+  local sdir=${XDG_STATE_HOME:-$HOME/.local/state}/$launcher
+  shift 3
   local -a items=("$@")
   [[ -r $sdir/$kind ]] && cur=$(<$sdir/$kind)
   [[ -n $cur ]] && pos=${items[(i)$cur]}
   (( pos > $#items )) && pos=1
   choice=$(printf '%s\n' "${items[@]}" |
-    fzf --prompt="claude $kind> " --height=~40% --reverse --bind "start:pos($pos)") || return
+    fzf --prompt="$label $kind> " --height=~40% --reverse --bind "start:pos($pos)") || return
   mkdir -p $sdir && print -r -- $choice >$sdir/$kind
   print -r -- $choice
 }
@@ -331,9 +332,68 @@ pi() {
   esac
 }
 
-alias codex="codex --dangerously-bypass-approvals-and-sandbox"
+codex() {
+  local model effort
+  model=$(_llm_pick codex codex model gpt-5.6-sol gpt-5.6-terra gpt-5.6-luna) || return
+  case $model in
+    gpt-5.6-luna) effort=$(_llm_pick codex codex effort low medium high xhigh max) || return ;;
+    *) effort=$(_llm_pick codex codex effort low medium high xhigh max ultra) || return ;;
+  esac
+  command codex --dangerously-bypass-approvals-and-sandbox \
+    --model "$model" -c "model_reasoning_effort=$effort" "$@"
+}
 alias gemini="gemini --yolo"
-alias oc="opencode --auto"
+oc() {
+  local choice model effort
+  choice=$(_llm_pick oc opencode model deepseek-v4-pro-0813 kimi-k3) || return
+  case $choice in
+    deepseek-v4-pro-0813) model=openrouter/deepseek/deepseek-v4-pro-0813 ;;
+    kimi-k3) model=openrouter/moonshotai/kimi-k3 ;;
+  esac
+  effort=$(_llm_pick oc opencode effort low high max) || return
+  _oc_set_variant "$model" "$effort" || return
+  command opencode --auto --model "$model" "$@"
+}
+# The regular OpenCode TUI has no --variant option. Store the selected effort
+# in the same state file its native model picker uses, preserving other state.
+_oc_set_variant() {
+  local state_home=${XDG_STATE_HOME:-$HOME/.local/state}
+  python3 - "$1" "$2" "$state_home/opencode/model.json" <<'PY'
+import json
+import os
+import sys
+import tempfile
+
+model, effort, path = sys.argv[1:]
+try:
+    with open(path) as source:
+        data = json.load(source)
+except (OSError, json.JSONDecodeError):
+    data = {}
+if not isinstance(data, dict):
+    data = {}
+variants = data.get("variant")
+if not isinstance(variants, dict):
+    variants = {}
+    data["variant"] = variants
+variants[model] = effort
+
+directory = os.path.dirname(path)
+os.makedirs(directory, exist_ok=True)
+fd, temporary = tempfile.mkstemp(dir=directory)
+try:
+    with os.fdopen(fd, "w") as destination:
+        json.dump(data, destination, indent=2)
+        destination.write("\n")
+    os.replace(temporary, path)
+except BaseException:
+    try:
+        os.unlink(temporary)
+    except OSError:
+        pass
+    raise
+PY
+}
 
 # r (github.com/banyan/r): pick any claude or codex session across every project
 # and resume it in its own cwd. A binary can't cd its parent shell, so r hands

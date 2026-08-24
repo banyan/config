@@ -18,6 +18,10 @@
 [delta]
     navigate = true
     line-numbers = true
+    plus-style = "syntax #1a5c1a"
+    plus-emph-style = "syntax #2d8f2d"
+    minus-style = "syntax #6b2020"
+    minus-emph-style = "syntax #a03030"
 [color]
     diff        = auto
     status      = auto

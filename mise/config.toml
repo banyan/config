@@ -17,6 +17,7 @@ uv = "0.11.11"
 "npm:chrome-devtools-mcp" = "latest"
 colima = "latest"
 lima = "latest"
+go = "1.27"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

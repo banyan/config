@@ -17,6 +17,7 @@
     diffFilter = delta --color-only
 [delta]
     navigate = true
+    line-numbers = true
 [color]
     diff        = auto
     status      = auto

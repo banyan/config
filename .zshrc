@@ -334,7 +334,7 @@ pi() {
 
 codex() {
   local model effort
-  model=$(_llm_pick codex codex model gpt-5.6-sol gpt-5.6-terra gpt-5.6-luna) || return
+  model=$(_llm_pick codex codex model gpt-6-astra gpt-5.6-sol gpt-5.6-terra gpt-5.6-luna) || return
   case $model in
     gpt-5.6-luna) effort=$(_llm_pick codex codex effort low medium high xhigh max) || return ;;
     *) effort=$(_llm_pick codex codex effort low medium high xhigh max ultra) || return ;;

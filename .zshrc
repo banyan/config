@@ -351,7 +351,7 @@ codex() {
     gpt-5.6-luna) effort=$(_llm_pick codex codex effort low medium high xhigh max) || return ;;
     *) effort=$(_llm_pick codex codex effort low medium high xhigh max ultra) || return ;;
   esac
-  if [[ $name == kohei || -e $profile/quota-auth-invalid ]] || ! codex-quota --check "$name"; then
+  if [[ -e $profile/quota-auth-invalid ]] || ! codex-quota --check "$name"; then
     print -u2 -- "$name@conocer.co でログインしてください。"
     CODEX_HOME=$profile command codex -c 'cli_auth_credentials_store="file"' login || return
     if ! codex-quota --check "$name"; then

@@ -353,10 +353,10 @@ codex() {
     *) effort=$(_llm_pick codex codex effort low medium high xhigh max ultra) || return ;;
   esac
   if [[ -e $profile/quota-auth-invalid ]] || ! codex-quota --check "$name"; then
-    print -u2 -- "$name@conocer.co でログインしてください。"
+    print -u2 -- "Please log in as $name@conocer.co."
     CODEX_HOME=$profile command codex -c 'cli_auth_credentials_store="file"' login || return
     if ! codex-quota --check "$name"; then
-      print -u2 -- "選択したアカウントとログインしたアカウントが一致しません。"
+      print -u2 -- "The logged-in account does not match the selected account."
       return 1
     fi
     rm -f -- "$profile/quota-auth-invalid" "$profile/quota-cache.json"

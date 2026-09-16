@@ -107,14 +107,14 @@ def format_limits(result):
         reset = window.get('resetsAt')
         when = datetime.datetime.fromtimestamp(reset).strftime('%m/%d %H:%M') if reset else '?'
         parts.append(f'{label} \033[{color}m{bar} {left:g}% left\033[0m ↻{when}')
-    return '  '.join(parts) or '残量情報なし'
+    return '  '.join(parts) or 'No quota information available'
 
 
 def row(name):
     profile = prepare(name)
     prefix = f'{name}\t{ACCOUNTS[name]}\t'
     if email(profile / 'auth.json') != ACCOUNTS[name]:
-        return prefix + 'ログインが必要'
+        return prefix + 'Login required'
     cache = profile / 'quota-cache.json'
     invalid = profile / 'quota-auth-invalid'
     try:
@@ -127,14 +127,14 @@ def row(name):
         result = read_quota(profile, ACCOUNTS[name])
         if result is None:
             invalid.touch()
-            return prefix + '再ログインが必要'
+            return prefix + 'Re-login required'
         invalid.unlink(missing_ok=True)
         temp = cache.with_suffix(f'.{os.getpid()}.tmp')
         temp.write_text(json.dumps(result))
         temp.replace(cache)
         return prefix + format_limits(result)
     except (OSError, ValueError, RuntimeError, TimeoutError):
-        return prefix + '残量取得不可（再ログインまたは通信を確認）'
+        return prefix + 'Unable to fetch quota (log in again or check your connection)'
 
 
 def main():

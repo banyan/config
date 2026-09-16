@@ -52,12 +52,13 @@ autoload -Uz _zinit
 # This owns interactive ZLE widgets, so it must be ready at the first prompt.
 zinit light zsh-users/zsh-autosuggestions
 
-# Turbo, no blockf so they may touch fpath. Registered first so auto-escape
-# installs its accept-line widget before fast-syntax-highlighting wraps it.
+# Turbo, no blockf so they may touch fpath.
+# zsh-auto-escape is disabled: its accept-line widget broke `v <file>`
+# (the file no longer opened). Re-enable once that is fixed upstream.
 zinit wait lucid light-mode for \
     @'banyan/firebase-zsh' \
-    @'banyan/zsh-auto-escape' \
     @'banyan/zsh-fzf-git-worktree'
+    # @'banyan/zsh-auto-escape'
 
 zinit wait lucid blockf light-mode for \
     @'zsh-users/zsh-completions' \
@@ -78,7 +79,7 @@ else
 fi
 zinit cdreplay -q
 
-ZSH_AUTO_ESCAPE_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co', 'mv', 'ls', 'ls -la', 'jest')
+# ZSH_AUTO_ESCAPE_PREFIXES=('v' 'code' 'd' 'dic' 'git add' 'git co', 'mv', 'ls', 'ls -la', 'jest')
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#B19CD9"
 
 # prompt

@@ -333,13 +333,35 @@ pi() {
 }
 
 codex() {
-  local model effort
+  local model effort choice name profile items
+  # Keep scripting and maintenance commands usable without interactive pickers.
+  case $1 in
+    exec|e|review|login|logout|app-server|mcp|mcp-server|completion|update|doctor|help|-h|--help|-V|--version)
+      command codex "$@"
+      return
+      ;;
+  esac
+  items=$(codex-quota) || return
+  choice=$(printf '%s\n' "$items" | fzf --ansi --prompt='codex account> ' --height=~40% --reverse) || return
+  name=${choice%%$'\t'*}
+  case $name in kohei|gas) ;; *) return 1 ;; esac
+  profile=$HOME/.codex-profiles/$name
   model=$(_llm_pick codex codex model gpt-6-astra gpt-5.6-sol gpt-5.6-terra gpt-5.6-luna) || return
   case $model in
     gpt-5.6-luna) effort=$(_llm_pick codex codex effort low medium high xhigh max) || return ;;
     *) effort=$(_llm_pick codex codex effort low medium high xhigh max ultra) || return ;;
   esac
-  command codex --dangerously-bypass-approvals-and-sandbox \
+  if [[ $name == kohei || -e $profile/quota-auth-invalid ]] || ! codex-quota --check "$name"; then
+    print -u2 -- "$name@conocer.co でログインしてください。"
+    CODEX_HOME=$profile command codex -c 'cli_auth_credentials_store="file"' login || return
+    if ! codex-quota --check "$name"; then
+      print -u2 -- "選択したアカウントとログインしたアカウントが一致しません。"
+      return 1
+    fi
+    rm -f -- "$profile/quota-auth-invalid" "$profile/quota-cache.json"
+  fi
+  CODEX_HOME=$profile command codex --dangerously-bypass-approvals-and-sandbox \
+    -c 'cli_auth_credentials_store="file"' \
     --model "$model" -c "model_reasoning_effort=$effort" "$@"
 }
 alias gemini="gemini --yolo"

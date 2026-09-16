@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+"""Account picker rows via Codex's own auth refresh and rate-limit RPCs."""
+import base64
+import concurrent.futures
+import datetime
+import json
+import os
+from pathlib import Path
+import selectors
+import subprocess
+import sys
+import time
+
+PROFILES = Path.home() / '.codex-profiles'
+ACCOUNTS = {'kohei': 'kohei@conocer.co', 'gas': 'gas@conocer.co'}
+
+
+def email(path):
+    try:
+        auth = json.loads(path.read_text())
+        token = auth['tokens']['id_token'].split('.')[1]
+        return json.loads(base64.urlsafe_b64decode(token + '==='))['email']
+    except (OSError, ValueError, KeyError, IndexError):
+        return None
+
+
+def prepare(name):
+    profile = PROFILES / name
+    profile.mkdir(parents=True, exist_ok=True, mode=0o700)
+    profile.chmod(0o700)
+    # Share configuration and extensions; keep credentials and runtime DBs isolated.
+    for entry in ('config.toml', 'AGENTS.md', 'skills', 'plugins', 'hooks.json'):
+        source = Path.home() / '.codex' / entry
+        target = profile / entry
+        if source.exists() and not target.exists() and not target.is_symlink():
+            target.symlink_to(source)
+    return profile
+
+
+def read_quota(profile, expected_email):
+    env = dict(os.environ, CODEX_HOME=str(profile))
+    proc = subprocess.Popen(
+        ['codex', 'app-server', '--stdio', '-c', 'cli_auth_credentials_store="file"'],
+        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+        env=env, bufsize=0,
+    )
+    selector = selectors.DefaultSelector()
+    selector.register(proc.stdout, selectors.EVENT_READ)
+    pending = b''
+    deadline = time.monotonic() + 15
+
+    def send(message):
+        proc.stdin.write((json.dumps(message) + '\n').encode())
+
+    def rpc(number, method, params):
+        nonlocal pending
+        send(dict(id=number, method=method, params=params))
+        while True:
+            while b'\n' in pending:
+                line, pending = pending.split(b'\n', 1)
+                message = json.loads(line)
+                if message.get('id') == number:
+                    if 'error' in message:
+                        raise RuntimeError('RPC failed')
+                    return message['result']
+            remaining = deadline - time.monotonic()
+            if remaining <= 0 or not selector.select(remaining):
+                raise TimeoutError()
+            chunk = os.read(proc.stdout.fileno(), 65536)
+            if not chunk:
+                raise RuntimeError('RPC closed')
+            pending += chunk
+
+    try:
+        rpc(1, 'initialize', {'clientInfo': {'name': 'codex-quota', 'version': '1.0'}})
+        send({'method': 'initialized'})
+        # Codex owns refreshing and persisting tokens, including rotated refresh tokens.
+        account = rpc(2, 'account/read', {'refreshToken': True}).get('account')
+        if not account or account.get('email') != expected_email:
+            return None
+        return rpc(3, 'account/rateLimits/read', {})
+    finally:
+        selector.close()
+        proc.stdin.close()
+        proc.terminate()
+        try:
+            proc.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
+        proc.stdout.close()
+
+
+def format_limits(result):
+    snapshot = (result.get('rateLimitsByLimitId') or {}).get('codex') or result.get('rateLimits', {})
+    parts = []
+    for key in ('primary', 'secondary'):
+        window = snapshot.get(key)
+        if not window or not isinstance(window.get('usedPercent'), (int, float)):
+            continue
+        minutes = window.get('windowDurationMins')
+        label = {300: '5h', 10080: 'weekly'}.get(minutes, f'{minutes}m' if minutes else key)
+        left = max(0, min(100, 100 - window['usedPercent']))
+        filled = round(left / 100 * 8)
+        color = 32 if left > 50 else 33 if left > 20 else 31
+        bar = '⣿' * filled + '⣀' * (8 - filled)
+        reset = window.get('resetsAt')
+        when = datetime.datetime.fromtimestamp(reset).strftime('%m/%d %H:%M') if reset else '?'
+        parts.append(f'{label} \033[{color}m{bar} {left:g}% left\033[0m ↻{when}')
+    return '  '.join(parts) or '残量情報なし'
+
+
+def row(name):
+    profile = prepare(name)
+    prefix = f'{name}\t{ACCOUNTS[name]}\t'
+    if email(profile / 'auth.json') != ACCOUNTS[name]:
+        return prefix + 'ログインが必要'
+    cache = profile / 'quota-cache.json'
+    invalid = profile / 'quota-auth-invalid'
+    try:
+        if '--fresh' not in sys.argv and time.time() - cache.stat().st_mtime < 300:
+            result = json.loads(cache.read_text())
+            return prefix + format_limits(result)
+    except (OSError, ValueError):
+        pass
+    try:
+        result = read_quota(profile, ACCOUNTS[name])
+        if result is None:
+            invalid.touch()
+            return prefix + '再ログインが必要'
+        invalid.unlink(missing_ok=True)
+        temp = cache.with_suffix(f'.{os.getpid()}.tmp')
+        temp.write_text(json.dumps(result))
+        temp.replace(cache)
+        return prefix + format_limits(result)
+    except (OSError, ValueError, RuntimeError, TimeoutError):
+        return prefix + '残量取得不可（再ログインまたは通信を確認）'
+
+
+def main():
+    if len(sys.argv) == 3 and sys.argv[1] == '--check':
+        name = sys.argv[2]
+        return 0 if name in ACCOUNTS and email(PROFILES / name / 'auth.json') == ACCOUNTS[name] else 1
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        for line in executor.map(row, ACCOUNTS):
+            print(line)
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

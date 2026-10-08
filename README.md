@@ -18,6 +18,7 @@ mise run setup
 | `mise run install:dotfiles` | Symlink dotfiles into `$HOME` |
 | `mise run install:nvim` | Install neovim and symlink `~/.config/nvim` |
 | `mise run install:ghostty` | Symlink `~/.config/ghostty` |
+| `mise run install:orca` | Symlink `~/.orca/keybindings.json` |
 | `mise run deno-scripts` | Install deno global scripts |
 | `mise run cleanup` | Remove orphaned symlinks |
 

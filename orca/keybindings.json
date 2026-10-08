@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "keybindings": {},
+  "platforms": {
+    "darwin": {
+      "terminal.splitRight": ["Cmd+D", "Ctrl+Cmd+V"],
+      "terminal.splitDown": ["Cmd+Shift+D", "Ctrl+Cmd+S"],
+      "terminal.focusNextPane": ["Cmd+BracketRight", "Ctrl+Cmd+L"],
+      "terminal.focusPreviousPane": ["Cmd+BracketLeft", "Ctrl+Cmd+H"],
+      "terminal.expandPane": ["Cmd+Shift+Enter", "Ctrl+Cmd+Z"],
+      "terminal.closePane": ["Cmd+W", "Ctrl+Cmd+X"],
+      "terminal.equalizePaneSizes": ["Ctrl+Cmd+E"],
+      "tab.newTerminal": ["Cmd+T", "Ctrl+Cmd+C"],
+      "tab.nextTerminal": ["Ctrl+PageDown", "Ctrl+Cmd+N"],
+      "tab.previousTerminal": ["Ctrl+PageUp", "Ctrl+Cmd+P"]
+    },
+    "linux": {},
+    "win32": {}
+  }
+}

@@ -1,6 +1,6 @@
 [tasks.setup]
 description = "Run all setup tasks (dotfiles, nvim, ghostty, deno, bin)"
-depends = ["install:dotfiles", "install:nvim", "install:ghostty", "deno-scripts", "install:bin"]
+depends = ["install:dotfiles", "install:nvim", "install:ghostty", "install:orca", "deno-scripts", "install:bin"]
 
 [tasks."install:dotfiles"]
 description = "Create symlinks for dotfiles to home directory"
@@ -8,7 +8,7 @@ run = '''
 #!/bin/bash
 set -e
 
-IGNORE_FILES=".git README.md mise.toml bin nvim ghostty"
+IGNORE_FILES=".git README.md mise.toml bin nvim ghostty orca"
 BASE_PATH="{{config_root}}"
 
 for file in "$BASE_PATH"/{.*,*}; do
@@ -36,6 +36,15 @@ deno install --global --allow-run -n git-modified_files https://deno.land/x/git_
 [tasks."install:deno"]
 description = "Install deno via mise"
 run = "mise install deno"
+
+[tasks."install:orca"]
+description = "Symlink Orca keybindings into ~/.orca"
+run = '''
+#!/bin/bash
+set -e
+mkdir -p "$HOME/.orca"
+ln -sfn "{{config_root}}/orca/keybindings.json" "$HOME/.orca/keybindings.json"
+'''
 
 [tasks."install:ghostty"]
 description = "Create ~/.config/ghostty symlink"

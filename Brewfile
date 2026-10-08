@@ -35,3 +35,5 @@ brew "gnupg"                  # GPG encryption
 
 cask "1password-cli"          # 1Password CLI (op)
 cask "ghostty"                # Terminal emulator
+tap "stablyai/orca"
+cask "orca"                   # Agent development environment (parallel coding agents)

@@ -1,6 +1,6 @@
 [tasks.setup]
-description = "Run all setup tasks (dotfiles, nvim, ghostty, deno, bin)"
-depends = ["install:dotfiles", "install:nvim", "install:ghostty", "install:orca", "deno-scripts", "install:bin"]
+description = "Run all setup tasks (dotfiles, nvim, ghostty, orca, deno, tools, bin)"
+depends = ["install:dotfiles", "install:nvim", "install:ghostty", "install:orca", "install:deno", "install:tools", "install:bin"]
 
 [tasks."install:dotfiles"]
 description = "Create symlinks for dotfiles to home directory"
@@ -24,17 +24,30 @@ for file in "$BASE_PATH"/{.*,*}; do
 done
 '''
 
-[tasks.deno-scripts]
-description = "Install deno scripts"
-depends = ["install:deno"]
+[tasks."install:tools"]
+description = "Install CLI tools from banyan's repos (git modified_files, gh contrib)"
 run = '''
 #!/bin/bash
 set -e
-deno install --global --allow-run -n git-modified_files https://deno.land/x/git_modified_files@0.1.4/main.ts
+
+if ! command -v cargo >/dev/null; then
+  echo "cargo not found. Install Rust first: https://rustup.rs" >&2
+  exit 1
+fi
+
+# .gitconfig rewrites https://github.com/ to SSH, which cargo's built-in git
+# client can't authenticate; the git CLI can.
+CARGO_NET_GIT_FETCH_WITH_CLI=true cargo install --git https://github.com/banyan/git_modified_files
+
+if gh extension list | grep -q 'banyan/gh-contrib'; then
+  gh extension upgrade contrib
+else
+  gh extension install banyan/gh-contrib
+fi
 '''
 
 [tasks."install:deno"]
-description = "Install deno via mise"
+description = "Install deno via mise (bin/aicommit and bin/claude-quota still run on it)"
 run = "mise install deno"
 
 [tasks."install:orca"]

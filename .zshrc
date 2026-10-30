@@ -299,6 +299,22 @@ json.dump({'projects': projects}, open(f'{sys.argv[1]}/.claude.json', 'w'))
 EOF
   return 0
 }
+# claude-account: which Claude account mini runs as, per lane — "jobs" (errands
+# dispatch and mini's scripts) and "interactive" (claude started on mini).
+# Implementation and registry live in banyan/errands (bin/claude-account). On
+# mini a plain `claude` (no CLAUDE_CONFIG_DIR, i.e. not a `c` profile) follows
+# the interactive lane; elsewhere claude-account goes over ssh.
+if [[ -e $HOME/tmp/errands/state/claude-account.json ]]; then
+  claude-account() { $HOME/tmp/errands/bin/claude-account "$@" }
+  claude() {
+    if [[ -n ${CLAUDE_CONFIG_DIR-} ]]; then command claude "$@"; return; fi
+    local auth
+    auth=$(claude-account env interactive) || return
+    ( eval "$auth"; command claude "$@" )
+  }
+else
+  claude-account() { ssh mini tmp/errands/bin/claude-account "$@" }
+fi
 
 # pi: pick the model backend before starting an interactive session. Explicit
 # model/provider flags and maintenance subcommands bypass the picker so the

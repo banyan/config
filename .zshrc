@@ -234,7 +234,7 @@ c() {
   choice=$(printf '%s\n' "${items[@]}" | fzf --ansi --prompt='claude account> ' --height=~40% --reverse) || return
   choice=${${choice%%$'\t'*}%% *}
   local model effort
-  model=$(_llm_pick c claude model fable opus sonnet haiku) || return
+  model=$(_llm_pick c claude model opus fable sonnet haiku) || return
   effort=$(_llm_pick c claude effort low medium high xhigh max) || return
   case $choice in
     default) claude --dangerously-skip-permissions --model $model --effort $effort "$@" ;;

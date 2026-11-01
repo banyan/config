@@ -10,7 +10,7 @@ mkdir -p ~/git
 git clone https://github.com/banyan/config ~/git/config
 cd ~/git/config
 
-# Run all setup tasks (dotfiles, nvim, ghostty, orca, deno, tools, bin)
+# Run all setup tasks (dotfiles, nvim, ghostty, deno, tools, bin)
 mise run setup
 ```
 
@@ -21,7 +21,6 @@ mise run setup
 | `mise run install:dotfiles` | Symlink dotfiles into `$HOME` |
 | `mise run install:nvim` | Install neovim and symlink `~/.config/nvim` |
 | `mise run install:ghostty` | Symlink `~/.config/ghostty` |
-| `mise run install:orca` | Symlink `~/.orca/keybindings.json` |
 | `mise run install:deno` | Install deno (still needed by `bin/aicommit`, `bin/claude-quota`) |
 | `mise run install:tools` | Install `git modified_files` (cargo) and `gh contrib` (gh extension) |
 | `mise run install:bin` | Symlink `bin/` commands into `~/bin` |

@@ -5,12 +5,12 @@
 // zshrc) uses these lines as fzf rows.
 //
 //   $ claude-quota
-//   default 	kohei@conocer.co 	5h ⣿⣿⣀      12%  ↻23:29  7d ⣿⣄       7%  ↻8/2 03:59  fable ⣿⣶      10%  ↻8/2 03:59
+//   default 	kohei@conocer.co 	7d ⣿⣄       7%  ↻8/2 03:59  fable ⣿⣶      10%  ↻8/2 03:59
 //
 // The output matches the dashboard.mi.nu quota cards (errands
 // jobs/agent-usage/quota.ts) and ~/.claude/statusline.py: same braille bars,
-// same green-to-red gradient, same labels (session→5h / weekly_all→7d /
-// weekly_scoped→lowercased model name).
+// same green-to-red gradient, same labels (weekly_all→7d / weekly_scoped→
+// lowercased model name).
 //
 // Tokens are read from the Keychain. The service name follows claude's own
 // convention: "Claude Code-credentials" plus the first 8 hex chars of the
@@ -216,9 +216,7 @@ function toLimits(usage: Record<string, unknown>): Limit[] {
     if (!kind || !Number.isFinite(percent)) continue;
     const scope = raw.scope as { model?: { display_name?: string } } | null;
     const model = scope?.model?.display_name;
-    const label = kind === "session"
-      ? "5h"
-      : kind === "weekly_all"
+    const label = kind === "weekly_all"
       ? "7d"
       : model
       ? model.toLowerCase()

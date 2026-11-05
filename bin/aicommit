@@ -3,7 +3,9 @@
 // aicommit — Generate commit messages for staged changes with OpenRouter.
 //
 // Usage:
-//   export OPENROUTER_API_KEY=...
+//   # One-time: store the dedicated, capped OpenRouter key for aicommit
+//   umask 077; mkdir -p ~/.config/aicommit
+//   pbpaste > ~/.config/aicommit/openrouter_api_key
 //
 //   # Preview only
 //   aicommit --dry-run
@@ -97,7 +99,9 @@ type Deps = {
   fetch: typeof fetch;
 };
 
-const DEFAULT_MODEL = "openrouter/auto";
+const DEFAULT_MODEL = "anthropic/claude-sonnet-5.5";
+export const KEY_ENV = "AICOMMIT_OPENROUTER_API_KEY";
+export const KEY_FILE = ".config/aicommit/openrouter_api_key";
 const DEFAULT_BASE_URL = "https://openrouter.ai/api/v1";
 const DEFAULT_STYLE_GUIDE = [
   "Keep the subject line concise.",
@@ -122,9 +126,11 @@ Options:
       --no-notes            Do not write git notes even when context is provided
   -h, --help                Show this help
 
+API key (dedicated to aicommit; OPENROUTER_API_KEY is deliberately ignored):
+  AICOMMIT_OPENROUTER_API_KEY, else ~/.config/aicommit/openrouter_api_key
+
 Environment:
-  OPENROUTER_API_KEY        Required API key
-  AICOMMIT_MODEL            Optional model (default: openrouter/auto)
+  AICOMMIT_MODEL            Optional model (default: anthropic/claude-sonnet-5.5)
   AICOMMIT_BASE_URL         Optional API base URL
 `;
 
@@ -663,15 +669,39 @@ async function loadContexts(deps: Deps, options: CliOptions): Promise<string[]> 
   return contexts;
 }
 
+// aicommit uses its own capped key so that ad-hoc experiments on the shared
+// shell OPENROUTER_API_KEY can never drain it (or be drained by it).
+export async function resolveApiKey(
+  deps: Pick<Deps, "envGet" | "readTextFile">,
+): Promise<string> {
+  const fromEnv = deps.envGet(KEY_ENV)?.trim();
+  if (fromEnv) return fromEnv;
+
+  const home = deps.envGet("HOME");
+  if (!home) throw new Error(`HOME is not set; cannot read ~/${KEY_FILE}`);
+  const path = `${home}/${KEY_FILE}`;
+  let text: string;
+  try {
+    text = await deps.readTextFile(path);
+  } catch (error) {
+    if (error instanceof Deno.errors.NotFound) {
+      throw new Error(
+        `OpenRouter key for aicommit not found: set ${KEY_ENV} or write it to ~/${KEY_FILE} (OPENROUTER_API_KEY is not used)`,
+      );
+    }
+    throw error;
+  }
+  const key = text.trim();
+  if (!key) throw new Error(`${path} is empty`);
+  return key;
+}
+
 async function generateCommitMessage(
   deps: Deps,
   repoRoot: string,
   contexts: string[],
 ): Promise<GeneratedCommitMessage> {
-  const apiKey = deps.envGet("OPENROUTER_API_KEY");
-  if (!apiKey) {
-    throw new Error("OPENROUTER_API_KEY is not set");
-  }
+  const apiKey = await resolveApiKey(deps);
 
   const model = deps.envGet("AICOMMIT_MODEL") || DEFAULT_MODEL;
   const baseUrl = deps.envGet("AICOMMIT_BASE_URL") || DEFAULT_BASE_URL;

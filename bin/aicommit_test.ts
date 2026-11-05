@@ -5,6 +5,7 @@ import {
   main,
   parseArgs,
   requestCommitMessageFromOpenRouter,
+  resolveApiKey,
 } from "./aicommit";
 
 function assert(condition: unknown, message = "assertion failed"): asserts condition {
@@ -221,7 +222,7 @@ Deno.test({
   const exitCode = await main(["--dry-run"], {
     cwd: repo,
     envGet: (name) => {
-      if (name === "OPENROUTER_API_KEY") return "test-key";
+      if (name === "AICOMMIT_OPENROUTER_API_KEY") return "test-key";
       if (name === "HOME") return fakeHome;
       if (name === "AICOMMIT_BASE_URL") return "https://example.com/api/v1";
       return undefined;
@@ -310,7 +311,7 @@ Deno.test({
     cwd: repo,
     error: (text) => errors.push(text),
     envGet: (name) => {
-      if (name === "OPENROUTER_API_KEY") return "test-key";
+      if (name === "AICOMMIT_OPENROUTER_API_KEY") return "test-key";
       if (name === "AICOMMIT_BASE_URL") return "https://example.com/api/v1";
       return Deno.env.get(name);
     },
@@ -322,4 +323,40 @@ Deno.test({
   assertEquals(exitCode, 1);
   assert(errors.some((line) => line.includes("no staged changes found")));
   },
+});
+
+Deno.test("resolveApiKey prefers AICOMMIT_OPENROUTER_API_KEY", async () => {
+  const key = await resolveApiKey({
+    envGet: (name) => (name === "AICOMMIT_OPENROUTER_API_KEY" ? " env-key \n" : "/home/x"),
+    readTextFile: () => Promise.reject(new Error("must not read the file")),
+  });
+  assertEquals(key, "env-key");
+});
+
+Deno.test("resolveApiKey falls back to the key file", async () => {
+  const paths: string[] = [];
+  const key = await resolveApiKey({
+    envGet: (name) => (name === "HOME" ? "/home/x" : undefined),
+    readTextFile: (path) => {
+      paths.push(path);
+      return Promise.resolve("file-key\n");
+    },
+  });
+  assertEquals(key, "file-key");
+  assertEquals(paths.join(","), "/home/x/.config/aicommit/openrouter_api_key");
+});
+
+Deno.test("resolveApiKey ignores the shared OPENROUTER_API_KEY", async () => {
+  let message = "";
+  try {
+    await resolveApiKey({
+      envGet: (name) =>
+        name === "OPENROUTER_API_KEY" ? "shared-key" : name === "HOME" ? "/home/x" : undefined,
+      readTextFile: () => Promise.reject(new Deno.errors.NotFound("missing")),
+    });
+  } catch (error) {
+    message = (error as Error).message;
+  }
+  assertMatch(message, /AICOMMIT_OPENROUTER_API_KEY/);
+  assert(!message.includes("shared-key"), "must not echo the shared key");
 });

@@ -235,7 +235,13 @@ c() {
   choice=${${choice%%$'\t'*}%% *}
   local model effort
   model=$(_llm_pick c claude model opus fable sonnet haiku) || return
-  effort=$(_llm_pick c claude effort low medium high xhigh max) || return
+  # Effort is remembered per model: one level buys a different amount of
+  # thinking on each model, so a shared "last effort" carries the wrong level
+  # across a model switch.
+  effort=$(_llm_pick c claude effort-$model low medium high xhigh max) || return
+  # From a Fable session, subagents with no model of their own run on Opus
+  # instead of inheriting Fable. A model set on the agent or the call still wins.
+  [[ $model == fable ]] && local -x CLAUDE_CODE_SUBAGENT_MODEL=opus
   case $choice in
     default) claude --dangerously-skip-permissions --model $model --effort $effort "$@" ;;
     new:)
